@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Übersicht</title>
+        <title>Spielrunden</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -43,7 +43,7 @@
  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
  <ul class="nav navbar-nav">
  <li><a href="/add">Daten eintragen <span class="sr-only">(current)</span></a></li>
- <li><a href="/rounds">Spielrunden</a></li>
+ <li class="active"><a href="/rounds">Spielrunden</a></li>
  </ul>
  </div><!-- /.navbar-collapse -->
  </div><!-- /.container-fluid -->
@@ -53,70 +53,20 @@
  <div class="row">
  <div class="col-md-12">
 <div class="jumbotron">
-  <h2>Übersicht</h2>
+  <h2>Aktuelle Runde:</h2>
     <br />
-    <div class="row">
-  <div class="col-xs-6">Meine Tags: X</div>
-  <div class="col-xs-6">Meine Punkte: X</div>
-</div>
+   <a href="/add"><button type="button" class="btn btn-primary btn-lg btn-block">Street-Art</button></a>
+    <hr />
+    <br />
+   <h2>Frühere Runden:</h2>
+    <br />
+   <button type="button" class="btn btn-success btn-lg btn-block">Aufzüge</button>
+    
+    <hr />
      <br />
+   <button type="button" class="btn btn-warning btn-lg btn-block">Rolltreppen</button>
+    
     <hr />
-   
-    <div class="row">
-        <div class="col-xs-12">
-            <a href="/add"><button type="button" class="btn btn-primary btn-lg btn-block">Neuen Fund eintragen</button></a>
-        </div>
-    </div>
-    <hr />
-      <h2>Beliebte Tags</h2>
-    <div class="row">
-    
-        <br />
-        <div class="col-xs-3"><span class="label label-info indextag">Amsterdam</span></div> <div class="col-xs-3"><span class="label label-info indextag">London</span></div> <div class="col-xs-3"><span class="label label-info indextag">Paris</span></div> <div class="col-xs-3"><span class="label label-info indextag">New York</span></div>
-        
-    </div>
-    
-     <hr />
-      <h2>Rangliste</h2>
-    <div class="row">
-    
-        <br />
-      <table class="table table-striped table-bordered">
-  <thead>
-    <tr>
-      <th>Spieler</th>
-      <th>Punkte</th>
-      <th>Rang</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">Mark</th>
-      <td>12</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th scope="row">Jacob</th>
-      <td>9</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th scope="row">Larry</th>
-      <td>5</td>
-      <td>3</td>
-    </tr>
-  </tbody>
-</table>
-        
-    </div>
-     <hr />
-      <h2>Neueste Beiträge</h2>
-    <div class="row">
-    
-        <br />
-       
-        
-    </div>
  </div> <!-- jumbotron -->
 </div> <!-- col-md-12 -->
 
