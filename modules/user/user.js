@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongo = require('mongodb');
 
 router.get('/', function(request, response) {
     var db = request.app.locals.db;
