@@ -1,3 +1,30 @@
+/* General sizing */
+ul.dropdown-lr {
+  width: 300px;
+}
+
+/*
+ mobile fix 
+@media (max-width: 768px) {
+	.dropdown-lr h3 {
+		color: #eee;
+	}
+	.dropdown-lr label {
+		color: #eee;
+	}
+}
+*/
+
+.input-group-addon.danger {
+    color: rgb(255, 255, 255);
+    background-color: rgb(217, 83, 79);
+    border-color: rgb(212, 63, 58);
+}
+.input-group-addon.success {
+    color: rgb(255, 255, 255);
+    background-color: rgb(92, 184, 92);
+    border-color: rgb(76, 174, 76);
+}
 #mymap { height: 280px; }
 .twitter-typeahead .tt-query,
 .twitter-typeahead .tt-hint {

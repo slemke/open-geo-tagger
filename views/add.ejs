@@ -54,7 +54,7 @@
     <body>
      
 
-      <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default">
  <div class="container-fluid">
  <!-- Brand and toggle get grouped for better mobile display -->
  <div class="navbar-header">
@@ -73,6 +73,47 @@
  <li class="active"><a href="/add">Daten eintragen <span class="sr-only">(current)</span></a></li>
  <li><a href="/rounds">Spielrunden</a></li>
  </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <% if (typeof sessionID != 'undefined'){ %>
+           <li><a href="/user/profile">Mein Profil</a></li>
+           <li><a href="/user/logout">Logout</a></li>
+          <% } else { %>
+           <li><a href="/user/register">Registrieren</a></li>
+        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login <span class="caret"></span></a>
+                        <ul class="dropdown-menu dropdown-lr animated slideInRight" role="menu">
+                            <div class="col-lg-12">
+                                <div class="text-center"><h3><b>Login</b></h3></div>
+                                <div class="row"> 
+                                <div class="col-xs-12">
+                                    <div class="text-center"> Noch nicht registriert? <a href="/user/register">Jetzt hier anmelden</a>
+                                    </div></div>
+                                </div><br />
+                                <form id="ajax-login-form" action="/user/login" method="post" role="form" autocomplete="off">
+                                    <div class="form-group">
+                                        <label for="username">Username</label>
+                                        <input type="text" name="logusername" id="username" tabindex="1" class="form-control" placeholder="Username" value="" autocomplete="off">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="password">Passwort</label>
+                                        <input type="password" name="logpassword" id="password" tabindex="2" class="form-control" placeholder="Passwort" autocomplete="off">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                          
+                                            <div class="col-xs-12 pull-right">
+                                                <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-success" value="Einloggen">
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </form>
+                            </div>
+                        </ul>
+          </li>
+          <% } %>
+      </ul>
  </div><!-- /.navbar-collapse -->
  </div><!-- /.container-fluid -->
  </nav>
