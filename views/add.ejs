@@ -11,6 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
        <!-- Bootstrap -->
+<!-- Latest compiled and minified CSS -->
  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
         
         <link href="/static/css/custom.css" rel="stylesheet">
@@ -48,13 +49,7 @@
  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
  <![endif]-->
 
-      
-        
-    </head>
-    <body>
-     
-
-    <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default">
  <div class="container-fluid">
  <!-- Brand and toggle get grouped for better mobile display -->
  <div class="navbar-header">
@@ -117,24 +112,46 @@
  </div><!-- /.navbar-collapse -->
  </div><!-- /.container-fluid -->
  </nav>
+        
+    </head>
+    <body>
+     
 
-       <div class="container">
- <div class="row">
- <div class="col-md-12">
-<div class="jumbotron">
-    <h2>Neuen Beitrag anlegen</h2>
-    <br />
-<form>
-    <div class="form-group">
-         <label for="currentposition">Deine aktuelle Position</label>
+  
+<div id="wrapper">
      <div id="mymap"></div>
+     
+ <div id="over_map">
+<button type="button" id="plusbutton" class="btn btn-default">+</button>
+   </div>
+        
+    <div id="over_map_points">
+<button type="button" id="pointsbutton" class="btn btn-default">0</button>
+   </div>
+        
+    
+       <div class="modal fade">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>   </button>
+        <h4 class="modal-title">Neuen Beitrag anlegen</h4>
+       
+     
+      </div>
+      <div class="modal-body">
+       <form>
+    <div class="form-group">
+         <label for="currentposition">Deine aktuelle Position: </label>
+        <div id="myposition"></div>
     </div>
  <div class="form-group">
- <label for="fileuploadlabel">Lade ein Bild von dem hoch, was du siehst</label>
+ <label for="fileuploadlabel">Lade ein Bild von dem hoch, was du siehst:</label>
   <input type="file" class="form-control-file" id="fileupload">
  </div>
  <div class="form-group">
-      <label for="categorylabel">Kategorisiere deinen Fund</label>
+      <label for="categorylabel">Kategorisiere deinen Fund:</label>
      <br />
      <input type="text" id="tagsinput" value="" data-role="tagsinput"/>    
  
@@ -143,22 +160,24 @@
     <label for="textarealabel">Hast du weitere Informationen?</label>
     <textarea class="form-control" id="textarea" rows="3"></textarea>
   </div>
- <button type="submit" class="btn btn-primary">Absenden</button>
 </form>
- </div>
+      </div>
+      <div class="modal-footer">
+         <button type="submit" class="btn btn-primary">Absenden</button>
+      </div>
+    </div>
+  </div>
 </div>
-
- </div> <!-- row -->
- </div> <!-- container -->
+        </div>
+        
 <hr>
-<footer>
+       
+       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script>
+           $( document ).ready(function() {
 
-</footer>
-   <script>
-       
-    
-       
-	var mymap = L.map('mymap');
+               var mymap = L.map('mymap');
 
 	L.tileLayer( 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
         maxZoom: 18, attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' }).addTo( mymap );
@@ -191,8 +210,12 @@ draggable: true
       marker.bindPopup(result.address.Match_addr).openPopup();      
 
 		L.circle(e.latlng, radius).addTo(mymap);
-        
+     
+       $('#myposition').html(result.address.Match_addr);
+     
           });
+        
+      
         
     }
        
@@ -210,14 +233,17 @@ draggable: true
 };
 
 mymap.on('click', onMapClick);
-
-</script>
-       
-       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script>
-           $( document ).ready(function() {
-
+               
+                //getting click event to show modal
+    $('#plusbutton').click(function () {
+        $('.modal').modal();
+      
+      //appending modal background inside the bigform-content
+        $('.modal-backdrop').appendTo('#wrapper');
+      //removing body classes to able click events
+        $('body').removeClass();
+    });
+               
                
                var citynames = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
@@ -242,9 +268,13 @@ $('#tagsinput').tagsinput({
 });
                
        });</script>
- <!-- Include all compiled plugins (below), or include individual files as needed -->
- <script src="/static/js/bootstrap.min.js"></script>
         
+        
+        
+ <!-- Include all compiled plugins (below), or include individual files as needed -->
+<!-- Latest compiled and minified JavaScript -->
+   <script src="/static/js/bootstrap.min.js"></script>
+      
          <script src="/static/js/bootstrap-tagsinput.js"></script>
         
          <script src="/static/js/typeahead.js"></script>

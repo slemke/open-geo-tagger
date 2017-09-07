@@ -187,27 +187,27 @@
         
 	});
             
-               $('#submit').prop('disabled', true);
+//               $('#submit').prop('disabled', true);
                
-               $("input[type=password]").on('keyup change',function() {
-
-	var $form = $(this).closest('form'),
-            $group = $(this).closest('.input-group'),
-			$addon = $group.find('.input-group-addon'),
-			$icon = $addon.find('span');
-	
-	if($("#password").val() && $("#passwordconfirm").val() != 0 && $("#password").val() == $("#passwordconfirm").val()){
-		      $addon.removeClass('danger');
-				$addon.addClass('success');
-				$icon.attr('class', 'glyphicon glyphicon-ok');
-         $('#submit').prop('disabled', false);
-	}else{
-		$addon.removeClass('success');
-				$addon.addClass('danger');
-				$icon.attr('class', 'glyphicon glyphicon-remove');
-             $('#submit').prop('disabled', true);
-	}
-});
+//               $("input[type=password]").on('keyup change',function() {
+//
+//	var $form = $(this).closest('form'),
+//            $group = $(this).closest('.input-group'),
+//			$addon = $group.find('.input-group-addon'),
+//			$icon = $addon.find('span');
+//	
+//	if($("#password").val() && $("#passwordconfirm").val() != 0 && $("#password").val() == $("#passwordconfirm").val()){
+//		      $addon.removeClass('danger');
+//				$addon.addClass('success');
+//				$icon.attr('class', 'glyphicon glyphicon-ok');
+//         $('#submit').prop('disabled', false);
+//	}else{
+//		$addon.removeClass('success');
+//				$addon.addClass('danger');
+//				$icon.attr('class', 'glyphicon glyphicon-remove');
+//             $('#submit').prop('disabled', true);
+//	}
+//});
 
 });
                
