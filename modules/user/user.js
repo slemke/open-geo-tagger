@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const mongo = require('mongodb');
+const path = require('path');
+
+const User = require('./user.model.js')
 
 router.get('/', function(request, response) {
     var db = request.app.locals.db;
@@ -76,6 +79,114 @@ router.post('/:id', function(request, response) {
 
         response.end();
     });
+});
+
+router.get('/register/', function(request, response) {
+    response.render('register')
+});
+
+// GET route after registering
+router.get('/profile', function (request, response, next) {
+    User.findById(request.session.userId)
+    .exec(function (error, user) {
+
+        if (error)
+            return next(error);
+
+        if (user === null) {
+
+            var err = new Error('Not authorized! Go back!');
+            err.status = 400;
+            return next(err);
+
+        } else {
+
+            var sessionID = request.session.userId;
+            response.render('profile', {
+                sessionID : sessionID,
+                user: user
+            });
+        }
+    });
+});
+
+// GET for logout logout
+router.get('/logout', function (request, response, next) {
+    if (request.session) {
+
+        // delete session object
+        request.session.destroy(function (err) {
+            if (err)
+                return next(err);
+
+            // redirect to base page
+            return response.redirect('/');
+        });
+    }
+});
+
+router.post('/register/', function (request, response, next) {
+
+    if (request.body.email &&
+        request.body.username &&
+        request.body.password &&
+        request.body.passwordconfirm) {
+
+        var userData = {
+            email: request.body.email,
+            username: request.body.username,
+            password: request.body.password,
+            passwordconfirm: request.body.passwordconfirm
+        };
+
+        User.create(userData, function (error, user) {
+            if (error)
+                return next(error);
+
+
+            request.session.userId = user._id;
+            return response.redirect('/user/profile');
+        });
+
+    }
+});
+
+router.post('/login/', function (request, response, next) {
+
+    if (request.body.logusername && request.body.logpassword) {
+        User.authenticate(request.body.logusername, request.body.logpassword, function (error, user) {
+
+            if (error || !user) {
+                var err = new Error('Wrong username or password.');
+                err.status = 401;
+                return next(err);
+            } else {
+                request.session.userId = user._id;
+                return response.redirect('/user/profile');
+            }
+        });
+    }
+
+    if(request.body.email &&
+        request.body.username &&
+        request.body.password &&
+        request.body.passwordconfirm) {
+
+        var userData = {
+            email: request.body.email,
+            username: request.body.username,
+            password: request.body.password,
+            passwordconfirm: request.body.passwordconfirm
+        };
+
+        User.create(userData, function (error, user) {
+            if (error)
+                return next(error);
+
+            request.session.userId = user._id;
+            return response.redirect('/user/profile');
+        });
+    }
 });
 
 module.exports = router;
