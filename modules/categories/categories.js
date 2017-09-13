@@ -11,7 +11,7 @@ router.get('/', function(request, response) {
     });
 });
 
-router.put('/', function(request, response) {
+router.post('/', function(request, response) {
 
     var name = request.body.name;
     var db = request.app.locals.db;
@@ -34,12 +34,12 @@ router.get('/:id', function(request, response) {
     var db = request.app.locals.db;
     var collection = db.collection('categories');
 
-    collection.find({_id : new mongo.ObjectID(id) }).toArray(function(err, result) {
+    collection.find({_id : mongo.ObjectID(id) }).toArray(function(err, result) {
         response.json(result);
     });
 });
 
-router.post('/:id', function(request, response) {
+router.put('/:id', function(request, response) {
 
     var id = request.params.id;
     var name = request.body.name;
@@ -47,7 +47,7 @@ router.post('/:id', function(request, response) {
     var db = request.app.locals.db;
     var collection = db.collection('categories');
 
-    collection.updateOne({_id : new mongo.ObjectID(id) }, { $set : { name: name} }, function(err, result) {
+    collection.updateOne({_id : mongo.ObjectID(id) }, { $set : { name: name} }, function(err, result) {
         if(!err)
             response.status(200);
         else
@@ -64,7 +64,7 @@ router.delete('/:id', function(request, response) {
     var db = request.app.locals.db;
     var collection = db.collection('categories');
 
-    collection.deleteOne({_id : new mongo.ObjectID(id) }, function(err, result) {
+    collection.deleteOne({_id : mongo.ObjectID(id) }, function(err, result) {
 
         if(!err)
             response.status(200);

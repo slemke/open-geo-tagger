@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const mongo = require('mongodb');
 
+const Theme = require('./theme.model.js')
+
 router.get('/', function(request, response) {
     var db = request.app.locals.db;
     var collection = db.collection('themes');
@@ -37,6 +39,31 @@ router.get('/:id', function(request, response) {
     collection.findOne({_id : mongo.ObjectID(id) }).toArray(function(err, result) {
         response.json(result);
     });
+});
+
+
+router.post('/', function (request, response, next) {
+
+    if (request.body.name) {
+
+        var themeData = {
+            name: request.body.name
+        };
+
+        Theme.create(themeData, function (error, user) {
+            if (error)
+                return next(error);
+            
+            response.status(200);
+            response.end();
+            
+        });
+
+    }
+    else {
+        response.status(500);
+        response.end();
+    }
 });
 
 router.post('/', function(request, response) {

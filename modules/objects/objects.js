@@ -3,6 +3,8 @@ const router = express.Router();
 const mongo = require('mongodb');
 
 
+const Object = require('./objects.model.js')
+
 router.get('/', function(request, response) {
     var db = request.app.locals.db;
     var collection = db.collection('objects');
@@ -12,31 +14,34 @@ router.get('/', function(request, response) {
     });
 });
 
-router.put('/:id', function(request, response) {
+router.post('/', function(request, response,next) {
+   
+     if (request.body.location && request.body.categories && request.body.description && request.body.userID && request.body.themeID) {
 
-    var object = {
+            var objectData = {
         location: request.body.location,
-        created: request.body.created,
-        updated: request.body.updated,
-        category: request.body.category,
+        categories: JSON.parse(request.body.categories),
         description: request.body.description,
         userID : request.body.userID,
         votes : 0,
         themeID : request.body.themeID
     };
 
-
-    var db = request.app.locals.db;
-    var collection = db.collection('objects');
-
-    collection.insertOne(object, function(err, result) {
-        if(!err)
+        Object.create(objectData, function (error, object) {
+            if (error)
+                return next(error);
+            
             response.status(200);
-        else
-            response.status(500);
+            response.json(object);
+            
+        });
 
+    }
+    else {
+        response.status(500);
         response.end();
-    });
+    }
+    
 });
 
 router.get('/:id', function(request, response) {
@@ -51,7 +56,7 @@ router.get('/:id', function(request, response) {
     });
 });
 
-router.post('/', function(request, response) {
+router.put('/:id', function(request, response) {
 
     var id = request.params.id;
 

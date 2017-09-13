@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const User = require('./modules/user/user.model.js')
+const Theme = require('./modules/theme/theme.model.js')
 
 //connect to MongoDB
 mongoose.connect(config.mongodb, { useMongoClient: true } );
@@ -47,6 +48,8 @@ app.get('/', function (req, res) {
 
 app.get('/add', function (req, res,next) {
   
+    
+    
 User.findById(req.session.userId)
     .exec(function (error, user) {
 
@@ -61,11 +64,17 @@ User.findById(req.session.userId)
 
         } else {
 
+            var themeID = "59b9460104b980df75c8d67e";
+            
            res.render('add', {
-          user : user
+          user : user,
+        themeID : themeID
       });
         }
-    });  
+    });
+    
+    
+    
 });
 
 app.get('/rounds', function (req, res) {
