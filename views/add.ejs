@@ -282,7 +282,7 @@
            $( document ).ready(function() {
                
                  var latlng = {};
-               
+               var objectID = null;
            
               
                 $("#beitrag_submit").on('click', function (e) {
@@ -309,6 +309,8 @@
                                newObject = response;
                                 
                                 console.log(response);
+                                
+                                objectID = response._id;
                                 
                                 $('#modal_beitrag').modal('hide')
                                 
@@ -444,7 +446,37 @@ draggable: true
     
   });
   mymap.addLayer(marker);
+    
+    
+      marker.on('click', function() {
+                     
+                      $.ajax({
+                            type: "GET",
+                            url: "https://localhost:3000/objects/"+objectID,
+                            success: function (response) {
+                                console.log(response.createdAt);
+                                 $("#marker_infos").html("Erstellt: "+response.createdAt +"<br>"+ "Zuletzt aktualisiert: "+response.updatedAt+"<br>"+"Kategorien: "+response.categories+"<br>"+"Beschreibung: "+response.description);
+                                        
+                                        
+                                        
+                                        
+          $("#modal_marker").modal("show");
+                              
+                                
+                                 }
+                            ,
+                            error: function (err) {
+                                console.log(err);
+                            }
+                        });
+                                            
+                                        
+                         
+        });
 }
+             
+               
+            
         
 
 //mymap.on('click', onMapClick);

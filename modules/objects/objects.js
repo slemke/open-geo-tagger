@@ -51,9 +51,11 @@ router.get('/:id', function(request, response) {
     var db = request.app.locals.db;
     var collection = db.collection('objects');
 
-    collection.find({_id : new mongo.ObjectID(id) }).toArray(function(err, result) {
-        response.json(result);
-    });
+    
+    collection.findOne({_id: mongo.ObjectID(id)}, function(err, result) {
+   response.json(result);
+});
+    
 });
 
 router.put('/:id', function(request, response) {
