@@ -46,7 +46,7 @@
  <li><a href="/rounds">Spielrunden</a></li>
  </ul>
       <ul class="nav navbar-nav navbar-right">
-        <% if (typeof sessionID != 'undefined'){ %>
+        <% if (typeof user._id != 'undefined'){ %>
            <li class="active"><a href="/user/profile">Mein Profil</a></li>
            <li><a href="/user/logout">Logout</a></li>
           <% } else { %>

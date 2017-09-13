@@ -8,6 +8,7 @@ const fs = require('fs')
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const User = require('./modules/user/user.model.js')
 
 //connect to MongoDB
 mongoose.connect(config.mongodb, { useMongoClient: true } );
@@ -38,23 +39,39 @@ app.use(require('./modules'));
 // set base file for frontend output
 app.get('/', function (req, res) {
 
-    var sessionID = req.session.userId;
+    var userID = req.session.userId;
       res.render('index', {
-          sessionID : sessionID
+          userID : userID
       });
 });
 
-app.get('/add', function (req, res) {
-   var sessionID = req.session.userId;
-      res.render('add', {
-          sessionID : sessionID
+app.get('/add', function (req, res,next) {
+  
+User.findById(req.session.userId)
+    .exec(function (error, user) {
+
+        if (error)
+            return next(error);
+
+        if (user === null) {
+
+            var err = new Error('Not authorized! Go back!');
+            err.status = 400;
+            return next(err);
+
+        } else {
+
+           res.render('add', {
+          user : user
       });
+        }
+    });  
 });
 
 app.get('/rounds', function (req, res) {
-   var sessionID = req.session.userId;
+   var userID = req.session.userId;
       res.render('rounds', {
-          sessionID : sessionID
+          userID : userID
       });
 });
 

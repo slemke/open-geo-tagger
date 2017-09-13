@@ -12,7 +12,7 @@ router.get('/', function(request, response) {
     });
 });
 
-router.put('/', function(request, response) {
+router.put('/:id', function(request, response) {
 
     var object = {
         location: request.body.location,
@@ -51,7 +51,7 @@ router.get('/:id', function(request, response) {
     });
 });
 
-router.post('/:id', function(request, response) {
+router.post('/', function(request, response) {
 
     var id = request.params.id;
 
@@ -81,7 +81,7 @@ router.post('/:id', function(request, response) {
     var db = request.app.locals.db;
     var collection = db.collection('objects');
 
-    collection.updateOne({_id : new mongo.ObjectID(id) }, { $set : object }, function(err, result) {
+    collection.updateOne({_id : new mongo.ObjectID() }, { $set : object }, function(err, result) {
         if(!err)
             response.status(200);
         else

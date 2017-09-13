@@ -45,7 +45,7 @@
  <li class="active"><a href="/rounds">Spielrunden</a></li>
  </ul>
       <ul class="nav navbar-nav navbar-right">
-        <% if (typeof sessionID != 'undefined'){ %>
+        <% if (typeof userID != 'undefined'){ %>
            <li><a href="/user/profile">Mein Profil</a></li>
            <li><a href="/user/logout">Logout</a></li>
           <% } else { %>
@@ -123,7 +123,7 @@
        <script>
            $( document ).ready(function() {
 
-                 <% if (typeof sessionID == 'undefined'){ %>
+                 <% if (typeof userID == 'undefined'){ %>
                
                
                $('.checkloggedin').on('click', function (e) {
