@@ -3,7 +3,7 @@ const router = express.Router();
 const model = require('./votes.model.js')
 
 router.get('/', function(request, response) {
-    model.find({}, null, null, sort, function(err, result) {
+    model.find({}, null, null, {_id: 1}, function(err, result) {
         response.json(result);
     });
 });

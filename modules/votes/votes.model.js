@@ -3,7 +3,7 @@ const schema = require('./votes.schema.js');
 
 let model = mongoose.model('votes', schema);
 
-module.exports.get = function(find, limit, offset, {_id: 1}, callback) {
+module.exports.get = function(find, limit, offset, sort, callback) {
     let result = model.find(find);
 
     if(limit != undefined || limit != null)
@@ -12,7 +12,7 @@ module.exports.get = function(find, limit, offset, {_id: 1}, callback) {
     if(offset != undefined || offset != null)
         result = result.skip(offset);
 
-    result.sort( {_id: 1})
+    result.sort(sort)
         .exec(callback);
 };
 

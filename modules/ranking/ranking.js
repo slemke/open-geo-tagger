@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const model = require('./user.model.js')
+const model = require('../user/user.model.js')
 
 router.get('/', function(request, response) {
 
