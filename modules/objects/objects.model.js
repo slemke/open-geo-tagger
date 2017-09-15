@@ -1,35 +1,29 @@
 const mongoose = require('mongoose');
+const schema = require('./objects.schema.js');
 
-var ObjectSchema = new mongoose.Schema({
-  location: {
-    type: Array,
-    required: true
-  },
-    categories: {
-         type: Array,
-    required: true
-    },
-     description: {
-         type: String,
-    unique: false,
-    required: true,
-    trim: false
-    },
-    userID: {
-             type: String,
-    unique: false,
-    required: true,
-    trim: false
-    },
-    themeID: {
-            type: String,
-    unique: false,
-    required: true,
-    trim: false
-    }
-}, {
-  timestamps: true
-});
+const model = mongoose.model('Object', schema);
 
-var Object = mongoose.model('Object', ObjectSchema);
-module.exports = Object;
+module.exports.get = function(find, limit, offset, sort, callback) {
+    let result = model.find(find);
+
+    if(limit != undefined || limit != null)
+        result = result.limit(limit);
+
+    if(offset != undefined || offset != null)
+        result = result.skip(offset);
+
+    result.sort(sort)
+        .exec(callback);
+};
+
+module.exports.insert = function(object, callback) {
+    model.create(object, callback);
+};
+
+module.exports.update = function(id, data, callback) {
+    model.update({ _id : id }, { $set : data }, callback);
+};
+
+module.exports.delete = function(id, callback) {
+    model.remove({ _id : id }, callback);
+};

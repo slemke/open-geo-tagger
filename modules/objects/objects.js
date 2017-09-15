@@ -1,68 +1,57 @@
 const express = require('express');
 const router = express.Router();
-const mongo = require('mongodb');
-
-
-const Object = require('./objects.model.js')
+const model = require('./objects.model.js')
 
 router.get('/', function(request, response) {
-    var db = request.app.locals.db;
-    var collection = db.collection('objects');
-
-    collection.find({}).toArray(function(err, docs) {
-        response.json(docs);
+    model.get({}, null, null, { _id: 1 }, function(err, result) {
+        response.json(result);
     });
 });
 
-router.post('/', function(request, response,next) {
-   
-     if (request.body.location && request.body.categories && request.body.description && request.body.userID && request.body.themeID) {
+router.post('/', function(request, response, next) {
 
-            var objectData = {
+    let categories;
+
+    try {
+        categories = JSON.parse(request.body.categories);
+    } catch(err) {
+        return response.status(500).end();
+    }
+
+    const object = {
         location: request.body.location,
-        categories: JSON.parse(request.body.categories),
+        categories: categories,
         description: request.body.description,
         userID : request.body.userID,
         votes : 0,
         themeID : request.body.themeID
     };
 
-        Object.create(objectData, function (error, object) {
-            if (error)
-                return next(error);
-            
+    model.insert(object, function(err, result) {
+        if(err)
+            response.status(500);
+        else
             response.status(200);
-            response.json(object);
-            
-        });
 
-    }
-    else {
-        response.status(500);
         response.end();
-    }
-    
+
+    });
 });
 
 router.get('/:id', function(request, response) {
 
-    var id = request.params.id;
+    const id = request.params.id;
 
-    var db = request.app.locals.db;
-    var collection = db.collection('objects');
-
-    
-    collection.findOne({_id: mongo.ObjectID(id)}, function(err, result) {
-   response.json(result);
-});
-    
+    model.get({_id: mongo.ObjectID(id)}, function(err, result) {
+        response.json(result);
+    })
 });
 
 router.put('/:id', function(request, response) {
 
-    var id = request.params.id;
+    const id = request.params.id;
 
-    var object = {};
+    let object = {};
 
     if(request.body.location !== undefined)
         object.location = request.body.location;
@@ -85,10 +74,7 @@ router.put('/:id', function(request, response) {
     if(request.body.themeID !== undefined)
         object.themeID = request.body.themeID;
 
-    var db = request.app.locals.db;
-    var collection = db.collection('objects');
-
-    collection.updateOne({_id : new mongo.ObjectID() }, { $set : object }, function(err, result) {
+    model.update({_id : new mongo.ObjectID() }, { $set : object }, function(err, result) {
         if(!err)
             response.status(200);
         else
@@ -100,12 +86,9 @@ router.put('/:id', function(request, response) {
 
 router.delete('/:id', function(request, response) {
 
-    var id = request.params.id;
+    const id = request.params.id;
 
-    var db = request.app.locals.db;
-    var collection = db.collection('objects');
-
-    collection.deleteOne({_id : new mongo.ObjectID(id) }, function(err, result) {
+    model.delete({_id : new mongo.ObjectID(id) }, function(err, result) {
 
         if(!err)
             response.status(200);
@@ -115,8 +98,5 @@ router.delete('/:id', function(request, response) {
         response.end();
     });
 });
-
-
-
 
 module.exports = router;

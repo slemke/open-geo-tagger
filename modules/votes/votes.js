@@ -1,28 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const mongo = require('mongodb');
+const model = require('./votes.model.js')
 
 router.get('/', function(request, response) {
-    var db = request.app.locals.db;
-    var collection = db.collection('votes');
-
-    collection.find({}).toArray(function(err, docs) {
-        response.json(docs);
+    model.find({}, null, null, sort, function(err, result) {
+        response.json(result);
     });
 });
 
-router.put('/', function(request, response) {
-
-    var db = request.app.locals.db;
-    var collection = db.collection('votes');
-
+router.post('/', function(request, response) {
     var vote = {
         vote : request.body.vote,
         objectID: request.body.objectid,
         userID : request.body.userID
     };
 
-    collection.insertOne(vote, function(err, result) {
+    model.insert(vote, function(err, result) {
         if(!err)
             response.status(200);
         else
@@ -36,15 +29,12 @@ router.get('/:id', function(request, response) {
 
     var id = request.params.id;
 
-    var db = request.app.locals.db;
-    var collection = db.collection('votes');
-
-    collection.find({_id : new mongo.ObjectID(id) }).toArray(function(err, result) {
+    model.get({_id : new mongo.ObjectID(id) }, function(err, result) {
         response.json(result);
     });
 });
 
-router.post('/:id', function(request, response) {
+router.put('/:id', function(request, response) {
 
     var id = request.params.id;
 
@@ -59,10 +49,7 @@ router.post('/:id', function(request, response) {
     if(request.body.objectID !== undefined)
         vote.objectID = request.body.objectID;
 
-    var db = request.app.locals.db;
-    var collection = db.collection('votes');
-
-    collection.updateOne({_id : new mongo.ObjectID(id) }, { $set : vote }, function(err, result) {
+    model.update({_id : new mongo.ObjectID(id) }, { $set : vote }, function(err, result) {
         if(!err)
             response.status(200);
         else
@@ -76,10 +63,7 @@ router.delete('/:id', function(request, response) {
 
     var id = request.params.id;
 
-    var db = request.app.locals.db;
-    var collection = db.collection('votes');
-
-    collection.deleteOne({_id : new mongo.ObjectID(id) }, function(err, result) {
+    model.delete({_id : new mongo.ObjectID(id) }, function(err, result) {
         if(!err)
             response.status(200);
         else

@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const mongo = require('mongodb');
+const model = require('./user.model.js')
 
 router.get('/', function(request, response) {
-    var db = request.app.locals.db;
-    var collection = db.collection('users');
 
-    collection.find({}).sort({ points: -1 }).toArray(function(err, docs) {
+    model.get({}, null, null, { points: -1 }, function(err, result) {
         response.json(docs);
     });
 });

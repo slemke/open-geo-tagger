@@ -1,23 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const mongo = require('mongodb');
+const category = require('./categories.model.js');
 
 router.get('/', function(request, response) {
-    var db = request.app.locals.db;
-    var collection = db.collection('categories');
 
-    collection.find({}).toArray(function(err, docs) {
-        response.json(docs);
+    category.get({}, null, null, {_id: 1}, function(err, result) {
+        response.json(result);
     });
+
 });
 
 router.post('/', function(request, response) {
 
-    var name = request.body.name;
-    var db = request.app.locals.db;
-    var collection = db.collection('categories');
+    const name = request.body.name;
 
-    collection.insertOne({ name: name }, function(err, result) {
+    category.insert({ name: name }, function(err, result) {
         if(!err)
             response.status(200);
         else
@@ -29,25 +26,20 @@ router.post('/', function(request, response) {
 
 router.get('/:id', function(request, response) {
 
-    var id = request.params.id;
+    const id = request.params.id;
 
-    var db = request.app.locals.db;
-    var collection = db.collection('categories');
-
-    collection.find({_id : mongo.ObjectID(id) }).toArray(function(err, result) {
+    category.get({_id : mongo.ObjectID(id) }, null, null, function(err, result) {
         response.json(result);
     });
 });
 
 router.put('/:id', function(request, response) {
 
-    var id = request.params.id;
-    var name = request.body.name;
+    const id = {_id : mongo.ObjectID(request.params.id) };
+    const name = request.body.name;
+    const update = { $set : { name: name} };
 
-    var db = request.app.locals.db;
-    var collection = db.collection('categories');
-
-    collection.updateOne({_id : mongo.ObjectID(id) }, { $set : { name: name} }, function(err, result) {
+    category.update(id, update, function(err, result) {
         if(!err)
             response.status(200);
         else
@@ -59,13 +51,9 @@ router.put('/:id', function(request, response) {
 
 router.delete('/:id', function(request, response) {
 
-    var id = request.params.id;
+    const id = request.params.id;
 
-    var db = request.app.locals.db;
-    var collection = db.collection('categories');
-
-    collection.deleteOne({_id : mongo.ObjectID(id) }, function(err, result) {
-
+    category.delete({_id : mongo.ObjectID(id) }, function(err, result) {
         if(!err)
             response.status(200);
         else

@@ -1,63 +1,27 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const model = require('./user.schema.js')
 
-var UserSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true
-  },
-  username: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  passwordconfirm: {
-    type: String,
-    required: true,
-  }
-});
+// define model
+module.exports.get = function(find, limit, offset, sort, callback) {
+    let result = model.find(find);
 
-//authenticate input against database
-UserSchema.statics.authenticate = function (username, password, callback) {
-  User.findOne({ username: username })
-    .exec(function (err, user) {
-      if (err) {
-        return callback(err)
-      } else if (!user) {
-        var err = new Error('User not found.');
-        err.status = 401;
-        return callback(err);
-      }
-      bcrypt.compare(password, user.password, function (err, result) {
-        if (result === true) {
-          return callback(null, user);
-        } else {
-          return callback();
-        }
-      })
-    });
-}
+    if(limit != undefined || limit != null)
+        result = result.limit(limit);
 
-//hashing a password before saving it to the database
-UserSchema.pre('save', function (next) {
-  var user = this;
-  bcrypt.hash(user.password, 10, function (err, hash) {
-    if (err) {
-      return next(err);
-    }
-    user.password = hash;
-    user.passwordconfirm = hash;
-    next();
-  })
-});
+    if(offset != undefined || offset != null)
+        result = result.skip(offset);
 
+    result.sort(sort)
+        .exec(callback);
+};
 
-var User = mongoose.model('User', UserSchema);
-module.exports = User;
+module.exports.insert = function(user, callback) {
+    model.create(user, callback);
+};
+
+module.exports.update = function(id, data, callback) {
+    model.update({_id : id}, { $set : data }, callback);
+};
+
+module.exports.delete = function(id, callback) {
+    model.remove({_id : id}, callback);
+};
