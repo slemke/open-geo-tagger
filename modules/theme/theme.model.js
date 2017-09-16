@@ -12,12 +12,16 @@ module.exports.get = function(find, limit, offset, sort, callback) {
     if(offset != undefined || offset != null)
         result = result.skip(offset);
 
-    result.sort(sort)
-        .exec(callback);
+    if(sort == undefined || sort == null)
+        result.sort({ _id : 1});
+    else
+        result.sort(sort);
+
+    result.exec(callback);
 };
 
 module.exports.insert = function(theme, callback) {
-    model.create({ name: theme }, callback);
+    model.create(theme, callback);
 };
 
 module.exports.update = function(id, data, callback) {

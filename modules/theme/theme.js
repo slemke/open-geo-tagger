@@ -5,18 +5,24 @@ const model = require('./theme.model.js')
 router.get('/', function(request, response) {
 
     model.get({}, null, null, {_id: 1}, function(err, result) {
-        response.json(docs);
+        if(!err)
+            response.status(200);
+        else
+            response.status(500);
+
+        if(!result)
+            response.status(404).end();
+        else
+            response.json(result);
     });
 });
 
 
 router.post('/', function (request, response, next) {
 
-    const theme = {
-        name: request.body.name
-    };
+    const name = request.body.name;
 
-    model.insert(theme, function(err, result) {
+    model.insert({ name : name }, function(err, result) {
         if(!err)
             response.status(200);
         else
@@ -30,8 +36,16 @@ router.get('/:id', function(request, response) {
 
     const id = request.params.id;
 
-    model.get({_id : mongo.ObjectID(id) }, function(err, result) {
-        response.json(result);
+    model.get({ "_id" : id }, null, null, null, function(err, result) {
+        if(!err)
+            response.status(200);
+        else
+            response.status(500);
+
+        if(!result)
+            response.status(404).end();
+        else
+            response.json(result);
     });
 });
 
