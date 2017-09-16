@@ -4,7 +4,15 @@ const model = require('./objects.model.js')
 
 router.get('/', function(request, response) {
     model.get({}, null, null, { _id: 1 }, function(err, result) {
-        response.json(result);
+        if(!err)
+            response.status(200);
+        else
+            response.status(500);
+
+        if(!result)
+            response.status(404).end();
+        else
+            response.json(result);
     });
 });
 
@@ -12,15 +20,9 @@ router.post('/', function(request, response, next) {
 
     let categories;
 
-    try {
-        categories = JSON.parse(request.body.categories);
-    } catch(err) {
-        return response.status(500).end();
-    }
-
     const object = {
         location: request.body.location,
-        categories: categories,
+        categories: request.body.categories,
         description: request.body.description,
         userID : request.body.userID,
         votes : 0,
@@ -28,12 +30,13 @@ router.post('/', function(request, response, next) {
     };
 
     model.insert(object, function(err, result) {
+
         if(err)
             response.status(500);
         else
             response.status(200);
 
-        response.end();
+        response.json(result);
 
     });
 });
@@ -42,8 +45,16 @@ router.get('/:id', function(request, response) {
 
     const id = request.params.id;
 
-    model.get({_id: mongo.ObjectID(id)}, function(err, result) {
-        response.json(result);
+    model.get({ "_id": id }, null, null, null, function(err, result) {
+        if(!err)
+            response.status(200);
+        else
+            response.status(500);
+
+        if(!result)
+            response.status(404).end();
+        else
+            response.json(result);
     })
 });
 
@@ -62,8 +73,8 @@ router.put('/:id', function(request, response) {
     if(request.body.updated !== undefined)
         object.updated = request.body.updated;
 
-    if(request.body.category !== undefined)
-        object.category = request.body.category;
+    if(request.body.categories !== undefined)
+        object.category = request.body.categories;
 
     if(request.body.description !== undefined)
         object.description = request.body.description;
@@ -74,7 +85,8 @@ router.put('/:id', function(request, response) {
     if(request.body.themeID !== undefined)
         object.themeID = request.body.themeID;
 
-    model.update({_id : new mongo.ObjectID() }, { $set : object }, function(err, result) {
+    model.update(id, object, function(err, result) {
+
         if(!err)
             response.status(200);
         else
@@ -88,7 +100,7 @@ router.delete('/:id', function(request, response) {
 
     const id = request.params.id;
 
-    model.delete({_id : new mongo.ObjectID(id) }, function(err, result) {
+    model.delete(id, function(err, result) {
 
         if(!err)
             response.status(200);

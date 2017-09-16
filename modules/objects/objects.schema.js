@@ -16,6 +16,11 @@ const schema = new mongoose.Schema(
             required: true,
             trim: false
         },
+        votes: {
+            type: Number,
+            required: true,
+            min: 0
+        },
         userID: {
             type: String,
             unique: false,
