@@ -12,7 +12,7 @@ var ObjectSchema = new mongoose.Schema({
      description: {
          type: String,
     unique: false,
-    required: true,
+    required: false,
     trim: false
     },
     userID: {
