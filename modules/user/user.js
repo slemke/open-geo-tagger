@@ -6,7 +6,40 @@ const basic = require('../../auth.js');
 
 router.get('/', auth.connect(basic), function(request, response) {
 
-    model.get({}, null, null, { _id: 1}, function(err, result) {
+    const email = request.query.email;
+    const username = request.query.username;
+
+    let filter = {};
+
+    if(email != undefined && email != '')
+        filter["email"] = new RegExp(email);
+
+    if(username != undefined && username != '')
+        filter["username"] = new RegExp(username);
+
+    let start = request.query.start;
+    let end = request.query.end;
+
+    if(start != undefined && start != '')
+        start = parseInt(start, 10);
+    else
+        start = 0;
+
+    if(start < 0)
+        start = 0;
+
+    if(end != undefined && end != '')
+        end = parseInt(end, 10);
+    else
+        end = 40;
+
+    if(end > start) {
+        let tmp = start;
+        start = end;
+        end = tmp;
+    }
+
+    model.get(filter, start, end, { _id: 1}, function(err, result) {
         if(!err)
             response.status(200);
         else
