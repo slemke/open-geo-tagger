@@ -21,7 +21,7 @@ router.get('/', auth.connect(basic), function(request, response) {
 
 router.post('/', auth.connect(basic), function (request, response, next) {
 
-    var user = {
+    const user = {
         email: request.body.email,
         username: request.body.username,
         password: request.body.password,
@@ -35,15 +35,14 @@ router.post('/', auth.connect(basic), function (request, response, next) {
             response.status(500);
 
         response.end();
-
     });
 });
 
 router.get('/:id', auth.connect(basic), function(request, response) {
 
-    let id = request.params.id;
+    const id = request.params.id;
 
-    collection.find({_id : mongo.ObjectID(id) }).toArray(function(err, result) {
+    model.get({"_id" : id }, function(err, result) {
         if(!err)
             response.status(200);
         else
@@ -58,7 +57,9 @@ router.get('/:id', auth.connect(basic), function(request, response) {
 
 router.put('/:id', auth.connect(basic), function(request, response) {
 
-    var user = {
+    const id = request.params.id;
+
+    const user = {
         email : request.body.email,
         password : request.body.password,
         passwordconfirm : request.body.passwordconfirm,
@@ -66,7 +67,7 @@ router.put('/:id', auth.connect(basic), function(request, response) {
         points : 0
     };
 
-    model.insert(user, function(err, result) {
+    model.update(id, user, function(err, result) {
         if(!err)
             response.status(200);
         else
