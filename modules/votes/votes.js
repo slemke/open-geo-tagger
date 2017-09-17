@@ -6,7 +6,15 @@ const basic = require('../../auth.js');
 
 router.get('/', auth.connect(basic), function(request, response) {
     model.find({}, null, null, {_id: 1}, function(err, result) {
-        response.json(result);
+        if(!err)
+            response.status(200);
+        else
+            response.status(500);
+
+        if(!result)
+            response.status(404).end();
+        else
+            response.json(result);
     });
 });
 
@@ -32,7 +40,15 @@ router.get('/:id', auth.connect(basic), function(request, response) {
     var id = request.params.id;
 
     model.get({_id : new mongo.ObjectID(id) }, function(err, result) {
-        response.json(result);
+        if(!err)
+            response.status(200);
+        else
+            response.status(500);
+
+        if(!result)
+            response.status(404).end();
+        else
+            response.json(result);
     });
 });
 

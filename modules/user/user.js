@@ -7,7 +7,15 @@ const basic = require('../../auth.js');
 router.get('/', auth.connect(basic), function(request, response) {
 
     model.get({}, null, null, { _id: 1}, function(err, result) {
-        response.json(result);
+        if(!err)
+            response.status(200);
+        else
+            response.status(500);
+
+        if(!result)
+            response.status(404).end();
+        else
+            response.json(result);
     });
 });
 
@@ -22,7 +30,7 @@ router.post('/', auth.connect(basic), function (request, response, next) {
 
     model.insert(user, function(err, result) {
         if(!err)
-            response.status(200);
+            response.status(201);
         else
             response.status(500);
 
@@ -36,7 +44,15 @@ router.get('/:id', auth.connect(basic), function(request, response) {
     let id = request.params.id;
 
     collection.find({_id : mongo.ObjectID(id) }).toArray(function(err, result) {
-        response.json(result);
+        if(!err)
+            response.status(200);
+        else
+            response.status(500);
+
+        if(!result)
+            response.status(404).end();
+        else
+            response.json(result);
     });
 });
 

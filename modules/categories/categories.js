@@ -26,7 +26,7 @@ router.post('/', auth.connect(basic), function(request, response) {
 
     category.insert({ name: name }, function(err, result) {
         if(!err)
-            response.status(200);
+            response.status(201);
         else
             response.status(500);
 
