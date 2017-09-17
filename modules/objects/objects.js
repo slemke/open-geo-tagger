@@ -40,7 +40,11 @@ router.post('/', auth.connect(basic), function(request, response, next) {
         db = result;
     });
 
+    if(!db)
+        return response.status(500).end();
+
     model.upload(request, response, function(err) {
+
         if(!err)
             response.status(201);
         else
