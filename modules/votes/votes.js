@@ -5,7 +5,7 @@ const auth = require('http-auth');
 const basic = require('../../auth.js');
 
 router.get('/', auth.connect(basic), function(request, response) {
-    model.find({}, null, null, {_id: 1}, function(err, result) {
+    model.get({}, null, null, {_id: 1}, function(err, result) {
         if(!err)
             response.status(200);
         else
@@ -27,7 +27,7 @@ router.post('/', auth.connect(basic), function(request, response) {
 
     model.insert(vote, function(err, result) {
         if(!err)
-            response.status(200);
+            response.status(201);
         else
             response.status(500);
 
@@ -39,7 +39,7 @@ router.get('/:id', auth.connect(basic), function(request, response) {
 
     var id = request.params.id;
 
-    model.get({_id : new mongo.ObjectID(id) }, function(err, result) {
+    model.get({"_id" : id }, function(err, result) {
         if(!err)
             response.status(200);
         else
@@ -67,7 +67,7 @@ router.put('/:id', auth.connect(basic), function(request, response) {
     if(request.body.objectID !== undefined)
         vote.objectID = request.body.objectID;
 
-    model.update({_id : new mongo.ObjectID(id) }, { $set : vote }, function(err, result) {
+    model.update(id, { $set : vote }, function(err, result) {
         if(!err)
             response.status(200);
         else
@@ -81,7 +81,7 @@ router.delete('/:id', auth.connect(basic), function(request, response) {
 
     var id = request.params.id;
 
-    model.delete({_id : new mongo.ObjectID(id) }, function(err, result) {
+    model.delete(id, function(err, result) {
         if(!err)
             response.status(200);
         else
