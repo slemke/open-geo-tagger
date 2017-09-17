@@ -6,7 +6,14 @@ const basic = require('../../auth.js');
 
 router.get('/', auth.connect(basic), function(request, response) {
 
-    model.get({}, null, null, {_id: 1}, function(err, result) {
+    const name = request.query.name;
+
+    let filter = {};
+
+    if(name != undefined && name != '')
+        filter = { name:  new RegExp(name) };
+
+    model.get(filter, null, null, {_id: 1}, function(err, result) {
         if(!err)
             response.status(200);
         else
