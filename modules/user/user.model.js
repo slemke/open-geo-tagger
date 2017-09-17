@@ -1,4 +1,8 @@
-const model = require('./user.schema.js')
+const mongoose = require('mongoose');
+const schema = require('./user.schema.js')
+
+let model = mongoose.model('user', schema);
+
 
 // define model
 module.exports.get = function(find, limit, offset, sort, callback) {
@@ -28,4 +32,8 @@ module.exports.update = function(id, data, callback) {
 
 module.exports.delete = function(id, callback) {
     model.remove({_id : id}, callback);
+};
+
+module.exports.authenticate = function(username, password, callback) {
+    model.authenticate(username, password, callback);
 };

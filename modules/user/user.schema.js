@@ -24,11 +24,9 @@ const schema = new mongoose.Schema({
     }
 });
 
-const model = mongoose.model('user', schema);
-
 // authenticate input against database
 schema.statics.authenticate = function (username, password, callback) {
-    model.findOne({ username: username })
+    this.findOne({ username: username })
         .exec(function (err, user) {
 
             if(err)
@@ -41,7 +39,6 @@ schema.statics.authenticate = function (username, password, callback) {
             }
 
             bcrypt.compare(password, user.password, function (err, result) {
-
                 if(err)
                     return callback(err);
 
@@ -66,4 +63,4 @@ schema.pre('save', function (next) {
     });
 });
 
-module.exports = model;
+module.exports = schema;
