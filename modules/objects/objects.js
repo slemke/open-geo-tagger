@@ -21,6 +21,7 @@ router.get('/', auth.connect(basic), function(request, response) {
 router.post('/', auth.connect(basic), function(request, response, next) {
 
     let categories;
+    let db;
 
     const object = {
         location: request.body.location,
@@ -32,14 +33,20 @@ router.post('/', auth.connect(basic), function(request, response, next) {
     };
 
     model.insert(object, function(err, result) {
-
-        if(err)
+        if(err) {
             response.status(500);
+            return response.end();
+        }
+        db = result;
+    });
+
+    model.upload(request, response, function(err) {
+        if(!err)
+            response.status(201);
         else
-            response.status(200);
+            response.status(500);
 
-        response.json(result);
-
+        return response.json(db);
     });
 });
 

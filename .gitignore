@@ -1,3 +1,6 @@
+# ignore uploaded image files
+assets/img/upload/
+
 # General
 *.DS_Store
 .AppleDouble
