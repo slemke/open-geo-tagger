@@ -16,6 +16,7 @@ router.get('/', function(request, response) {
 
 router.post('/', function(request, response,next) {
    
+    
      if (request.body.location && request.body.categories && request.body.description && request.body.userID && request.body.themeID) {
 
             var objectData = {

@@ -23,11 +23,11 @@
 
 
     <!-- Leaflet -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="" />
+    <link rel="stylesheet" href="/static/css/leaflet.css" />
 
 
     <!-- Load Esri Leaflet Geocoder from CDN -->
-    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.6/dist/esri-leaflet-geocoder.css" integrity="sha512-v5YmWLm8KqAAmg5808pETiccEohtt8rPVMGQ1jA6jqkWVydV5Cuz3nJ9fQ7ittSxvuqsvI9RSGfVoKPaAJZ/AQ==" crossorigin="">
+    <link rel="stylesheet" href="/static/css/esri-leaflet-geocoder.css">
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -218,10 +218,32 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-
-                            <div id="marker_infos"></div>
+                            
+                            <span><strong>Standort:</strong> <div id="objectPosition"></div></span>
+                            <br />
+                            <span><strong>Erstellungsdatum:</strong> <div id="objectCreated"></div></span>
+                             <br />
+                            <span><strong>Aktualisierungsdatum:</strong> <div id="objectUpdated"></div></span>
+                             <br />
+                            <span><strong>Kategorien:</strong> <div id="objectCategories"></div></span>
+                             <br />
+                            <span><strong>Beschreibung:</strong> <div id="objectDescription"></div></span>
+                            
+                                <div id="btns_vote">
+                            
+                                               <a href="#" id="btns_vote_up" class="btn btn-info btn-lg text-center">
+          <span class="glyphicon glyphicon-chevron-up"></span>
+        </a>
+                                    
+                                                      <a href="#" id="btns_vote_down" class="btn btn-info btn-lg text-center">
+          <span class="glyphicon glyphicon-chevron-down"></span>
+        </a>
+                                    
+                            </div>
+                          
 
                         </div>
+                 
                     </div>
                     <div class="modal-footer">
 
@@ -293,7 +315,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="fileuploadlabel">Lade ein Bild von dem hoch, was du siehst:</label>
-                                <input type="file" class="form-control-file" id="fileupload">
+                                <input type="file" class="form-control-file" id="file">
                             </div>
                             <div class="form-group">
                                 <label for="categorylabel">Kategorisiere deinen Fund:</label>
@@ -422,7 +444,12 @@
                                     geocodeService.reverse().latlng(objectLocation).run(function (error, result) {
 
 
-                                        $("#marker_infos").html("Standort: " + result.address.Match_addr + "<br>" + "Erstellt: " + response.createdAt + "<br>" + "Zuletzt aktualisiert: " + response.updatedAt + "<br>" + "Kategorien: " + response.categories + "<br>" + "Beschreibung: " + response.description);
+                                        $("#objectPosition").text(result.address.Match_addr);
+                                        $("#objectCreated").text(new Date(response.createdAt).toLocaleString());
+                                        $("#objectUpdated").text(new Date(response.updatedAt).toLocaleString());
+                                        $("#objectCategories").text(response.categories);
+                                        $("#objectDescription").text(response.description);
+                                        
 
                                         $("#modal_marker_edit #tagsinput_edit").tagsinput('removeAll');
                                         $("#modal_marker_edit #myposition_edit").html(reversedGeoAddress);
@@ -525,9 +552,8 @@
                             }).addTo(mymap);
                         }
 
-
                         markers[i].on('click', function () {
-
+                          
 
                             $('#plusbutton').prop('disabled', true);
 
@@ -554,7 +580,11 @@
                                     success: function (response) {
 
 
-                                        $("#marker_infos").html("Standort: " + reversedGeoAddress + "<br>" + "Erstellt: " + response.createdAt + "<br>" + "Zuletzt aktualisiert: " + response.updatedAt + "<br>" + "Kategorien: " + response.categories + "<br>" + "Beschreibung: " + response.description);
+                                        $("#objectPosition").text(reversedGeoAddress);
+                                        $("#objectCreated").text(new Date(response.createdAt).toLocaleString());
+                                        $("#objectUpdated").text(new Date(response.updatedAt).toLocaleString());
+                                        $("#objectCategories").text(response.categories);
+                                        $("#objectDescription").text(response.description);
 
 
                                         $("#modal_marker_edit #tagsinput_edit").tagsinput('removeAll');
@@ -623,15 +653,17 @@
                         url: "https://localhost:3000/objects/" + objectID,
                         data: data,
                         success: function (response) {
-
                                     geocodeService.reverse().latlng(JSON.parse(response.location)).run(function (error, result) {
 
 
 
                                         var reversedGeoAddress = result.address.Match_addr;
 
-
-                                        $("#marker_infos").html("Standort: " + reversedGeoAddress + "<br>" + "Erstellt: " + response.createdAt + "<br>" + "Zuletzt aktualisiert: " + response.updatedAt + "<br>" + "Kategorien: " + response.categories + "<br>" + "Beschreibung: " + response.description);
+                                        $("#objectPosition").text(reversedGeoAddress);
+                                        $("#objectCreated").text(new Date(response.createdAt).toLocaleString());
+                                        $("#objectUpdated").text(new Date(response.updatedAt).toLocaleString());
+                                        $("#objectCategories").text(response.categories);
+                                        $("#objectDescription").text(response.description);
 
 
                                         $("#modal_marker_edit #tagsinput_edit").tagsinput('removeAll');
@@ -674,7 +706,8 @@
                         categories: JSON.stringify($('#tagsinput').tagsinput('items')),
                         description: $('#textarea_infos').val(),
                         userID: "<%= user._id %>",
-                        themeID: "<%= themeID %>"
+                        themeID: "<%= themeID %>",
+                        picture: $("#file").prop("files")[0]
 
                     }
 
@@ -706,7 +739,11 @@
                                 mapMarkers[countMarkers - 1].bindPopup(reversedGeoAddress + "<br>" + "<img id='markerImage' src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'/>" + "<br>" + "<a id='popup_link' href='#modal_marker' data-toggle='modal'>Weitere Informationen</a>").openPopup();
 
 
-                                $("#marker_infos").html("Standort: " + reversedGeoAddress + "<br>" + "Erstellt: " + response.createdAt + "<br>" + "Zuletzt aktualisiert: " + response.updatedAt + "<br>" + "Kategorien: " + response.categories + "<br>" + "Beschreibung: " + response.description);
+                                        $("#objectPosition").text(reversedGeoAddress);
+                                        $("#objectCreated").text(response.createdAt);
+                                        $("#objectUpdated").text(response.updatedAt);
+                                        $("#objectCategories").text(response.categories);
+                                        $("#objectDescription").text(response.description);
 
 
                                 $("#popup_link").on('click', function () {
@@ -720,8 +757,8 @@
                                 $("#modal_marker_edit #myposition_edit").html(reversedGeoAddress);
 
 
-                                jQuery.each(response.categories, function (i, vale) {
-                                    $("#modal_marker_edit #tagsinput_edit").tagsinput('add', vale);
+                                jQuery.each(response.categories, function (i, cat) {
+                                    $("#modal_marker_edit #tagsinput_edit").tagsinput('add', cat);
                                 });
 
 
@@ -850,12 +887,12 @@
 
     <script src="/static/js/typeahead.js"></script>
 
-    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
+    <script src="/static/js/leaflet.js"></script>
 
     <!-- Load Esri Leaflet from CDN -->
-    <script src="https://unpkg.com/esri-leaflet@2.1.1/dist/esri-leaflet.js" integrity="sha512-ECQqaYZke9cSdqlFG08zSkudgrdF6I1d8ViSa7I3VIszJyVqw4ng1G8sehEXlumdMnFYfzY0tMgdQa4WCs9IUw==" crossorigin=""></script>
+    <script src="/static/js/esri-leaflet.js"></script>
 
-    <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.6/dist/esri-leaflet-geocoder-debug.js" integrity="sha512-NE6FicJEhXDHZNxWrGwC4gdaxb7iOMsp7+bQSintY+stx4GpoUpNAH+yuiE1uduT5inQCPPmH0lf0cdjJFfwcA==" crossorigin=""></script>
+    <script src="/static/js/esri-leaflet-geocoder-debug.js"></script>
 
     <script src="/static/js/leaflet-color-markers.js"></script>
 </body>

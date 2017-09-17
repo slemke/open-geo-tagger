@@ -66,6 +66,17 @@ html, body
     margin: 0 auto;
 }
 
+#btns_vote {
+   
+}
+
+#btns_vote_up {
+   position: absolute; right:20px; top:50px;
+}
+#btns_vote_down {
+     position: absolute; right:20px; bottom:50px;
+}
+
 #popup_link {
     display: block;
     text-align: center;
