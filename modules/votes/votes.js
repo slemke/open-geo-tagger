@@ -5,7 +5,40 @@ const auth = require('http-auth');
 const basic = require('../../auth.js');
 
 router.get('/', auth.connect(basic), function(request, response) {
-    model.get({}, null, null, {_id: 1}, function(err, result) {
+
+    const userID = request.query.userID;
+    const objectID = request.query.objectID;
+    let start = request.query.start;
+    let end = request.query.end;
+
+    let filter = {};
+
+    if(userID != undefined && userID != '')
+        filter["userID"] = userID;
+
+    if(objectID != undefined && objectID != '')
+        filter["objectID"] = objectID;
+
+    if(start != undefined && start != '')
+        start = parseInt(start, 10);
+    else
+        start = 0;
+
+    if(start < 0)
+        start = 0;
+
+    if(end != undefined && end != '')
+        end = parseInt(end, 10);
+    else
+        end = 40;
+
+    if(end > start) {
+        let tmp = start;
+        start = end;
+        end = tmp;
+    }
+
+    model.get(filter, start, end, {_id: 1}, function(err, result) {
         if(!err)
             response.status(200);
         else
@@ -21,7 +54,7 @@ router.get('/', auth.connect(basic), function(request, response) {
 router.post('/', auth.connect(basic), function(request, response) {
     var vote = {
         vote : request.body.vote,
-        objectID: request.body.objectid,
+        objectID: request.body.objectID,
         userID : request.body.userID
     };
 
