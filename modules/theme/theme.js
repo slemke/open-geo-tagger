@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const model = require('./theme.model.js')
+const model = require('./theme.model.js');
 const auth = require('http-auth');
 const basic = require('../../auth.js');
 
