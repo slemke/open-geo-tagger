@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const model = require('../user/user.model.js')
+const auth = require('http-auth');
+const basic = require('../../auth.js');
 
-router.get('/', function(request, response) {
+router.get('/', auth.connect(basic), function(request, response) {
 
     model.get({}, null, null, { points: -1 }, function(err, result) {
         if(!err)

@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const model = require('./objects.model.js')
+const auth = require('http-auth');
+const basic = require('../../auth.js');
 
-router.get('/', function(request, response) {
+router.get('/', auth.connect(basic), function(request, response) {
     model.get({}, null, null, { _id: 1 }, function(err, result) {
         if(!err)
             response.status(200);
@@ -16,7 +18,7 @@ router.get('/', function(request, response) {
     });
 });
 
-router.post('/', function(request, response, next) {
+router.post('/', auth.connect(basic), function(request, response, next) {
 
     let categories;
 
@@ -41,7 +43,7 @@ router.post('/', function(request, response, next) {
     });
 });
 
-router.get('/:id', function(request, response) {
+router.get('/:id', auth.connect(basic), function(request, response) {
 
     const id = request.params.id;
 
@@ -58,7 +60,7 @@ router.get('/:id', function(request, response) {
     })
 });
 
-router.put('/:id', function(request, response) {
+router.put('/:id', auth.connect(basic), function(request, response) {
 
     const id = request.params.id;
 
@@ -96,7 +98,7 @@ router.put('/:id', function(request, response) {
     });
 });
 
-router.delete('/:id', function(request, response) {
+router.delete('/:id', auth.connect(basic), function(request, response) {
 
     const id = request.params.id;
 

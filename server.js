@@ -5,14 +5,6 @@ const config = require('./config.js');
 const bodyParser = require('body-parser');
 const fs = require('fs')
 const mongoose = require('mongoose');
-const auth = require('http-auth');
-
-let basic = auth.basic({
-        realm: "Users",
-    }, function(username, password, callback) {
-        callback(true); // ask mongoose db
-    }
-);
 
 //connect to MongoDB
 mongoose.connect(config.mongodb, { useMongoClient: true } );
@@ -20,9 +12,6 @@ const db = mongoose.connection;
 
 //handle mongo error
 db.on('error', console.error.bind(console, 'connection error:'));
-
-// use basic auth
-app.use(auth.connect(basic));
 
 // use json bodyparser
 app.use(bodyParser.json());

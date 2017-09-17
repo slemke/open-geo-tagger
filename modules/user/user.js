@@ -1,15 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const model = require('./user.model.js')
+const auth = require('http-auth');
+const basic = require('../../auth.js');
 
-router.get('/', function(request, response) {
+router.get('/', auth.connect(basic), function(request, response) {
 
     model.get({}, null, null, { _id: 1}, function(err, result) {
         response.json(result);
     });
 });
 
-router.post('/', function (request, response, next) {
+router.post('/', auth.connect(basic), function (request, response, next) {
 
     var user = {
         email: request.body.email,
@@ -29,7 +31,7 @@ router.post('/', function (request, response, next) {
     });
 });
 
-router.get('/:id', function(request, response) {
+router.get('/:id', auth.connect(basic), function(request, response) {
 
     let id = request.params.id;
 
@@ -38,7 +40,7 @@ router.get('/:id', function(request, response) {
     });
 });
 
-router.put('/:id', function(request, response) {
+router.put('/:id', auth.connect(basic), function(request, response) {
 
     var user = {
         email : request.body.email,

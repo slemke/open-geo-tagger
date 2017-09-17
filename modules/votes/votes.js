@@ -1,14 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const model = require('./votes.model.js')
+const auth = require('http-auth');
+const basic = require('../../auth.js');
 
-router.get('/', function(request, response) {
+router.get('/', auth.connect(basic), function(request, response) {
     model.find({}, null, null, {_id: 1}, function(err, result) {
         response.json(result);
     });
 });
 
-router.post('/', function(request, response) {
+router.post('/', auth.connect(basic), function(request, response) {
     var vote = {
         vote : request.body.vote,
         objectID: request.body.objectid,
@@ -25,7 +27,7 @@ router.post('/', function(request, response) {
     });
 });
 
-router.get('/:id', function(request, response) {
+router.get('/:id', auth.connect(basic), function(request, response) {
 
     var id = request.params.id;
 
@@ -34,7 +36,7 @@ router.get('/:id', function(request, response) {
     });
 });
 
-router.put('/:id', function(request, response) {
+router.put('/:id', auth.connect(basic), function(request, response) {
 
     var id = request.params.id;
 
@@ -59,7 +61,7 @@ router.put('/:id', function(request, response) {
     });
 });
 
-router.delete('/:id', function(request, response) {
+router.delete('/:id', auth.connect(basic), function(request, response) {
 
     var id = request.params.id;
 

@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const category = require('./categories.model.js');
+const auth = require('http-auth');
+const basic = require('../../auth.js');
 
-router.get('/', function(request, response) {
+router.get('/', auth.connect(basic), function(request, response) {
 
     category.get({}, null, null, {_id: 1}, function(err, result) {
         if(!err)
@@ -18,7 +20,7 @@ router.get('/', function(request, response) {
 
 });
 
-router.post('/', function(request, response) {
+router.post('/', auth.connect(basic), function(request, response) {
 
     const name = request.body.name;
 
@@ -32,7 +34,7 @@ router.post('/', function(request, response) {
     });
 });
 
-router.get('/:id', function(request, response) {
+router.get('/:id', auth.connect(basic), function(request, response) {
 
     const id = request.params.id;
 
@@ -49,7 +51,7 @@ router.get('/:id', function(request, response) {
     });
 });
 
-router.put('/:id', function(request, response) {
+router.put('/:id', auth.connect(basic), function(request, response) {
 
     const id = request.params.id;
     const name = request.body.name;
@@ -65,7 +67,7 @@ router.put('/:id', function(request, response) {
     });
 });
 
-router.delete('/:id', function(request, response) {
+router.delete('/:id', auth.connect(basic), function(request, response) {
 
     const id = request.params.id;
 
