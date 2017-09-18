@@ -1,4 +1,7 @@
-const model = require('../user/user.schema.js')
+const schema = require('../user/user.schema.js')
+const mongoose = require('mongoose');
+
+let model = mongoose.model('user', schema);
 
 module.exports.get = function(find, limit, offset, sort, callback) {
     let result = model.find(find, {email: 1, username: 1, points: 1});
