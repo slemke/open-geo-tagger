@@ -1,6 +1,13 @@
 # ignore uploaded image files
 assets/img/upload/
 
+# ignore minification files
+assets/js/index.min.js
+assets/js/index.js
+
+assets/css/index.css
+assets/css/index.min.css
+
 # General
 *.DS_Store
 .AppleDouble
