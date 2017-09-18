@@ -58,7 +58,8 @@ router.post('/', auth.connect(basic), function (request, response, next) {
         email: request.body.email,
         username: request.body.username,
         password: request.body.password,
-        passwordconfirm: request.body.passwordconfirm
+        passwordconfirm: request.body.passwordconfirm,
+        points: 0
     };
 
     model.insert(user, function(err, result) {
@@ -97,7 +98,7 @@ router.put('/:id', auth.connect(basic), function(request, response) {
         password : request.body.password,
         passwordconfirm : request.body.passwordconfirm,
         username : request.body.username,
-        points : 0
+        points : request.body.points
     };
 
     model.update(id, user, function(err, result) {
