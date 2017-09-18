@@ -16,11 +16,16 @@ const schema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+        required: true
     },
     passwordconfirm: {
         type: String,
         required: true,
+    },
+    points: {
+        type: Number,
+        required: true,
+        min: 0
     }
 });
 
