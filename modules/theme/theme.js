@@ -36,7 +36,7 @@ router.get('/:id', function(request, response) {
     var db = request.app.locals.db;
     var collection = db.collection('themes');
 
-    collection.findOne({_id : mongo.ObjectID(id) }).toArray(function(err, result) {
+    collection.findOne({_id : mongo.ObjectID(id) },function(err, result) {
         response.json(result);
     });
 });
@@ -53,10 +53,10 @@ router.post('/', function (request, response, next) {
         Theme.create(themeData, function (error, user) {
             if (error)
                 return next(error);
-            
+
             response.status(200);
             response.end();
-            
+
         });
 
     }

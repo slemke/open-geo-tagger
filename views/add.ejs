@@ -21,6 +21,8 @@
 
   <link href="/static/css/bootstrap-tagsinput.css" rel="stylesheet">
 
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="/static/css/bootstrap-select.min.css">
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="/static/css/leaflet.css" />
@@ -210,27 +212,22 @@
     <div class="modal fade" id="modal_marker">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span> </button>
-            <h4 class="modal-title">Ein Tag</h4>
-
-          </div>
           <div class="modal-body">
 
-            <button id="btns_vote_up" class="btn btn-success btn-lg text-center">
-        <span class="glyphicon glyphicon-chevron-up"></span>
-      </button>
 
-            <div id="vote_text" class="valign">0</div>
-
-
-            <button id="btns_vote_down" class="btn btn-danger btn-lg text-center">
-        <span class="glyphicon glyphicon-chevron-down"></span>
-      </button>
-
-
+  <div id="beitrag_image"><img src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'></div>
             <div class="row">
+
+              <button id="btns_vote_up" class="btn btn-success btn-lg text-center">
+          <span class="glyphicon glyphicon-chevron-up"></span>
+        </button>
+
+              <div id="vote_text" class="valign">0</div>
+
+
+              <button id="btns_vote_down" class="btn btn-danger btn-lg text-center">
+          <span class="glyphicon glyphicon-chevron-down"></span>
+        </button>
 
               <span><strong>Standort:</strong> <div id="objectPosition"></div></span>
               <br />
@@ -239,6 +236,8 @@
               <span><strong>Aktualisierungsdatum:</strong> <div id="objectUpdated"></div></span>
               <br />
               <span><strong>Kategorien:</strong> <div id="objectCategories"></div></span>
+              <br />
+              <span><strong>Thema:</strong> <div id="objectTheme"></div></span>
               <br />
               <span><strong>Beschreibung:</strong> <div id="objectDescription"></div></span>
 
@@ -250,6 +249,8 @@
           </div>
           <div class="modal-footer">
 
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal" aria-label="Close">
+                          Fenster schließen </button>
 
             <button type="button" id="editbutton" class="btn btn-primary">Tag bearbeiten <span class="glyphicon glyphicon-edit"></span></button>
 
@@ -262,16 +263,12 @@
     <div class="modal fade" id="modal_marker_edit">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span> </button>
-            <h4 class="modal-title">Tag bearbeiten</h4>
 
-          </div>
           <div class="modal-body">
             <div class="row">
 
               <form id="beitrag_form_edit">
+                <div id="edit_image"><img src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'></div>
                 <div class="form-group">
                   <label for="currentposition">Aktuelle Position: </label>
                   <div id="myposition_edit"></div>
@@ -287,6 +284,14 @@
 
                 </div>
                 <div class="form-group">
+                  <label for="categorylabel">Thema:</label>
+                  <br />
+                  <select class="selectpicker" id="theme_select_edit" title="Thema wählen">
+    </select>
+
+
+                </div>
+                <div class="form-group">
                   <label for="textarealabel">Informationen verändern?</label>
                   <textarea class="form-control" id="textarea_infos_edit" rows="3"></textarea>
                 </div>
@@ -295,6 +300,8 @@
             </div>
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal" aria-label="Close">
+                          Fenster schließen </button>
             <button type="submit" id="beitrag_submit_edit" class="btn btn-primary">Absenden</button>
           </div>
         </div>
@@ -310,7 +317,7 @@
             <h4 class="modal-title">Neuen Beitrag anlegen</h4>
 
           </div>
-          <div class="modal-body">
+          <div class="modal-body-beitrag">
             <form id="beitrag_form">
               <div class="form-group">
                 <label for="currentposition">Deine gewählte Position: </label>
@@ -318,12 +325,20 @@
               </div>
               <div class="form-group">
                 <label for="fileuploadlabel">Lade ein Bild von dem hoch, was du siehst:</label>
-                <input type="file" class="form-control-file" id="file">
+                <input type="file" class="form-control-file" id="file" name="file[]" multiple>
               </div>
               <div class="form-group">
                 <label for="categorylabel">Kategorisiere deinen Fund:</label>
                 <br />
                 <input type="text" id="tagsinput" value="" data-role="tagsinput" />
+
+              </div>
+              <div class="form-group">
+                <label for="categorylabel">Thema:</label>
+                <br />
+                <select class="selectpicker" id="theme_select" title="Thema wählen">
+  </select>
+
 
               </div>
               <div class="form-group">
@@ -363,7 +378,7 @@
       var newObjects = [];
       // maximaler Abstand zwischen zwei Markern damit das Voting noch funktioniert
       var maxRadiusForVoting = 200;
-      // deaktiviere Voting Buttons initial und aktiviere sie selektiv 
+      // deaktiviere Voting Buttons initial und aktiviere sie selektiv
       $('#btns_vote_up').prop('disabled', true);
       $('#btns_vote_down').prop('disabled', true);
 
@@ -413,6 +428,24 @@
 
       }
 
+      $.ajax({
+        type: "GET",
+        url: "https://localhost:3000/theme/",
+        success: function(response) {
+
+        $.each(response, function(){
+            $("#theme_select").append('<option value="'+ this._id +'">'+ this.name +'</option>')
+            $("#theme_select_edit").append('<option value="'+ this._id +'">'+ this.name +'</option>')
+        })
+
+        },
+        error: function(err) {
+          console.log(err);
+        }
+});
+
+
+
       function onLocationError(e) {
         alert(e.message);
       }
@@ -452,13 +485,26 @@
 
                   geocodeService.reverse().latlng(objectLocation).run(function(error, result) {
 
+                    var reversedGeoAddress = result.address.Match_addr;
 
-                    $("#objectPosition").text(result.address.Match_addr);
+                    $.ajax({
+                      type: "GET",
+                      url: "https://localhost:3000/theme/" + response.themeID,
+                      success: function(theme) {
+
+                    $("#vote_text").text(response.votes);
+                    $("#objectPosition").text(reversedGeoAddress);
                     $("#objectCreated").text(new Date(response.createdAt).toLocaleString());
                     $("#objectUpdated").text(new Date(response.updatedAt).toLocaleString());
                     $("#objectCategories").text(response.categories);
+                    $("#objectTheme").text(theme.name);
                     $("#objectDescription").text(response.description);
 
+                  },
+                  error: function(err) {
+                    console.log(err);
+                  }
+                });
 
                     $("#modal_marker_edit #tagsinput_edit").tagsinput('removeAll');
                     $("#modal_marker_edit #myposition_edit").html(reversedGeoAddress);
@@ -590,13 +636,24 @@
                   url: "https://localhost:3000/objects/" + objectID,
                   success: function(response) {
 
+                    $.ajax({
+                      type: "GET",
+                      url: "https://localhost:3000/theme/" + response.themeID,
+                      success: function(theme) {
+
                     $("#vote_text").text(response.votes);
                     $("#objectPosition").text(reversedGeoAddress);
                     $("#objectCreated").text(new Date(response.createdAt).toLocaleString());
                     $("#objectUpdated").text(new Date(response.updatedAt).toLocaleString());
                     $("#objectCategories").text(response.categories);
+                    $("#objectTheme").text(theme.name);
                     $("#objectDescription").text(response.description);
 
+                  },
+                  error: function(err) {
+                    console.log(err);
+                  }
+                });
 
                     $("#modal_marker_edit #tagsinput_edit").tagsinput('removeAll');
                     $("#modal_marker_edit #myposition_edit").html(reversedGeoAddress);
@@ -655,7 +712,8 @@
             categories: JSON.stringify($('#tagsinput_edit').tagsinput('items')),
             description: $('#textarea_infos_edit').val(),
             userID: "<%= user._id %>",
-            themeID: "<%= themeID %>"
+            themeID: $('#theme_select_edit option:selected').val(),
+            picture: $("#file").prop("files")[0]
 
           }
 
@@ -670,13 +728,24 @@
 
                 var reversedGeoAddress = result.address.Match_addr;
 
+                $.ajax({
+                  type: "GET",
+                  url: "https://localhost:3000/theme/" + response.themeID,
+                  success: function(theme) {
+
                 $("#vote_text").text(response.votes);
                 $("#objectPosition").text(reversedGeoAddress);
                 $("#objectCreated").text(new Date(response.createdAt).toLocaleString());
                 $("#objectUpdated").text(new Date(response.updatedAt).toLocaleString());
                 $("#objectCategories").text(response.categories);
+                $("#objectTheme").text(theme.name);
                 $("#objectDescription").text(response.description);
 
+              },
+              error: function(err) {
+                console.log(err);
+              }
+            });
 
                 $("#modal_marker_edit #tagsinput_edit").tagsinput('removeAll');
                 $("#modal_marker_edit #myposition_edit").html(reversedGeoAddress);
@@ -817,6 +886,7 @@
       });
 
 
+
       $("#beitrag_submit").on('click', function(e) {
         e.preventDefault();
 
@@ -829,7 +899,7 @@
             categories: JSON.stringify($('#tagsinput').tagsinput('items')),
             description: $('#textarea_infos').val(),
             userID: "<%= user._id %>",
-            themeID: "<%= themeID %>",
+            themeID: $('#theme_select option:selected').val(),
             picture: $("#file").prop("files")[0]
 
           }
@@ -863,13 +933,24 @@
                 mapMarkers[countMarkers - 1].bindPopup(reversedGeoAddress + "<br>" + "<img id='markerImage' src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'/>" + "<br>" +
                   "<a id='popup_link' href='#modal_marker' data-toggle='modal'>Weitere Informationen</a>").openPopup();
 
-                $("#vote_text").text(response.votes);
-                $("#objectPosition").text(reversedGeoAddress);
-                $("#objectCreated").text(response.createdAt);
-                $("#objectUpdated").text(response.updatedAt);
-                $("#objectCategories").text(response.categories);
-                $("#objectDescription").text(response.description);
+                  $.ajax({
+                    type: "GET",
+                    url: "https://localhost:3000/theme/" + response.themeID,
+                    success: function(theme) {
 
+                  $("#vote_text").text(response.votes);
+                  $("#objectPosition").text(reversedGeoAddress);
+                  $("#objectCreated").text(new Date(response.createdAt).toLocaleString());
+                  $("#objectUpdated").text(new Date(response.updatedAt).toLocaleString());
+                  $("#objectCategories").text(response.categories);
+                  $("#objectTheme").text(theme.name);
+                  $("#objectDescription").text(response.description);
+
+                },
+                error: function(err) {
+                  console.log(err);
+                }
+              });
 
                 $("#popup_link").on('click', function() {
                   mymap.closePopup();
@@ -1015,12 +1096,16 @@
 
   <script src="/static/js/leaflet.js"></script>
 
-  <!-- Load Esri Leaflet from CDN -->
   <script src="/static/js/esri-leaflet.js"></script>
 
   <script src="/static/js/esri-leaflet-geocoder-debug.js"></script>
 
   <script src="/static/js/leaflet-color-markers.js"></script>
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="/static/js/bootstrap-select.min.js"></script>
+  <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+  <script src="/static/js/i18n/defaults-de_DE.min.js"></script>
 </body>
 
 </html>

@@ -49,6 +49,11 @@ html, body
 }
 
 .modal-body {
+  padding-top: 0px !important;
+    padding:25px;
+}
+
+.modal-body-beitrag {
     padding:25px;
 }
 
@@ -74,21 +79,37 @@ text-align: center;
 font: bold 18px 'Lucida Console', Monaco, monospace;
 }
 
+#beitrag_image,#edit_image {
+  text-align: center ;
+}
+
+#edit_image img {
+  width:150px;
+  height:150px;
+  margin: 0 auto;
+  position: relative;
+}
+
+#beitrag_image img {
+  width:200px;
+  height:200px;
+  margin: 0 auto;
+  position: relative;
+}
+
 .valign {
     position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 65%;
     /* vendor prefixes omitted due to brevity */
 }
 
 #btns_vote_up {
   position: absolute;
-  top: 25%;
-  right: 20px;
-  transform: translateY(-75%);
+top: 35%;
+right: 20px;
 }
 #btns_vote_down {
-     position: absolute; right:20px; top: 75%; transform: translateY(-25%);
+     position: absolute; right:20px; top: 87%; ;
 }
 
 #popup_link {
