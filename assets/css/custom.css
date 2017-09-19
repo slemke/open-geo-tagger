@@ -4,7 +4,7 @@ ul.dropdown-lr {
 }
 
 /*
- mobile fix 
+ mobile fix
 @media (max-width: 768px) {
 	.dropdown-lr h3 {
 		color: #eee;
@@ -40,7 +40,7 @@ html, body
 }
 
 .after_modal_appended
-{  
+{
   position:relative;
 }
 
@@ -55,7 +55,7 @@ html, body
    #wrapper { position: relative;
 
      height:100%; }
-   #over_map { position: absolute;      
+   #over_map { position: absolute;
   bottom: 5px;
     right: 10px; z-index: 99; bottom:30px; }
 
@@ -66,15 +66,29 @@ html, body
     margin: 0 auto;
 }
 
-#btns_vote {
-   
+#vote_text {
+  position: absolute;
+right: 32px;
+width: 25px;
+text-align: center;
+font: bold 18px 'Lucida Console', Monaco, monospace;
+}
+
+.valign {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    /* vendor prefixes omitted due to brevity */
 }
 
 #btns_vote_up {
-   position: absolute; right:20px; top:50px;
+  position: absolute;
+  top: 25%;
+  right: 20px;
+  transform: translateY(-75%);
 }
 #btns_vote_down {
-     position: absolute; right:20px; bottom:50px;
+     position: absolute; right:20px; top: 75%; transform: translateY(-25%);
 }
 
 #popup_link {
@@ -83,13 +97,13 @@ html, body
     outline: none;
 }
 
-  #over_map_points { position: absolute;      
+  #over_map_points { position: absolute;
     left: 10px; z-index: 99; bottom:27px; }
 
- .over_map_user { position: absolute;      
+ .over_map_user { position: absolute;
     right: 10px; z-index: 99; top:10px; }
 
- #over_map_settings { position: absolute;      
+ #over_map_settings { position: absolute;
     right: 70px; z-index: 99; bottom:30px; }
 
 #plusbutton,#userinfobutton,#pointsbutton,#settingsbutton{font: bold 18px 'Lucida Console', Monaco, monospace;

@@ -39,12 +39,12 @@ router.get('/:id', function(request, response) {
     var db = request.app.locals.db;
     var collection = db.collection('votes');
 
-    collection.find({_id : new mongo.ObjectID(id) }).toArray(function(err, result) {
+    collection.find({_id : mongo.ObjectID(id) }).toArray(function(err, result) {
         response.json(result);
     });
 });
 
-router.post('/:id', function(request, response) {
+router.post('/', function(request, response) {
 
     var id = request.params.id;
 
@@ -62,7 +62,7 @@ router.post('/:id', function(request, response) {
     var db = request.app.locals.db;
     var collection = db.collection('votes');
 
-    collection.updateOne({_id : new mongo.ObjectID(id) }, { $set : vote }, function(err, result) {
+    collection.insert({_id : new mongo.ObjectID(id), vote:vote.vote, userID:vote.userID,objectID:vote.objectID }, function(err, result) {
         if(!err)
             response.status(200);
         else
