@@ -78,7 +78,7 @@ router.post('/', auth.connect(basic), model.upload(), function(request, response
                     callback(err);
                 else
                     callback(null, object);
-                
+
             });
         }
     ], function(err, result) {

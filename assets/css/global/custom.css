@@ -37,49 +37,93 @@ html, body {
 }
 
 .modal-body {
+  padding-top: 0px !important;
     padding:25px;
 }
 
-#wrapper {
+.modal-body-beitrag {
+    padding:25px;
+}
+
+   #wrapper { position: relative;
+
+     height:100%; }
+   #over_map { position: absolute;
+  bottom: 5px;
+    right: 10px; z-index: 99; bottom:30px; }
+
+#markerImage {
+    width:100px;
+    height:100px;
+    display: block;
+    margin: 0 auto;
+}
+
+#vote_text {
+  position: absolute;
+right: 32px;
+width: 25px;
+text-align: center;
+font: bold 18px 'Lucida Console', Monaco, monospace;
+}
+
+#beitrag_image,#edit_image {
+  text-align: center ;
+}
+
+#edit_image img {
+  width:150px;
+  height:150px;
+  margin: 0 auto;
+  position: relative;
+}
+
+#beitrag_image img {
+  width:200px;
+  height:200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.valign {
     position: relative;
-    height:100%;
+    top: 65%;
+    /* vendor prefixes omitted due to brevity */
 }
 
-#over_map {
-    position: absolute;
-    bottom: 5px;
-    right: 10px;
-    z-index: 99;
-    bottom:30px;
+#btns_vote_up {
+  position: absolute;
+top: 35%;
+right: 20px;
+}
+#btns_vote_down {
+     position: absolute; right:20px; top: 87%; ;
 }
 
-#over_map_points {
-    position: absolute;
-    left: 10px;
-    z-index: 99;
-    bottom:27px;
+#popup_link {
+    display: block;
+    text-align: center;
+    outline: none;
 }
 
-.over_map_user {
-    position: absolute;
-    right: 10px;
-    z-index: 99;
-    top: 10px;
-}
+  #over_map_points { position: absolute;
+    left: 10px; z-index: 99; bottom:27px; }
+
+ .over_map_user { position: absolute;
+    right: 10px; z-index: 99; top:10px; }
+
+ #over_map_settings { position: absolute;
+    right: 70px; z-index: 99; bottom:30px; }
+
+#plusbutton,#userinfobutton,#pointsbutton,#settingsbutton{font: bold 18px 'Lucida Console', Monaco, monospace;
+text-indent: 1px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
+border-radius: 4px; line-height: 22px;}
 
 #over_map_settings {
     position: absolute;
     right: 70px;
     z-index: 99;
     bottom:30px;
-}
-
-#plusbutton,#userinfobutton,#pointsbutton,#settingsbutton {
-    font: bold 18px 'Lucida Console', Monaco, monospace;
-    text-indent: 1px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
-    border-radius: 4px;
-    line-height: 22px;
 }
 
 .twitter-typeahead .tt-query,
