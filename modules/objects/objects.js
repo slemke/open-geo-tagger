@@ -80,28 +80,14 @@ router.post('/', auth.connect(basic), function(request, response, next) {
                 return callback(null, object);
             });
         }, function(object, callback) {
-            // update the users points
-            userModel.get({"_id": object.userID }, null, null, null, function(err, result) {
-                if(err)
-                    callback(err);
-                else
-                    callback(null, object, result);
-            });
-        }, function(object, user, callback) {
 
-            if(!user[0])
-                callback(new Error("User not found!"));
-
-            user = user[0];
-
-            user.points = 5 + parseInt(user.points);
-
-            userModel.update(user._id, user, function(err, result) {
+            userModel.setPoints(object.userID, 5, function(err, result) {
                 if(err)
                     callback(err);
                 else
                     callback(null, object);
-            })
+                
+            });
         }
     ], function(err, result) {
 

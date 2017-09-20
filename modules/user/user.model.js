@@ -37,3 +37,7 @@ module.exports.delete = function(id, callback) {
 module.exports.authenticate = function(username, password, callback) {
     model.authenticate(username, password, callback);
 };
+
+module.exports.setPoints = function(id, points, callback) {
+    model.update({ _id : id}, { $inc : {points : points}}, callback);
+}
