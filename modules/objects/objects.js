@@ -49,7 +49,7 @@ router.get('/', auth.connect(basic), function(request, response) {
     });
 });
 
-router.post('/', auth.connect(basic), function(request, response, next) {
+router.post('/', auth.connect(basic), model.upload(), function(request, response, next) {
 
     let categories;
 
@@ -70,14 +70,6 @@ router.post('/', auth.connect(basic), function(request, response, next) {
                     return callback(err);
 
                 return callback(null, result);
-            });
-        }, function(object, callback) {
-            model.upload(request, response, function(err) {
-
-                if(err)
-                    return callback(err);
-
-                return callback(null, object);
             });
         }, function(object, callback) {
 

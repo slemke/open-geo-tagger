@@ -43,7 +43,5 @@ module.exports.upload = function(request, response, callback) {
         }
     });
 
-    let upload =  multer({storage : storage}).array("image", 1);
-
-    upload(request, response, callback);
+    return multer({storage : storage}).array("image", 1);
 };
