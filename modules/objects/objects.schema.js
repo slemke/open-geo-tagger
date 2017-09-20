@@ -16,10 +16,17 @@ const schema = new mongoose.Schema(
             required: true,
             trim: false
         },
-        votes: {
+        upvote: {
             type: Number,
             required: true,
-            min: 0
+            min: 0,
+            max: 1
+        },
+        downvote: {
+            type: Number,
+            required: true,
+            min: 0,
+            max: 1
         },
         userID: {
             type: String,

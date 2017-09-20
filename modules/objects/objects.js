@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const model = require('./objects.model.js');
+const userModel = require('../user/user.model.js');
 const auth = require('http-auth');
 const basic = require('../../auth.js');
+const as = require('async');
 
 router.get('/', auth.connect(basic), function(request, response) {
 
@@ -50,36 +52,67 @@ router.get('/', auth.connect(basic), function(request, response) {
 router.post('/', auth.connect(basic), function(request, response, next) {
 
     let categories;
-    let db;
 
     const object = {
         location: request.body.location,
         categories: request.body.categories,
         description: request.body.description,
         userID : request.body.userID,
-        votes : 0,
+        upvote : 0,
+        downvote: 0,
         themeID : request.body.themeID
     };
 
-    model.insert(object, function(err, result) {
-        if(err) {
-            response.status(500);
-            return response.end();
+    as.waterfall([
+        function(callback) {
+            model.insert(object, function(err, result) {
+                if(err)
+                    return callback(err);
+
+                return callback(null, result);
+            });
+        }, function(object, callback) {
+            model.upload(request, response, function(err) {
+
+                if(err)
+                    return callback(err);
+
+                return callback(null, object);
+            });
+        }, function(object, callback) {
+            // update the users points
+            userModel.get({"_id": object.userID }, null, null, null, function(err, result) {
+                if(err)
+                    callback(err);
+                else
+                    callback(null, object, result);
+            });
+        }, function(object, user, callback) {
+
+            if(!user[0])
+                callback(new Error("User not found!"));
+
+            user = user[0];
+
+            user.points = 5 + parseInt(user.points);
+
+            userModel.update(user._id, user, function(err, result) {
+                if(err)
+                    callback(err);
+                else
+                    callback(null, object);
+            })
         }
-        db = result;
-    });
+    ], function(err, result) {
 
-    if(!db)
-        return response.status(500).end();
+        // TODO if err, cleanup the mess
 
-    model.upload(request, response, function(err) {
+        result = JSON.stringify(result);
 
-        if(!err)
-            response.status(201);
+        if(err)
+            return response.status(500).end();
         else
-            response.status(500);
-
-        return response.json(db);
+            return response.status(201).end(result);
     });
 });
 
@@ -123,6 +156,12 @@ router.put('/:id', auth.connect(basic), function(request, response) {
 
     if(request.body.userID !== undefined)
         object.userID = request.body.userID;
+
+    if(request.body.upvotes !== undefined)
+        object.upvotes = request.body.upvotes;
+
+    if(request.body.downvotes !== undefined)
+        object.downvotes = request.body.downvotes;
 
     if(request.body.themeID !== undefined)
         object.themeID = request.body.themeID;

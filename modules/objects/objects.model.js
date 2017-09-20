@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const schema = require('./objects.schema.js');
+const multer = require('multer');
 
 const model = mongoose.model('Object', schema);
 
@@ -44,5 +45,5 @@ module.exports.upload = function(request, response, callback) {
 
     let upload =  multer({storage : storage}).array("image", 1);
 
-    upload(request, reponse, callback);
+    upload(request, response, callback);
 };
