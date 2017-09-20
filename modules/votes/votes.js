@@ -3,6 +3,8 @@ const router = express.Router();
 const model = require('./votes.model.js');
 const auth = require('http-auth');
 const basic = require('../../auth.js');
+const userModel = require('../user/user.model.js');
+const as = require('async');
 
 router.get('/', auth.connect(basic), function(request, response) {
 
@@ -58,13 +60,32 @@ router.post('/', auth.connect(basic), function(request, response) {
         userID : request.body.userID
     };
 
-    model.insert(vote, function(err, result) {
-        if(!err)
-            response.status(201);
-        else
-            response.status(500);
+    as.waterfall([
+        function(callback) {
 
-        response.end();
+            model.insert(vote, function(err, result) {
+                if(err)
+                    callback(err);
+                else
+                    callback(null, result);
+            });
+
+        }, function(vote, callback) {
+            userModel.setPoints(vote.userID, 1, function(err, result) {
+                if(err)
+                    callback(err);
+                else
+                    callback(null, vote);
+            });
+        }
+    ], function(err, result) {
+
+        if(err)
+            return response.status(500).end();
+
+        response.status(201);
+
+        response.json(result);
     });
 });
 
