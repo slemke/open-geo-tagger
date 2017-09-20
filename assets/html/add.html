@@ -30,318 +30,324 @@
 
     </head>
     <body>
-
-
-
-          <div id="wrapper">
+        <div id="wrapper">
             <div id="mymap"></div>
 
             <div id="over_map">
-              <button type="button" id="plusbutton" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
-
+                <button type="button" id="plusbutton" class="btn btn-default">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
             </div>
 
             <div id="over_map_points">
-              <button type="button" id="pointsbutton" class="btn btn-default">0 Punkte</button>
+                <button type="button" id="pointsbutton" class="btn btn-default">0 Punkte</button>
             </div>
 
 
             <div id="over_map_settings">
-              <button type="button" id="settingsbutton" class="btn btn-default"><span class="glyphicon glyphicon-th-list"></span></button>
+                <button type="button" id="settingsbutton" class="btn btn-default">
+                    <span class="glyphicon glyphicon-th-list"></span>
+                </button>
             </div>
 
             <div class="dropdown over_map_user">
 
-              <button type="button" id="userinfobutton" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span><span class="caret"></span></button>
-              <ul class="dropdown-menu pull-right">
-                <li><a href="/user/profile" id="myprofile">Mein Profil</a></li>
-                <li><a href="/user/logout">Logout</a></li>
-              </ul>
+                <button type="button" id="userinfobutton" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-user"></span>
+                    <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu pull-right">
+                    <li><a href="/user/profile" id="myprofile">Mein Profil</a></li>
+                    <li><a href="/user/logout">Logout</a></li>
+                </ul>
             </div>
 
             <div class="modal fade" id="modal_profile">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span> </button>
-                    <h4 class="modal-title">Mein Profil</h4>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
 
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
-                      <div class="col-xs-6">Meine Tags: X</div>
-                      <div class="col-xs-6">Meine Punkte: X</div>
+                            <h4 class="modal-title">Mein Profil</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-xs-6">Meine Tags: X</div>
+                                <div class="col-xs-6">Meine Punkte: X</div>
+                            </div>
+                            <br /> Username:
+                            <%= user.username %>
+                            <br /> E-Mail:
+                            <%= user.email %>
+                            <br />
+                        </div>
                     </div>
-                    <br /> Username:
-                    <%= user.username %>
-                      <br /> E-Mail:
-                      <%= user.email %>
-                        <br />
-                  </div>
                 </div>
-              </div>
             </div>
 
-
             <div class="modal fade" id="modal_settings">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span> </button>
-                    <h4 class="modal-title">Optionen</h4>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
 
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
+                            <h4 class="modal-title">Optionen</h4>
 
-                      <ul class="nav nav-pills nav-stacked">
+                        </div>
 
-                        <li role="presentation"><a href="#modal_quests" data-toggle="modal" data-dismiss="modal">Quests</a></li>
-                        <li role="presentation"><a href="#modal_rank" data-toggle="modal" data-dismiss="modal">Rangliste</a></li>
-                        <li role="presentation"><a href="#modal_rounds" data-toggle="modal" data-dismiss="modal">Spielrunden</a></li>
-                      </ul>
-
+                        <div class="modal-body">
+                            <div class="row">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li role="presentation">
+                                        <a href="#modal_quests" data-toggle="modal" data-dismiss="modal">Quests</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#modal_rank" data-toggle="modal" data-dismiss="modal">Rangliste</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#modal_rounds" data-toggle="modal" data-dismiss="modal">Spielrunden</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
 
 
             <div class="modal fade" id="modal_rank">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span> </button>
-                    <h4 class="modal-title">Rangliste</h4>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
 
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
+                            <h4 class="modal-title">Rangliste</h4>
 
-                      <br />
-                      <table class="table table-striped table-bordered">
-                        <thead>
-                          <tr>
-                            <th>Spieler</th>
-                            <th>Punkte</th>
-                            <th>Rang</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">Mark</th>
-                            <td>12</td>
-                            <td>1</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">Jacob</th>
-                            <td>9</td>
-                            <td>2</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">Larry</th>
-                            <td>5</td>
-                            <td>3</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                        </div>
 
+                        <div class="modal-body">
+                            <div class="row">
+
+                                <br />
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Spieler</th>
+                                            <th>Punkte</th>
+                                            <th>Rang</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Mark</th>
+                                            <td>12</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Jacob</th>
+                                            <td>9</td>
+                                            <td>2</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Larry</th>
+                                            <td>5</td>
+                                            <td>3</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <a href="#modal_settings" data-toggle="modal" data-dismiss="modal" class="btn btn-primary pull-left">Zurück zu Optionen</a>
+                        </div>
                     </div>
-                  </div>
-                  <div class="modal-footer">
-                    <a href="#modal_settings" data-toggle="modal" data-dismiss="modal" class="btn btn-primary pull-left">Zurück zu Optionen</a>
-                  </div>
                 </div>
-              </div>
             </div>
 
             <div class="modal fade" id="modal_rounds">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span> </button>
-                    <h4 class="modal-title">Spielrunden</h4>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title">Spielrunden</h4>
+                        </div>
 
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
+                        <div class="modal-body">
+                            <div class="row">
+                                <h5>Aktuelle Runde:</h5>
+                                <a href="#" data-dismiss="modal">
+                                    <button type="button" class="btn btn-primary btn-lg btn-block">Street-Art</button>
+                                </a>
 
-                      <h5>Aktuelle Runde:</h5>
-                      <a href="#" data-dismiss="modal">
-                                        <button type="button" class="btn btn-primary btn-lg btn-block">Street-Art</button>
-                                    </a>
-                      <hr />
+                                <hr />
 
-                      <h5>Frühere Runden:</h5>
+                                <h5>Frühere Runden:</h5>
 
-                      <button type="button" class="btn btn-success btn-lg btn-block">Aufzüge</button>
+                                <button type="button" class="btn btn-success btn-lg btn-block">Aufzüge</button>
 
-                      <hr />
+                                <hr />
 
-                      <button type="button" class="btn btn-warning btn-lg btn-block">Rolltreppen</button>
+                                <button type="button" class="btn btn-warning btn-lg btn-block">Rolltreppen</button>
 
-                      <hr />
+                                <hr />
+                            </div>
+                        </div>
 
+                        <div class="modal-footer">
+                            <a href="#modal_settings" data-toggle="modal" data-dismiss="modal" class="btn btn-primary pull-left">Zurück zu Optionen</a>
+                        </div>
                     </div>
-                  </div>
-                  <div class="modal-footer">
-                    <a href="#modal_settings" data-toggle="modal" data-dismiss="modal" class="btn btn-primary pull-left">Zurück zu Optionen</a>
-                  </div>
                 </div>
-              </div>
             </div>
 
-
             <div class="modal fade" id="modal_marker">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-body">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div id="beitrag_image">
+                                <img src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg">
+                            </div>
+                            <div class="row">
+                                <button id="btns_vote_up" class="btn btn-success btn-lg text-center">
+                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                </button>
 
+                                <div id="vote_text" class="valign">0</div>
 
-          <div id="beitrag_image"><img src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'></div>
-                    <div class="row">
+                                <button id="btns_vote_down" class="btn btn-danger btn-lg text-center">
+                                    <span class="glyphicon glyphicon-chevron-down"></span>
+                                </button>
 
-                      <button id="btns_vote_up" class="btn btn-success btn-lg text-center">
-                  <span class="glyphicon glyphicon-chevron-up"></span>
-                </button>
+                                <span><strong>Standort:</strong> <div id="objectPosition"></div></span>
+                                <br />
+                                <span><strong>Erstellungsdatum:</strong> <div id="objectCreated"></div></span>
+                                <br />
+                                <span><strong>Aktualisierungsdatum:</strong> <div id="objectUpdated"></div></span>
+                                <br />
+                                <span><strong>Kategorien:</strong> <div id="objectCategories"></div></span>
+                                <br />
+                                <span><strong>Thema:</strong> <div id="objectTheme"></div></span>
+                                <br />
+                                <span><strong>Beschreibung:</strong> <div id="objectDescription"></div></span>
+                            </div>
+                        </div>
 
-                      <div id="vote_text" class="valign">0</div>
-
-
-                      <button id="btns_vote_down" class="btn btn-danger btn-lg text-center">
-                  <span class="glyphicon glyphicon-chevron-down"></span>
-                </button>
-
-                      <span><strong>Standort:</strong> <div id="objectPosition"></div></span>
-                      <br />
-                      <span><strong>Erstellungsdatum:</strong> <div id="objectCreated"></div></span>
-                      <br />
-                      <span><strong>Aktualisierungsdatum:</strong> <div id="objectUpdated"></div></span>
-                      <br />
-                      <span><strong>Kategorien:</strong> <div id="objectCategories"></div></span>
-                      <br />
-                      <span><strong>Thema:</strong> <div id="objectTheme"></div></span>
-                      <br />
-                      <span><strong>Beschreibung:</strong> <div id="objectDescription"></div></span>
-
-
-
-
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal" aria-label="Close">Fenster schließen </button>
+                            <button type="button" id="editbutton" class="btn btn-primary">Tag bearbeiten <span class="glyphicon glyphicon-edit"></span></button>
+                        </div>
                     </div>
-
-                  </div>
-                  <div class="modal-footer">
-
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal" aria-label="Close">
-                                  Fenster schließen </button>
-
-                    <button type="button" id="editbutton" class="btn btn-primary">Tag bearbeiten <span class="glyphicon glyphicon-edit"></span></button>
-
-                  </div>
-
                 </div>
-              </div>
             </div>
 
             <div class="modal fade" id="modal_marker_edit">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row">
+                                <form id="beitrag_form_edit">
+                                    <div id="edit_image">
+                                        <img src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="currentposition">Aktuelle Position: </label>
+                                        <div id="myposition_edit"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fileuploadlabel">Neues Bild hochladen:</label>
+                                        <input type="file" class="form-control-file" id="fileupload_edit">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="categorylabel">Kategorien ändern:</label>
+                                        <br />
+                                        <input type="text" id="tagsinput_edit" data-role="tagsinput" />
+                                    </div>
 
-                  <div class="modal-body">
-                    <div class="row">
+                                    <div class="form-group">
+                                        <label for="categorylabel">Thema:</label>
+                                        <br />
+                                        <select class="selectpicker" id="theme_select_edit" title="Thema wählen"></select>
+                                    </div>
 
-                      <form id="beitrag_form_edit">
-                        <div id="edit_image"><img src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'></div>
-                        <div class="form-group">
-                          <label for="currentposition">Aktuelle Position: </label>
-                          <div id="myposition_edit"></div>
+                                    <div class="form-group">
+                                        <label for="textarealabel">Informationen verändern?</label>
+                                        <textarea class="form-control" id="textarea_infos_edit" rows="3"></textarea>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div class="form-group">
-                          <label for="fileuploadlabel">Neues Bild hochladen:</label>
-                          <input type="file" class="form-control-file" id="fileupload_edit">
-                        </div>
-                        <div class="form-group">
-                          <label for="categorylabel">Kategorien ändern:</label>
-                          <br />
-                          <input type="text" id="tagsinput_edit" data-role="tagsinput" />
 
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal" aria-label="Close">Fenster schließen </button>
+                            <button type="submit" id="beitrag_submit_edit" class="btn btn-primary">Absenden</button>
                         </div>
-                        <div class="form-group">
-                          <label for="categorylabel">Thema:</label>
-                          <br />
-                          <select class="selectpicker" id="theme_select_edit" title="Thema wählen">
-            </select>
-
-
-                        </div>
-                        <div class="form-group">
-                          <label for="textarealabel">Informationen verändern?</label>
-                          <textarea class="form-control" id="textarea_infos_edit" rows="3"></textarea>
-                        </div>
-                      </form>
-
                     </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal" aria-label="Close">
-                                  Fenster schließen </button>
-                    <button type="submit" id="beitrag_submit_edit" class="btn btn-primary">Absenden</button>
-                  </div>
                 </div>
-              </div>
             </div>
+
 
             <div class="modal fade" id="modal_beitrag">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span> </button>
-                    <h4 class="modal-title">Neuen Beitrag anlegen</h4>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
 
-                  </div>
-                  <div class="modal-body-beitrag">
-                    <form id="beitrag_form">
-                      <div class="form-group">
-                        <label for="currentposition">Deine gewählte Position: </label>
-                        <div id="myposition"></div>
-                      </div>
-                      <div class="form-group">
-                        <label for="fileuploadlabel">Lade ein Bild von dem hoch, was du siehst:</label>
-                        <input type="file" class="form-control-file" id="file" name="file[]" multiple>
-                      </div>
-                      <div class="form-group">
-                        <label for="categorylabel">Kategorisiere deinen Fund:</label>
-                        <br />
-                        <input type="text" id="tagsinput" value="" data-role="tagsinput" />
+                            <h4 class="modal-title">Neuen Beitrag anlegen</h4>
+                        </div>
 
-                      </div>
-                      <div class="form-group">
-                        <label for="categorylabel">Thema:</label>
-                        <br />
-                        <select class="selectpicker" id="theme_select" title="Thema wählen">
-          </select>
+                        <div class="modal-body-beitrag">
+                            <form id="beitrag_form">
+                                <div class="form-group">
+                                    <label for="currentposition">Deine gewählte Position: </label>
 
+                                    <div id="myposition"></div>
+                                </div>
 
-                      </div>
-                      <div class="form-group">
-                        <label for="textarealabel">Hast du weitere Informationen?</label>
-                        <textarea class="form-control" id="textarea_infos" rows="3"></textarea>
-                      </div>
-                    </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="submit" id="beitrag_submit" class="btn btn-primary">Absenden</button>
-                  </div>
+                                <div class="form-group">
+                                    <label for="fileuploadlabel">Lade ein Bild von dem hoch, was du siehst:</label>
+                                    <input type="file" class="form-control-file" id="file" name="file[]" multiple>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="categorylabel">Kategorisiere deinen Fund:</label>
+                                    <br />
+                                    <input type="text" id="tagsinput" value="" data-role="tagsinput" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="categorylabel">Thema:</label>
+                                    <br />
+                                    <select class="selectpicker" id="theme_select" title="Thema wählen"></select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="textarealabel">Hast du weitere Informationen?</label>
+                                    <textarea class="form-control" id="textarea_infos" rows="3"></textarea>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" id="beitrag_submit" class="btn btn-primary">Absenden</button>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
+        </div>
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="/static/js/lib/jquery.min.js"></script>
