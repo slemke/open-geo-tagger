@@ -68,7 +68,7 @@ router.post('/', auth.connect(basic), function (request, response, next) {
         else
             response.status(500);
 
-        response.end();
+        return response.end();
     });
 });
 
@@ -76,7 +76,10 @@ router.get('/:id', auth.connect(basic), function(request, response) {
 
     const id = request.params.id;
 
-    model.get({"_id" : id }, function(err, result) {
+    model.get({_id : id }, null, null, null, function(err, result) {
+        console.log(err);
+        console.log(result);
+
         if(!err)
             response.status(200);
         else
@@ -85,7 +88,7 @@ router.get('/:id', auth.connect(basic), function(request, response) {
         if(!result)
             response.status(404).end();
         else
-            response.json(result);
+            return response.json(result);
     });
 });
 
