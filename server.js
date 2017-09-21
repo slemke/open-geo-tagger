@@ -25,11 +25,7 @@ app.use(require('./modules'));
 
 // set base file for frontend output
 app.get('/', function (req, res) {
-
-    var userID = req.session.userId;
-      res.render('index', {
-          userID : userID
-      });
+    res.sendFile(__dirname + '/views/index.html');
 });
 
 // catch 404 and forward to error handler
