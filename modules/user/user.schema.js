@@ -57,13 +57,14 @@ schema.statics.authenticate = function (username, password, callback) {
 
 // hashing a password before saving it to the database
 schema.pre('save', function (next) {
-    bcrypt.hash(this.password, 10, function (err, hash) {
+    let user = this;
+    bcrypt.hash(user.password, 10, function (err, hash) {
 
         if (err)
             return next(err);
 
-        this.password = hash;
-        this.passwordconfirm = hash;
+        user.password = hash;
+        user.passwordconfirm = hash;
         next();
     });
 });
