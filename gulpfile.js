@@ -2,7 +2,7 @@
 
 var paths = {
 	scripts: [
-		'assets/js/global/*.js',
+		'assets/js/global/**/*.js',
 	],
 	css: [
 		'assets/css/global/*.css'
