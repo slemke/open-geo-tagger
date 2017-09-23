@@ -52,7 +52,7 @@ router.get('/', auth.connect(basic), function(request, response) {
     });
 });
 
-router.post('/', auth.connect(basic), function (request, response, next) {
+router.post('/register', function (request, response, next) {
 
     const user = {
         email: request.body.email,
@@ -64,13 +64,33 @@ router.post('/', auth.connect(basic), function (request, response, next) {
 
     model.insert(user, function(err, result) {
         if(!err)
-            response.status(201);
+            response.status(201).end();
         else
-            response.status(500);
+            response.status(500).end();
 
-        return response.end();
+        //return response.end();
     });
 });
+
+router.post('/login/', function (request, response, next) {
+
+        model.authenticate(request.body.username, request.body.password, function (error, user) {
+
+            if (error || !user) {
+                var err = new Error('Wrong username or password.');
+                err.status = 401;
+                return next(err);
+            } else {
+                return response.status(200).end();
+
+            }
+        });
+});
+
+router.get('/logout', function(request, response) {
+response.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+   return response.status(401).end();
+ });
 
 router.get('/:id', auth.connect(basic), function(request, response) {
 
