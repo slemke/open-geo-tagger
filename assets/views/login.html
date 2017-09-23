@@ -1,0 +1,30 @@
+<div class="jumbotron">
+    <div class="container">
+
+<div class="row">
+    <div class="col-md-12">
+                <h2 class="modal-title">Login</h2>
+                <br />
+
+
+
+                    <form id="login-form" ng-app="indexPage" ng-controller="LoginController" role="form" autocomplete="off" ng-submit="processForm()">
+                        <div id="loginMessages" ng-show="message">{{ message }}</div>
+                        <div class="form-group">
+                            <label for="logusername">Username</label>
+                            <input type="text" name="logusername" ng-model="loginData.username" id="logusername" tabindex="1" class="form-control" placeholder="Username" value="" autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="logpassword">Passwort</label>
+                            <input type="password" name="logpassword" id="logpassword" ng-model="loginData.password" tabindex="2" class="form-control" placeholder="Passwort" autocomplete="off">
+                        </div>
+  <div class="form-group">
+                <button type="submit" id="login-submit" form="login-form" class="btn btn-success">Absenden</button>
+                  <a href="#" type="button" id="backButton" class="btn btn-info pull-right">Zurück zur Auswahl</a>
+</div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>

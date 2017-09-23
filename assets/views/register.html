@@ -1,0 +1,57 @@
+<div class="jumbotron">
+    <div class="container">
+
+<div class="row">
+    <div class="col-md-12">
+                      <h2 class="modal-title">Registrieren</h2>
+<br />
+
+                            <form method="post" id="registerForm" ng-app="indexPage" ng-controller="RegisterController" ng-submit="processForm()">
+
+                                  <div id="messages" ng-show="message">{{ message }}</div>
+
+                                <div class="form-group">
+                                    <label for="emailaddresslabel">E-Mail Adresse</label>
+
+                                    <div class="input-group" data-validate="email">
+                                        <input type="text" class="form-control" id="email" name="email" ng-model="registerData.email" placeholder="E-Mail Adresse eingeben" required>
+                                        <span class="input-group-addon danger"><span class="glyphicon glyphicon-remove"></span></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="usernamelabel">Benutzername</label>
+
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="usernameone" name="username" ng-model="registerData.username" placeholder="Username eingeben" required>
+                                        <span class="input-group-addon danger">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwordlabel">Passwort</label>
+                                    <input type="password" class="form-control" name="password" id="passwordone" ng-model="registerData.password" placeholder="Passwort eingeben" autocomplete="off" required="required">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwordconfirmlabel">Passwort bestätigen</label>
+
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="passwordconfirm" ng-model="registerData.passwordconfirm" name="passwordconfirm" placeholder="Passwort bestätigen" autocomplete="off" required>
+                                        <span class="input-group-addon danger">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                        <button type="submit" id="submit" form="registerForm" class="btn btn-success">Absenden</button>
+                          <a href="#" type="button" id="backButton" class="btn btn-info pull-right">Zurück zur Auswahl</a>
+                        </div>
+</form>
+
+    </div>
+</div>
+</div>
+</div>
