@@ -26,7 +26,7 @@ module.exports.insert = function(object, callback) {
 };
 
 module.exports.update = function(id, data, callback) {
-    model.update({ _id : id }, { $set : data }, callback);
+    model.findOneAndUpdate({ _id : id }, { $set : data }, { new: true}, callback);
 };
 
 module.exports.delete = function(id, callback) {
