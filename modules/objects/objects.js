@@ -127,7 +127,7 @@ router.put('/:id', auth.connect(basic), function(request, response) {
         object.updated = request.body.updated;
 
     if(request.body.categories !== undefined)
-        object.category = request.body.categories;
+        object.categories = request.body.categories;
 
     if(request.body.description !== undefined)
         object.description = request.body.description;
@@ -146,12 +146,14 @@ router.put('/:id', auth.connect(basic), function(request, response) {
 
     model.update(id, object, function(err, result) {
 
-        if(!err)
+        if(!err) {
             response.status(200);
-        else
-            response.status(500);
+            response.json(result);
+          }
+        else {
+            response.status(500).end();
+        }
 
-        response.end();
     });
 });
 
