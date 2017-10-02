@@ -4,7 +4,7 @@ const model = require('./user.model.js');
 const auth = require('http-auth');
 const basic = require('../../auth.js');
 
-router.get('/', auth.connect(basic), function(request, response) {
+router.get('/', function(request, response) {
 
     const email = request.query.email;
     const username = request.query.username;
@@ -72,7 +72,7 @@ router.post('/', function (request, response, next) {
     });
 });
 
-router.get('/:id', auth.connect(basic), function(request, response) {
+router.get('/:id', function(request, response) {
 
     const id = request.params.id;
 
@@ -90,7 +90,7 @@ router.get('/:id', auth.connect(basic), function(request, response) {
     });
 });
 
-router.put('/:id', auth.connect(basic), function(request, response) {
+router.put('/:id', function(request, response) {
 
     const id = request.params.id;
 
