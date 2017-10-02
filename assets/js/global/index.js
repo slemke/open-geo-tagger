@@ -27,7 +27,7 @@ app.controller('LoginController', function($scope, $location, $http) {
 
     $http({
 method  : 'POST',
-url     : 'https://localhost:3000/user/login',
+url     : 'https://localhost:3000/user/',
 data    : $scope.loginData,  // pass in data as strings
 headers : { 'Content-Type': 'application/json' }  // set the headers so angular passing info as form data (not request payload)
 })
@@ -53,7 +53,7 @@ headers : { 'Content-Type': 'application/json' }  // set the headers so angular 
 
      $http({
 method  : 'POST',
-url     : 'https://localhost:3000/user/register',
+url     : 'https://localhost:3000/user/',
 data    : $scope.registerData,  // pass in data as strings
 headers : { 'Content-Type': 'application/json' }  // set the headers so angular passing info as form data (not request payload)
 })
