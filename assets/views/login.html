@@ -5,22 +5,31 @@
     <div class="col-md-12">
                 <h2 class="modal-title">Login</h2>
                 <br />
+                    <form name="loginForm" novalidate ng-controller="LoginController as ctrl" role="form" autocomplete="off" ng-submit="ctrl.submitForm()">
 
-
-
-                    <form id="login-form" ng-app="indexPage" ng-controller="LoginController" role="form" autocomplete="off" ng-submit="processForm()">
-                        <div id="loginMessages" ng-show="message">{{ message }}</div>
                         <div class="form-group">
                             <label for="logusername">Username</label>
-                            <input type="text" name="logusername" ng-model="loginData.username" id="logusername" tabindex="1" class="form-control" placeholder="Username" value="" autocomplete="off">
+                          <div class="input-group">
+
+                            <input type="text" name="logusername" ng-model="ctrl.user.username" required id="logusername" tabindex="1" class="form-control" placeholder="Username" value="" autocomplete="off">
+                            <span ng-class="ctrl.getInputGroupValidationClassUsername()">
+                                <span ng-class="ctrl.getGlyphiconValidationClassUsername()"></span>
+                            </span>
+                          </div>
                         </div>
 
                         <div class="form-group">
                             <label for="logpassword">Passwort</label>
-                            <input type="password" name="logpassword" id="logpassword" ng-model="loginData.password" tabindex="2" class="form-control" placeholder="Passwort" autocomplete="off">
+                            <div class="input-group">
+                            <input type="password" name="logpassword" id="logpassword" required ng-model="ctrl.user.password" tabindex="2" class="form-control" placeholder="Passwort" autocomplete="off">
+                            <span ng-class="ctrl.getInputGroupValidationClassPassword()">
+                                <span ng-class="ctrl.getGlyphiconValidationClassPassword()"></span>
+                            </span>
+                          </div>
                         </div>
   <div class="form-group">
-                <button type="submit" id="login-submit" form="login-form" class="btn btn-success">Absenden</button>
+
+                <button type="submit" ng-disabled="loginForm.$invalid" id="login-submit" class="btn btn-success">Absenden</button>
                   <a href="#" type="button" id="backButton" class="btn btn-info pull-right">Zurück zur Auswahl</a>
 </div>
             </form>
