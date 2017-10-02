@@ -4,7 +4,7 @@ const model = require('./theme.model.js');
 const auth = require('http-auth');
 const basic = require('../../auth.js');
 
-router.get('/', auth.connect(basic), function(request, response) {
+router.get('/', function(request, response) {
 
     const name = request.query.name;
     let start = request.query.start;
@@ -48,7 +48,7 @@ router.get('/', auth.connect(basic), function(request, response) {
 });
 
 
-router.post('/', auth.connect(basic), function (request, response, next) {
+router.post('/', function (request, response, next) {
 
     const name = request.body.name;
 
@@ -62,7 +62,7 @@ router.post('/', auth.connect(basic), function (request, response, next) {
     });
 });
 
-router.get('/:id', auth.connect(basic), function(request, response) {
+router.get('/:id', function(request, response) {
 
     const id = request.params.id;
 
@@ -80,7 +80,7 @@ router.get('/:id', auth.connect(basic), function(request, response) {
 });
 
 
-router.put('/:id', auth.connect(basic), function(request, response) {
+router.put('/:id', function(request, response) {
 
     const id = request.params.id;
     const name = request.body.name;
@@ -95,7 +95,7 @@ router.put('/:id', auth.connect(basic), function(request, response) {
     });
 });
 
-router.delete('/:id', auth.connect(basic), function(request, response) {
+router.delete('/:id', function(request, response) {
 
     const id = request.params.id;
 

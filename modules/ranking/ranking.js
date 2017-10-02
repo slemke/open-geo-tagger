@@ -4,7 +4,7 @@ const model = require('./ranking.model.js');
 const auth = require('http-auth');
 const basic = require('../../auth.js');
 
-router.get('/', auth.connect(basic), function(request, response) {
+router.get('/', function(request, response) {
 
     model.get({}, null, null, { points: -1 }, function(err, result) {
         if(!err)

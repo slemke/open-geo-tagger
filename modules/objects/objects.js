@@ -6,7 +6,7 @@ const auth = require('http-auth');
 const basic = require('../../auth.js');
 const as = require('async');
 
-router.get('/', auth.connect(basic), function(request, response) {
+router.get('/', function(request, response) {
 
     const themeID = request.query.themeid;
     let start = request.query.start;
@@ -49,7 +49,7 @@ router.get('/', auth.connect(basic), function(request, response) {
     });
 });
 
-router.post('/', auth.connect(basic), model.upload(), function(request, response, next) {
+router.post('/', model.upload(), function(request, response, next) {
 
     let categories;
 
@@ -94,7 +94,7 @@ router.post('/', auth.connect(basic), model.upload(), function(request, response
     });
 });
 
-router.get('/:id', auth.connect(basic), function(request, response) {
+router.get('/:id', function(request, response) {
 
     const id = request.params.id;
 
@@ -111,7 +111,7 @@ router.get('/:id', auth.connect(basic), function(request, response) {
     })
 });
 
-router.put('/:id', auth.connect(basic), function(request, response) {
+router.put('/:id', function(request, response) {
 
     const id = request.params.id;
 
@@ -157,7 +157,7 @@ router.put('/:id', auth.connect(basic), function(request, response) {
     });
 });
 
-router.delete('/:id', auth.connect(basic), function(request, response) {
+router.delete('/:id', function(request, response) {
 
     const id = request.params.id;
 
