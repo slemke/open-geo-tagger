@@ -7,6 +7,14 @@ html, body {
     height: 100%;
 }
 
+.ngdialog.ngdialog-theme-plain .ngdialog-content {
+  width: 650px;
+}
+
+
+.ngdialog.ngdialog-theme-plain {
+  padding-top: 20px;
+}
 
 .input-group-addon.danger {
     color: rgb(255, 255, 255);
@@ -91,11 +99,11 @@ font: bold 18px 'Lucida Console', Monaco, monospace;
 
 #btns_vote_up {
   position: absolute;
-top: 35%;
-right: 20px;
+top: 40%;
+right: 15px;
 }
 #btns_vote_down {
-     position: absolute; right:20px; top: 87%; ;
+     position: absolute; right:15px; top: 70%; ;
 }
 
 #popup_link {

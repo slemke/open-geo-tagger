@@ -1,0 +1,36 @@
+                        <div id="edit_image">
+                            <img src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg">
+                        </div>
+                          <form id="editForm" name="form.editForm" ng-submit="editObject()">
+                        <div class="form-group">
+                            <label for="currentposition">Position des Objektes: </label>
+                            <div ng-bind="objectPosition"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fileuploadlabel">Neues Bild hochladen:</label>
+                            <input type="file" class="form-control-file" id="fileupload_edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="categorylabel">Kategorien ändern:</label>
+                            <br />
+                            <tags-input placeholder=" " ng-model="objectCategories" add-on-space="true"></tags-input>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="categorylabel">Thema ändern:</label>
+                            <br />
+                            <select ng-model="objectTheme" ng-options="theme._id as theme.name for theme in themes track by theme._id"></select>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="textarealabel">Beschreibung ändern?</label>
+                            <textarea class="form-control" ng-bind="objectDescription" rows="3"></textarea>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12">
+                <button type="button" class="btn btn-default pull-left" ng-click="closeThisDialog()">Fenster schließen </button>
+                <button type="submit" id="beitrag_submit_edit" class="btn btn-primary pull-right">Absenden</button>
+              </form>
+            </div>
+          </div>
