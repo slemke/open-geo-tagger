@@ -545,6 +545,16 @@ $scope.form = {};
 
   }
 
+  $scope.addNewMarker = function() {
+
+  ngDialog.open({
+      template: '/static/views/newMarker.html',
+      className: 'ngdialog-theme-plain',
+      scope: $scope
+    });
+
+  }
+
   $scope.openEditPopup = function() {
 
   ngDialog.closeAll();

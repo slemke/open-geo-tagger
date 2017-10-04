@@ -6,7 +6,7 @@
 
 
             <div id="over_map">
-                <a href="#modal_beitrag" data-toggle="modal" target='_self'  type="button" id="plusbutton" class="btn btn-default">
+                <a ng-click="addNewMarker();" target='_self'  type="button" id="plusbutton" class="btn btn-default">
                     <span class="glyphicon glyphicon-plus"></span>
                 </a>
             </div>
@@ -155,60 +155,4 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="modal_beitrag">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-
-                            <h4 class="modal-title">Neuen Beitrag anlegen</h4>
-                        </div>
-
-                        <div class="modal-body-beitrag">
-                            <form id="beitragForm" name="beitragForm" ng-submit="addNewObject()">
-                                <div class="form-group">
-
-                                    <label for="currentposition">Deine gewählte Position: </label>
-
-                                    <div id="myposition" ng-bind="myposition"></div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="fileuploadlabel">Lade ein Bild von dem hoch, was du siehst:</label>
-                                    <input type="file" class="form-control-file" id="file" name="file[]" multiple>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="categorylabel">Kategorisiere deinen Fund:</label>
-                                    <br />
-
-                                    <tags-input placeholder=" " ng-model="newCategories" add-on-space="true"></tags-input>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="categorylabel">Thema:</label>
-                                    <br />
-
-
-
-                                    <select ng-model="objectTheme" ng-options="theme._id as theme.name for theme in themes track by theme._id">
-
-                                     </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="textarealabel">Hast du weitere Informationen?</label>
-                                    <textarea class="form-control" id="textarea_infos" ng-model="newDescription" rows="3"></textarea>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="submit" form="beitragForm" id="beitrag_submit" class="btn btn-primary">Absenden</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
