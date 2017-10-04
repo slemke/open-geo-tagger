@@ -51,8 +51,6 @@ router.get('/', function(request, response) {
 
 router.post('/', model.upload(), function(request, response, next) {
 
-    let categories;
-
     const object = {
         location: request.body.location,
         categories: request.body.categories,
