@@ -291,11 +291,26 @@ app.controller('ProfileController', function($scope, ngDialog) {
   };
 });
 
+app.directive('file', function () {
+    return {
+        scope: {
+            file: '='
+        },
+        link: function (scope, el, attrs) {
+            el.bind('change', function (event) {
+                var file = event.target.files[0];
+                scope.file = file ? file : undefined;
+                scope.$apply();
+            });
+        }
+    };
+});
 
 app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletData', 'ngDialog', function($scope, $http, $compile, $q, leafletData, ngDialog) {
 
 
 $scope.form = {};
+$scope.FormData = {newDescription:'',objectTheme:'',newCategories:'',file:''};
   // initiale Position des Users in Geokoordinaten
   var initialPosition = {};
   // initiale Adresse des Users als String
@@ -555,6 +570,68 @@ $scope.form = {};
 
   }
 
+  $scope.voteUp = function() {
+
+    var data = {
+
+      vote: 1,
+      userID: "59b7ff671d8436d6cf9be301",
+      objectID: objectID
+
+    }
+
+    $http({
+        method: 'POST',
+        url: 'https://localhost:3000/votes',
+        data:data,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(function successCallback(response) {
+
+      $scope.voteUpDisabled = true;
+      $scope.voteDownDisabled = true;
+
+      }, function errorCallback(err) {
+        $scope.message = err;
+        console.log(err);
+
+      });
+
+  }
+
+  $scope.voteDown = function() {
+
+    var data = {
+
+      vote: 0,
+      userID: "59b7ff671d8436d6cf9be301",
+      objectID: objectID
+
+    }
+
+    $http({
+        method: 'POST',
+        url: 'https://localhost:3000/votes',
+        data:data,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(function successCallback(response) {
+
+      //$scope.voteUpDisabled = true;
+      //$scope.voteDownDisabled = true;
+
+      }, function errorCallback(err) {
+        $scope.message = err;
+        console.log(err);
+
+      });
+
+  }
+
   $scope.openEditPopup = function() {
 
   ngDialog.closeAll();
@@ -664,34 +741,34 @@ $scope.form = {};
 
   $scope.addNewObject = function() {
 
-    var newObject = {};
-
+var newObject = {};
 
     newObject.location = JSON.stringify(currentPosition);
-    newObject.categories = $scope.newCategories;
-    newObject.themeID = $scope.objectTheme;
-    newObject.description = $scope.newDescription;
+    newObject.categories = $scope.FormData.newCategories;
+    newObject.themeID = $scope.objectTheme._id;
+    newObject.description = $scope.FormData.newDescription;
     newObject.userID = "59b7ff671d8436d6cf9be301";
+    //newObject.file = $scope.FormData.file;
+
 
     $http({
         method: 'POST',
         url: 'https://localhost:3000/objects/',
-        data: newObject, // pass in data as strings
+        data: newObject,
         headers: {
           'Content-Type': 'application/json'
-        } // set the headers so angular passing info as form data (not request payload)
-      })
+        },
       .then(function successCallback(response) {
         // this callback will be called asynchronously
         // when the response is available
 
-        $('#modal_beitrag').modal('hide')
+        ngDialog.closeAll();
 
-        $scope.newCategories = "";
-        $scope.newDescription = "";
+        $scope.FormData.newCategories = "";
+        $scope.FormData.newDescription = "";
 
-        $scope.beitragForm.$setPristine();
-        $scope.beitragForm.$setUntouched();
+        $scope.form.beitragForm.$setPristine();
+        $scope.form.beitragForm.$setUntouched();
 
         var newMarker = {
           lat: currentPosition.lat,
@@ -737,10 +814,6 @@ $scope.form = {};
           }
         }
         $scope.markers.push(newInitialPositionMarker);
-
-
-
-
 
 
       }, function errorCallback(err) {

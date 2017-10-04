@@ -1,13 +1,13 @@
                 <div id="beitrag_image">
                     <img src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg">
                 </div>
-                <button id="btns_vote_up" class="btn btn-success btn-lg text-center">
+                <button id="btns_vote_up" ng-click="voteUp()" ng-disabled="voteUpDisabled" class="btn btn-success btn-lg text-center">
                     <span class="glyphicon glyphicon-chevron-up"></span>
                 </button>
 
                 <div ng-bind="voteText" class="valign"></div>
 
-                <button id="btns_vote_down" class="btn btn-danger btn-lg text-center">
+                <button id="btns_vote_down" ng-click="voteDown()" ng-disabled="voteDownDisabled" class="btn btn-danger btn-lg text-center">
                     <span class="glyphicon glyphicon-chevron-down"></span>
                 </button>
 
