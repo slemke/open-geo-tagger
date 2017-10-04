@@ -20,8 +20,8 @@ html, body {
     border-color: rgb(76, 174, 76);
 }
 
-#mymap {
-    height: 100vh; z-index: 0; width:100%; 
+.map {
+    height: 100vh; z-index: 0; width:100%;
 }
 
 .modal, .modal-backdrop {
