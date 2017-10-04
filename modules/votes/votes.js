@@ -6,7 +6,7 @@ const basic = require('../../auth.js');
 const userModel = require('../user/user.model.js');
 const as = require('async');
 
-router.get('/', auth.connect(basic), function(request, response) {
+router.get('/', function(request, response) {
 
     const userID = request.query.userID;
     const objectID = request.query.objectID;
@@ -53,7 +53,7 @@ router.get('/', auth.connect(basic), function(request, response) {
     });
 });
 
-router.post('/', auth.connect(basic), function(request, response) {
+router.post('/', function(request, response) {
     var vote = {
         vote : request.body.vote,
         objectID: request.body.objectID,
@@ -89,7 +89,7 @@ router.post('/', auth.connect(basic), function(request, response) {
     });
 });
 
-router.get('/:id', auth.connect(basic), function(request, response) {
+router.get('/:id', function(request, response) {
 
     var id = request.params.id;
 
@@ -106,7 +106,7 @@ router.get('/:id', auth.connect(basic), function(request, response) {
     });
 });
 
-router.put('/:id', auth.connect(basic), function(request, response) {
+router.put('/:id', function(request, response) {
 
     var id = request.params.id;
 
@@ -131,7 +131,7 @@ router.put('/:id', auth.connect(basic), function(request, response) {
     });
 });
 
-router.delete('/:id', auth.connect(basic), function(request, response) {
+router.delete('/:id', function(request, response) {
 
     var id = request.params.id;
 
