@@ -5,12 +5,12 @@
 </div>
 <div class="form-group">
     <label for="fileuploadlabel">Lade ein Bild von dem hoch, was du siehst:</label>
-    <input type="file" class="form-control-file" id="fileupload_edit">
+    <input type="file" class="form-control-file" file="FormData.file" id="fileupload_edit">
 </div>
 <div class="form-group">
     <label for="categorylabel">Kategorisiere deinen Fund:</label>
     <br />
-    <tags-input placeholder=" " ng-model="newCategories" add-on-space="true"></tags-input>
+    <tags-input placeholder=" " ng-model="FormData.newCategories" add-on-space="true"></tags-input>
 </div>
 
 <div class="form-group">
@@ -22,7 +22,7 @@
 
 <div class="form-group">
     <label for="textarealabel">Hast du weitere Informationen?</label>
-    <textarea class="form-control" ng-bind="objectDescription" rows="3"></textarea>
+    <textarea class="form-control" ng-model="FormData.newDescription" rows="3"></textarea>
 </div>
 <div class="row">
   <div class="col-md-12">
