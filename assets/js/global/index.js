@@ -1,4 +1,4 @@
-var app = angular.module("indexPage", ["ngRoute", "ngDialog", 'ui-leaflet','ngTagsInput']);
+var app = angular.module("indexPage", ["ngRoute", "ngDialog", 'ui-leaflet', 'ngTagsInput']);
 app.config(function($routeProvider) {
   $routeProvider
     .when("/", {
@@ -286,15 +286,16 @@ app.controller('ProfileController', function($scope, ngDialog) {
   $scope.open = function() {
     ngDialog.open({
       template: '/static/views/profile.html',
-      className: 'ngdialog-theme-default'
+      className: 'ngdialog-theme-plain'
     });
   };
 });
 
 
-app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletData', function($scope, $http, $compile, $q, leafletData) {
+app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletData', 'ngDialog', function($scope, $http, $compile, $q, leafletData, ngDialog) {
 
-  var existingMarkerObjects = [];
+
+$scope.form = {};
   // initiale Position des Users in Geokoordinaten
   var initialPosition = {};
   // initiale Adresse des Users als String
@@ -312,6 +313,12 @@ app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletDa
   // Die ID eines zu einem Marker gehörenden Objektes in der Datenbank
   var objectID = null;
 
+  var editObjectPosition = {};
+
+  var existingMarkerObjects = [];
+
+  $scope.markers = [];
+
   angular.extend($scope, {
 
     tiles: {
@@ -324,7 +331,54 @@ app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletDa
     events: {}
   });
 
-  $scope.markers = [];
+
+  getExistingMarkers = function() {
+    $http({
+        method: 'GET',
+        url: 'https://localhost:3000/objects/'
+      })
+      .then(function successCallback(response) {
+        // this callback will be called asynchronously
+        // when the response is available
+
+        angular.forEach(response.data, function(val, key) {
+
+          existingMarkerObjects.push(val);
+
+          var location = JSON.parse(val.location);
+
+          geocodeService.reverse().latlng(location).run(function(error, result) {
+
+            var markerAddress = result.address.Match_addr;
+
+            var marker = {
+
+              lat: location.lat,
+              lng: location.lng,
+              id: val._id,
+              icon: {
+                iconUrl: '/static/css/images/marker-icon-2x-green.png',
+                shadowUrl: '/static/css/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+              }
+            }
+            $scope.markers.push(marker);
+
+          });
+
+        })
+
+      })
+
+      .catch(function(err) {
+        console.log(err);
+      })
+  }
+
+  getExistingMarkers();
 
   leafletData.getMap().then(function(map) {
 
@@ -345,196 +399,164 @@ app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletDa
       // initiale Position auf die gefundene Position setzen
       initialPosition = e.latlng;
 
+      geocodeService.reverse().latlng(initialPosition).run(function(error, result) {
 
+        // initiale Adresse durch Geocoding
+        initialAddress = result.address.Match_addr;
+        currentAddress = initialAddress;
+        $scope.myposition = initialAddress;
 
-var task1= $q.defer();
-var task2= $q.defer();
+        $scope.markers.push({
+          lat: initialPosition.lat,
+          lng: initialPosition.lng,
+          message: initialAddress,
+          focus: true,
+          draggable: true,
+          icon: {
+            iconUrl: '/static/css/images/marker-icon-2x.png',
+            shadowUrl: '/static/css/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          }
+        })
 
+      });
 
-geocodeService.reverse().latlng(initialPosition).run(function(error, result) {
-
-  // initiale Adresse durch Geocoding
-  initialAddress = result.address.Match_addr;
-  currentAddress = initialAddress;
-  $scope.myposition = initialAddress;
-
-$scope.markers.push({
-  lat: initialPosition.lat,
-  lng: initialPosition.lng,
-  message: initialAddress,
-  draggable: true,
-  icon: {
-  iconUrl: '/static/css/images/marker-icon-2x.png',
-  shadowUrl: '/static/css/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-},
-compileMessage: true,
-getMessageScope: function() { return $scope; }
-})
-
-
-  if($scope.markers.length != 0) {
-  task1.resolve();
-  getExistingMarkers();
-  }
+    });
 
   });
-
-getExistingMarkers = function() {
-$http({
-    method: 'GET',
-    url: 'https://localhost:3000/objects/'
-  })
-  .then(function successCallback(response) {
-    // this callback will be called asynchronously
-    // when the response is available
-
-    angular.forEach(response.data, function(val, key) {
-
-      existingMarkerObjects.push(val);
-
-      var location = JSON.parse(val.location);
-
-    $scope.markers.push({
-
-      lat: location.lat,
-      lng: location.lng,
-      id: val._id,
-      icon: {
-        iconUrl: '/static/css/images/marker-icon-2x-green.png',
-        shadowUrl: '/static/css/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
- },
- getMessageScope: function() { return $scope; },
-   compileMessage: true
-    }
-    );
-
-    if(key==response.data.length-1) {
-
-    task2.resolve();
-    }
-
-
-
-  })
-
-
-
-})
-
-  .catch(function(err){
-     console.log(err);
-  })
-}
-
-
-
-$q.all([task1.promise, task2.promise]).then(function(){
-$scope.$apply;
-  leafletData.getMarkers().then(function(marker) {
-      marker[0].openPopup();
-  });
-
-})
-
-  });
-
-});
-
 
   $scope.$on('leafletDirectiveMarker.click', function(event, args) {
 
-      // setze aktuelle Position auf die des Markers
-      currentPosition = args.leafletEvent.target.getLatLng();
-
-      angular.forEach(existingMarkerObjects, function(val, key) {
-
-        if(val._id == args.leafletEvent.target.options.id) {
-      geocodeService.reverse().latlng(currentPosition).run(function(error, result) {
-
-        currentAddress = result.address.Match_addr;
 
 
-        args.leafletEvent.target.bindPopup(currentAddress + "<br>" + "<img id='markerImage' src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'/>" + "<br>" +
-          "<a id='popup_link' href='#modal_marker' ng-click='getMarkerObject()' target='_self' data-toggle='modal'>Weitere Informationen</a>").openPopup();
+    angular.forEach(existingMarkerObjects, function(val, key) {
+
+      if (val._id == args.leafletEvent.target.options.id) {
+
+        geocodeService.reverse().latlng(args.leafletEvent.target._latlng).run(function(error, result) {
+
+          var markerAddress = result.address.Match_addr;
+
+          leafletData.getMarkers().then(function(markers) {
+
+            angular.forEach(markers, function(currentMarker) {
+
+              if (currentMarker.options.id == args.leafletEvent.target.options.id) {
+
+                var popupContent = "<div>" + markerAddress + "<br><img id='markerImage' src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'/><br><a href='' id='popup_link' ng-click='getMarkerObject();openMarkerInfo()' target='self'>Weitere Informationen</a></div>";
+
+                // Compile title DOM into a link function
+                var linkFn = $compile(angular.element(popupContent));
+                // Return a jQuery DOM tree fully controlled by AngularJS so that ng directives will work
+                var popup = linkFn($scope);
+
+                currentMarker.bindPopup(popup[0]).openPopup();
+              }
+            })
+
+          });
+
+
+        });
 
 
 
         objectID = args.leafletEvent.target.options.id;
 
-        $scope.getMarkerObject();
 
+      };
+
+    });
 
   });
-}
-});
-
-});
-
-$scope.getMarkerObject = function() {
 
 
-  var object = null;
-  $http({
-      method: 'GET',
-      url: 'https://localhost:3000/objects/'+objectID,
-    })
-    .then(function(response) {
+  var markerAddress = null;
 
-    //  checkCurrentPositionDistanceToMarker();
 
-    object = response;
+  $scope.getAddressForMarker = function(location) {
+
+    var deferred = $q.defer();
+
+    geocodeService.reverse().latlng(location).run(function(error, result) {
+
+      markerAddress = result.address.Match_addr;
+      if (markerAddress != null) {
+        deferred.resolve();
+      }
+
+    });
+
+    return deferred.promise;
+  }
+
+  $scope.getMarkerObject = function() {
+
+    $http({
+        method: 'GET',
+        url: 'https://localhost:3000/objects/' + objectID,
+      })
+      .then(function(object) {
+
+        //  checkCurrentPositionDistanceToMarker();
+        var objectLocation = JSON.parse(object.data[0].location);
+
+        editObjectPosition = objectLocation;
+
+        $scope.getAddressForMarker(objectLocation).then(function() {
+
+          $scope.objectPosition = markerAddress;
+
+        })
+        $scope.objectCreated = new Date(object.data[0].createdAt).toLocaleString();
+        $scope.objectUpdated = new Date(object.data[0].updatedAt).toLocaleString();
+        $scope.objectCategories = object.data[0].categories;
+        $scope.objectDescription = object.data[0].description;
+
+
 
         return $http({
-      method: 'GET',
-      url: 'https://localhost:3000/theme/'+object.data[0].themeID,
-    })}).then(function(theme) {
+          method: 'GET',
+          url: 'https://localhost:3000/theme/' + object.data[0].themeID,
+        })
+      }).then(function(theme) {
 
+        $scope.currentObjectTheme = theme.data[0].name;
 
- var objectLocation = JSON.parse(object.data[0].location);
+      }).catch(function(err) {
+        console.log(err);
+      })
 
-            geocodeService.reverse().latlng(objectLocation).run(function(error, result) {
-
-              currentAddress = result.address.Match_addr;
-              $scope.objectPosition = currentAddress;
-                  $scope.$apply;
-
-            });
-
-
-              $scope.objectCreated = new Date(object.data[0].createdAt).toLocaleString();
-              $scope.objectUpdated = new Date(object.data[0].updatedAt).toLocaleString();
-              $scope.objectCategories = object.data[0].categories;
-              $scope.currentObjectTheme = theme.data[0].name;
-              $scope.objectDescription = object.data[0].description;
+  }
 
 
 
 
-              $scope.$apply;
+  $scope.openMarkerInfo = function() {
+
+  ngDialog.open({
+      template: '/static/views/markerInfo.html',
+      className: 'ngdialog-theme-plain',
+      scope: $scope
+    });
+
+  }
+
+  $scope.openEditPopup = function() {
+
+  ngDialog.closeAll();
+  ngDialog.open({
+
+      template: '/static/views/markerEdit.html',
+      className: 'ngdialog-theme-plain',
+      scope: $scope
+    });
 
 
-}).catch(function(err){
-   console.log(err);
-})
-
-}
-
-
-$scope.openEditPopup = function() {
-
-    $("#modal_marker").modal("hide");
-    $("#modal_marker_edit").modal("show");
-
-
-}
+  }
 
 
   $scope.$on('leafletDirectiveMarker.dragend', function(event, args) {
@@ -546,39 +568,39 @@ $scope.openEditPopup = function() {
       draggable: 'true'
     });
 
-leafletData.getMap().then(function(map) {
+    leafletData.getMap().then(function(map) {
 
 
-  map.panTo(new L.LatLng(position.lat, position.lng))
+      map.panTo(new L.LatLng(position.lat, position.lng))
 
-  geocodeService.reverse().latlng(position).run(function(error, result) {
+      geocodeService.reverse().latlng(position).run(function(error, result) {
 
-    currentAddress = result.address.Match_addr;
-    marker.bindPopup(currentAddress).openPopup();
-    $scope.myposition = currentAddress;
+        currentAddress = result.address.Match_addr;
+        marker.bindPopup(currentAddress).openPopup();
+        $scope.myposition = currentAddress;
+
+      });
+
+      currentPosition = position;
+
+
+
+    });
 
   });
 
-    currentPosition = position;
-
-
-
-});
-
-  });
-
-$scope.themes = [];
+  $scope.themes = [];
   $http({
       method: 'GET',
       url: 'https://localhost:3000/theme',
     })
     .then(function successCallback(response) {
 
-  angular.forEach(response.data,function(theme) {
-      $scope.themes.push(theme);
-  })
+      angular.forEach(response.data, function(theme) {
+        $scope.themes.push(theme);
+      })
 
-  $scope.objectTheme = $scope.themes[0];
+      $scope.objectTheme = $scope.themes[0];
 
 
     }, function errorCallback(err) {
@@ -587,20 +609,19 @@ $scope.themes = [];
 
     });
 
-$scope.editObject = function() {
+  $scope.editObject = function() {
 
-  var editObject = {};
+    var editObject = {};
 
-
-  editObject.location = JSON.stringify(currentPosition);
-  editObject.categories = $scope.objectCategories;
-  editObject.themeID = $scope.objectTheme;
-  editObject.description = $scope.objectDescription;
-  editObject.userID = "59b7ff671d8436d6cf9be301";
+    editObject.location = JSON.stringify(editObjectPosition);
+    editObject.categories = $scope.objectCategories;
+    editObject.themeID = $scope.objectTheme;
+    editObject.description = $scope.objectDescription;
+    editObject.userID = "59b7ff671d8436d6cf9be301";
 
     $http({
         method: 'PUT',
-        url: 'https://localhost:3000/objects/'+objectID,
+        url: 'https://localhost:3000/objects/' + objectID,
         data: editObject, // pass in data as strings
         headers: {
           'Content-Type': 'application/json'
@@ -612,15 +633,16 @@ $scope.editObject = function() {
         // this callback will be called asynchronously
         // when the response is available
 
-      //  $('#modal_marker_edit').modal('hide')
 
         $scope.objectCategories = editObject.categories;
         $scope.objectDescription = editObject.description;
 
 
-        $scope.editForm.$setPristine();
-        $scope.editForm.$setUntouched();
+        $scope.form.editForm.$setPristine();
+        $scope.form.editForm.$setUntouched();
 
+        ngDialog.closeAll();
+        $scope.openMarkerInfo();
 
       }, function errorCallback(err) {
         $scope.message = err;
@@ -628,18 +650,18 @@ $scope.editObject = function() {
 
       });
 
-}
+  }
 
-$scope.addNewObject = function() {
+  $scope.addNewObject = function() {
 
-  var newObject = {};
+    var newObject = {};
 
 
-  newObject.location = JSON.stringify(currentPosition);
-  newObject.categories = $scope.newCategories;
-  newObject.themeID = $scope.objectTheme;
-  newObject.description = $scope.newDescription;
-  newObject.userID = "59b7ff671d8436d6cf9be301";
+    newObject.location = JSON.stringify(currentPosition);
+    newObject.categories = $scope.newCategories;
+    newObject.themeID = $scope.objectTheme;
+    newObject.description = $scope.newDescription;
+    newObject.userID = "59b7ff671d8436d6cf9be301";
 
     $http({
         method: 'POST',
@@ -666,19 +688,22 @@ $scope.addNewObject = function() {
           lng: currentPosition.lng,
           draggable: false,
           id: response.data._id,
-          message: currentAddress + "<br>" + "<img id='markerImage' src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'/>" + "<br>" +
-            "<a id='popup_link' href='#modal_marker' ng-click='getMarkerObject()' target='_self' data-toggle='modal'>Weitere Informationen</a>",
           icon: {
-          iconUrl: '/static/css/images/marker-icon-2x-red.png',
-          shadowUrl: '/static/css/images/marker-shadow.png',
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
-          popupAnchor: [1, -34],
-          shadowSize: [41, 41]
-        },
-        compileMessage: true,
-        getMessageScope: function() { return $scope; }
+            iconUrl: '/static/css/images/marker-icon-2x-red.png',
+            shadowUrl: '/static/css/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          }
         }
+
+        $scope.myposition = initialAddress;
+        objectID = response.data._id;
+        $scope.$apply;
+
+        currentPosition = initialPosition;
+        currentAddress = initialAddress;
 
         existingMarkerObjects.push(response.data);
         $scope.markers.push(newMarker);
@@ -689,17 +714,22 @@ $scope.addNewObject = function() {
           message: initialAddress,
           draggable: true,
           icon: {
-          iconUrl: '/static/css/images/marker-icon-2x.png',
-        	shadowUrl: '/static/css/images/marker-shadow.png',
-        	iconSize: [25, 41],
-        	iconAnchor: [12, 41],
-        	popupAnchor: [1, -34],
-        	shadowSize: [41, 41]
-        },
-        compileMessage: true,
-        getMessageScope: function() { return $scope; }
-      }
-      $scope.markers.push(newInitialPositionMarker);
+            iconUrl: '/static/css/images/marker-icon-2x.png',
+            shadowUrl: '/static/css/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          },
+          compileMessage: true,
+          getMessageScope: function() {
+            return $scope;
+          }
+        }
+        $scope.markers.push(newInitialPositionMarker);
+
+
+
 
 
 
@@ -710,6 +740,6 @@ $scope.addNewObject = function() {
       });
 
 
-}
+  }
 
 }]);
