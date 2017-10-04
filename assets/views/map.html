@@ -35,47 +35,6 @@
                 </ul>
             </div>
 
-
-            <div class="modal fade" id="modal_marker">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div id="beitrag_image">
-                                <img src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg">
-                            </div>
-                            <div class="row">
-                                <button id="btns_vote_up" class="btn btn-success btn-lg text-center">
-                                    <span class="glyphicon glyphicon-chevron-up"></span>
-                                </button>
-
-                                <div id="vote_text" class="valign">0</div>
-
-                                <button id="btns_vote_down" class="btn btn-danger btn-lg text-center">
-                                    <span class="glyphicon glyphicon-chevron-down"></span>
-                                </button>
-
-                                <span><strong>Standort:</strong> <div ng-bind="objectPosition"></div></span>
-                                <br />
-                                <span><strong>Erstellungsdatum:</strong> <div ng-bind="objectCreated"></div></span>
-                                <br />
-                                <span><strong>Aktualisierungsdatum:</strong> <div ng-bind="objectUpdated"></div></span>
-                                <br />
-                                <span><strong>Kategorien:</strong> <div><span ng-repeat="object in objectCategories">{{object.text}}</span></div></span>
-                                <br />
-                                <span><strong>Thema:</strong> <div ng-bind="currentObjectTheme"></div></span>
-                                <br />
-                                <span><strong>Beschreibung:</strong> <div  ng-bind="objectDescription"></div></span>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal" aria-label="Close">Fenster schließen </button>
-                            <button type="button" ng-click="openEditPopup()" id="editbutton" class="btn btn-primary">Tag bearbeiten <span class="glyphicon glyphicon-edit"></span></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="modal fade" id="modal_settings">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -195,55 +154,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-            <div class="modal fade" id="modal_marker_edit">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div class="row">
-                                <form id="editForm" name="editForm" ng-submit="editObject()">
-                                    <div id="edit_image">
-                                        <img src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="currentposition">Aktuelle Position: </label>
-                                        <div ng-bind="objectPosition"></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="fileuploadlabel">Neues Bild hochladen:</label>
-                                        <input type="file" class="form-control-file" id="fileupload_edit">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="categorylabel">Kategorien ändern:</label>
-                                        <br />
-                                        <tags-input placeholder=" " ng-model="objectCategories" add-on-space="true"></tags-input>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="categorylabel">Thema:</label>
-                                        <br />
-                                        <select ng-model="objectTheme" ng-options="theme._id as theme.name for theme in themes track by theme._id"></select>
-
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="textarealabel">Informationen verändern?</label>
-                                        <textarea class="form-control" ng-bind="objectDescription" rows="3"></textarea>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal" aria-label="Close">Fenster schließen </button>
-                            <button type="submit" form="editForm" id="beitrag_submit_edit" class="btn btn-primary">Absenden</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 
             <div class="modal fade" id="modal_beitrag">
                 <div class="modal-dialog" role="document">
