@@ -20,7 +20,7 @@ router.get('/', function(request, response) {
 
 
         if(category != undefined && category != '')
-            filter["categories"] = [{text: category}];
+            filter["categories"] = {text: category};
 
     if(start != undefined && start != '')
         start = parseInt(start, 10);
