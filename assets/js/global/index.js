@@ -757,7 +757,8 @@ var newObject = {};
         data: newObject,
         headers: {
           'Content-Type': 'application/json'
-        },
+        }
+      })
       .then(function successCallback(response) {
         // this callback will be called asynchronously
         // when the response is available
