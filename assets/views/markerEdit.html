@@ -13,7 +13,7 @@
                         <div class="form-group">
                             <label for="categorylabel">Kategorien ändern:</label>
                             <br />
-                            <tags-input placeholder=" " ng-model="objectCategories" add-on-space="true"></tags-input>
+                            <tags-input placeholder=" " ng-model="objectCategories" add-on-space="true"><auto-complete source="loadTags($query)"></auto-complete></tags-input>
                         </div>
 
                         <div class="form-group">

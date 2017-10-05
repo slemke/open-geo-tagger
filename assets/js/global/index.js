@@ -621,8 +621,8 @@ $scope.FormData = {newDescription:'',objectTheme:'',newCategories:'',file:''};
       })
       .then(function successCallback(response) {
 
-      //$scope.voteUpDisabled = true;
-      //$scope.voteDownDisabled = true;
+      $scope.voteUpDisabled = true;
+      $scope.voteDownDisabled = true;
 
       }, function errorCallback(err) {
         $scope.message = err;
@@ -631,6 +631,21 @@ $scope.FormData = {newDescription:'',objectTheme:'',newCategories:'',file:''};
       });
 
   }
+
+  $scope.loadTags = function(query) {
+
+
+    return $http({
+        method: 'GET',
+        url: 'https://localhost:3000/objects?category='+query,
+      })
+      .then(function successCallback(response) {
+
+
+      return response.data[0].categories;
+
+      })
+      }
 
   $scope.openEditPopup = function() {
 

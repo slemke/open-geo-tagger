@@ -9,13 +9,18 @@ const as = require('async');
 router.get('/', function(request, response) {
 
     const themeID = request.query.themeid;
+    const category = request.query.category;
     let start = request.query.start;
     let end = request.query.end;
 
     let filter = {};
 
     if(themeID != undefined && themeID != '')
-        filter = { themeID:  themeID };
+        filter["themeID"] = themeID ;
+
+
+        if(category != undefined && category != '')
+            filter["categories"] = [{text: category}];
 
     if(start != undefined && start != '')
         start = parseInt(start, 10);
