@@ -2,19 +2,20 @@ var app = angular.module("indexPage", ["ngRoute", "ngDialog", 'ui-leaflet', 'ngT
 app.config(function($routeProvider) {
     $routeProvider
     .when("/", {
-        templateUrl: "/static/app/options/options.template.html"
+        templateUrl: "/static/app/login/login.template.html",
+        controller: "LoginController"
     })
     .when("/register", {
-        templateUrl: "/static/app/register/register.template.html"
-    })
-    .when("/login", {
-        templateUrl: "/static/app/login/login.template.html"
+        templateUrl: "/static/app/register/register.template.html",
+        controller: "RegisterController"
     })
     .when("/map", {
-        templateUrl: "/static/app/map/map.template.html"
+        templateUrl: "/static/app/map/map.template.html",
+        controller: "MapController"
     })
     .when("/logout", {
-        templateUrl: "/static/app/options/options.template.html"
+        templateUrl: "/static/app/login/login.template.html",
+        controller: "LoginController"
     })
 });
 

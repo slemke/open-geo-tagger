@@ -184,3 +184,25 @@ border-radius: 4px; line-height: 22px;}
 .indextag {
     font-size:110%;
 }
+
+
+#intro {
+    margin-top: 30px;
+}
+.intro-heading, .intro-buttons, .intro-text {
+    text-align: center;
+}
+
+.signup {
+    max-width: 400px;
+    margin-top: 30px;
+}
+
+    .signup h1 {
+        margin-bottom: 20px !important;
+    }
+
+.login {
+    max-width: 400px;
+    margin-top: 30px;
+}
