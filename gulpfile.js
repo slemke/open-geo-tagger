@@ -2,7 +2,9 @@
 
 var paths = {
 	scripts: [
-		'assets/js/global/**/*.js',
+		'assets/app/app.js',
+		'assets/app.module.js',
+		'assets/app/**/*.js'
 	],
 	css: [
 		'assets/css/global/*.css'
@@ -21,8 +23,8 @@ gulp.task('default', ['css', 'js'], function() {
 
 gulp.task('js', function() {
 	return gulp.src(paths.scripts)
-	.pipe(concat('index.min.js'))
-	.pipe(gulp.dest('assets/js/'));
+	.pipe(concat('app.min.js'))
+	.pipe(gulp.dest('assets/app/'));
 });
 
 gulp.task('css', function() {
