@@ -81,7 +81,7 @@ app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletDa
 
         map.locate({
             setView: true,
-            maxZoom: 16
+            maxZoom: 18
         }).on('locationfound', function(e) {
 
             var accurancy = e.accurancy;
