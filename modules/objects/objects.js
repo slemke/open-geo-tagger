@@ -18,9 +18,8 @@ router.get('/', function(request, response) {
     if(themeID != undefined && themeID != '')
         filter["themeID"] = themeID ;
 
-
-        if(category != undefined && category != '')
-            filter["categories"] = {text: category};
+    if(category != undefined && category != '')
+        filter["categories"] = {text: category};
 
     if(start != undefined && start != '')
         start = parseInt(start, 10);

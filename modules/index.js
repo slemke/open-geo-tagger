@@ -10,5 +10,6 @@ router.use('/objects', require('./objects/objects.js'));
 router.use('/theme', require('./theme/theme.js'));
 router.use('/votes', require('./votes/votes.js'));
 router.use('/ranking', require('./ranking/ranking.js'));
+router.use('/api', require('./api/api.js'));
 
 module.exports = router;
