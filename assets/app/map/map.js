@@ -133,6 +133,7 @@ $scope.FormData = {newDescription:'',objectTheme:'',newCategories:'',file:''};
           }
         })
 
+        map.setView(currentPosition);
       });
 
     });
