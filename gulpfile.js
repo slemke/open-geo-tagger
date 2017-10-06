@@ -3,6 +3,7 @@
 var paths = {
 	scripts: [
 		'assets/app/app.js',
+		'assets/app/app.config.js',
 		'assets/app.module.js',
 		'assets/app/sections/**/*.js',
 		'assets/app/directives/**/*.js',
