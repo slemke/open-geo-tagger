@@ -4,7 +4,10 @@ var paths = {
 	scripts: [
 		'assets/app/app.js',
 		'assets/app.module.js',
-		'assets/app/**/*.js'
+		'assets/app/sections/**/*.js',
+		'assets/app/directives/**/*.js',
+		'assets/app/sections/**/*.js',
+		'assets/app/components/**/*.js'
 	],
 	css: [
 		'assets/css/global/*.css'
