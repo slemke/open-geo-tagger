@@ -1,27 +1,24 @@
 <div id="wrapper" ng-controller="MapController">
-    <div>
-        <leaflet class="map" tiles="tiles" markers="markers" event-broadcast="events"></leaflet>
-    </div>
+    <leaflet class="map" tiles="tiles" markers="markers" event-broadcast="events"></leaflet>
 
-
-    <div id="over_map">
+    <div id="over_map" class="map-overlay">
         <a ng-click="addNewMarker();" target='_self' type="button" id="plusbutton" class="btn btn-default">
             <span class="glyphicon glyphicon-plus"></span>
         </a>
     </div>
 
-    <div id="over_map_points">
+    <div id="over_map_points" class="map-overlay">
         <button type="button" id="pointsbutton" class="btn btn-default">0 Punkte</button>
     </div>
 
 
-    <div id="over_map_settings">
+    <div id="over_map_settings" class="map-overlay">
         <a href="#modal_settings" target='_self' data-toggle="modal" type="button" id="settingsbutton" class="btn btn-default">
             <span class="glyphicon glyphicon-th-list"></span>
         </a>
     </div>
 
-    <div class="dropdown over_map_user">
+    <div class="dropdown over_map_user map-overlay">
 
         <button type="button" id="userinfobutton" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
             <span class="glyphicon glyphicon-user"></span>
@@ -153,5 +150,5 @@
             </div>
         </div>
     </div>
-    
+
 </div>
