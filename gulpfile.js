@@ -5,6 +5,7 @@ var paths = {
 		'assets/app/app.js',
 		'assets/app/app.config.js',
 		'assets/app.module.js',
+		'assets/app/service/**/*.js',
 		'assets/app/sections/**/*.js',
 		'assets/app/directives/**/*.js',
 		'assets/app/sections/**/*.js',

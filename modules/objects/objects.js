@@ -6,7 +6,7 @@ const auth = require('http-auth');
 const basic = require('../../auth.js');
 const as = require('async');
 
-router.get('/', function(request, response) {
+router.get('/', auth.connect(basic), function(request, response) {
 
     const themeID = request.query.themeid;
     const category = request.query.category;

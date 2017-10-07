@@ -1,4 +1,4 @@
-app.config(function($routeProvider) {
+/*app.config(function($routeProvider) {
     $routeProvider
     .when("/", {
         templateUrl: "/static/app/sections/login/login.template.html",
@@ -17,3 +17,4 @@ app.config(function($routeProvider) {
         controller: "LoginController"
     })
 });
+*/

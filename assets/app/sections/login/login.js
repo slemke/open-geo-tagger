@@ -1,5 +1,29 @@
-app.controller('LoginController', function($scope, $location, $http) {
+app.controller('LoginController', LoginController);
+
+LoginController.$inject = ['$location', 'AuthenticationService'];
+
+function LoginController($location, AuthenticationService) {
     var self = this;
+
+    var vm = this;
+    self.login = login;
+
+    (function initController() {
+        AuthenticationService.ClearCredentials();
+    })();
+
+    function login() {
+        vm.dataLoading = true;
+        AuthenticationService.Login(vm.username, vm.password, function (response) {
+           if (response.success) {
+               AuthenticationService.SetCredentials(vm.username, vm.password);
+               $location.path('/map');
+           } else {
+               //FlashService.Error(response.message);
+               vm.dataLoading = false;
+           }
+        });
+    }
 
     self.submitForm = function() {
 
@@ -53,4 +77,4 @@ app.controller('LoginController', function($scope, $location, $http) {
         else
             return "glyphicon glyphicon-ok";
     }
-});
+}

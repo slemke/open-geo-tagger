@@ -368,6 +368,7 @@ app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletDa
     }
 
     $scope.addNewObject = function() {
+        console.log('called');
 
         var newObject = {};
 
@@ -438,7 +439,7 @@ app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletDa
                 }
             };
 
-            $scope.markers.push(newInitialPositionMarker);
+            //$scope.markers.push(newInitialPositionMarker);
         }, function errorCallback(err) {
             $scope.message = err;
             console.log(err);
