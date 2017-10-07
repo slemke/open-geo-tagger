@@ -1,7 +1,7 @@
 (function() {
     'use strict'
 
-    angular.module('indexPage')
+    angular.module('opendata')
         .factory('UserService', UserService);
 
 

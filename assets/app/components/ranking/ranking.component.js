@@ -1,7 +1,7 @@
 (function() {
     'use strict'
 
-    angular.module('indexPage')
+    angular.module('opendata')
         .component('ranking', {
             templateUrl: '/static/app/components/ranking/ranking.template.html',
             controller: ['$http', RankingController]

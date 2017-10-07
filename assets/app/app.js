@@ -1,4 +1,4 @@
-var app = angular.module("indexPage", ["ngRoute", "ngDialog", 'ngCookies', 'ui-leaflet', 'ngTagsInput']).config(function($routeProvider) {
+var app = angular.module("opendata", ["ngRoute", "ngDialog", 'ngCookies', 'ui-leaflet', 'ngTagsInput']).config(function($routeProvider) {
     $routeProvider
     .when("/", {
         templateUrl: "/static/app/sections/login/login.template.html",
