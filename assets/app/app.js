@@ -1,6 +1,17 @@
-var app = angular.module("opendata", ["ngRoute", "ngDialog", 'ngCookies', 'ui-leaflet', 'ngTagsInput']).config(function($routeProvider) {
-    $routeProvider
-    .when("/", {
+var app = angular.module("opendata",
+            [
+                'ngRoute',
+                'ngDialog',
+                'ngCookies',
+                'ui-leaflet',
+                'ngTagsInput'
+            ])
+            .config(config)
+            .run(run);
+
+// setup routeProvider config 
+function config($routeProvider) {
+    $routeProvider.when("/", {
         templateUrl: "/static/app/sections/login/login.template.html",
         controller: "LoginController",
         controllerAs: 'vm'
@@ -16,10 +27,12 @@ var app = angular.module("opendata", ["ngRoute", "ngDialog", 'ngCookies', 'ui-le
     .when("/logout", {
         templateUrl: "/static/app/sections/login/login.template.html",
         controller: "LoginController"
-    })
-}).run(run);
+    });
+}
 
+// setup run callback
 run.$inject = ['$rootScope', '$location', '$cookies', '$http'];
+
 function run($rootScope, $location, $cookies, $http) {
 
     // keep user logged in after page refresh
