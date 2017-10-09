@@ -1,21 +1,24 @@
 (function() {
 
-    app.controller('SubmitController', ['ThemesService' , SubmitController]);
+    app.controller('SubmitController', ['$timeout','ThemesService','LocationService' , SubmitController]);
 
 
-    function SubmitController(ThemesService) {
+    function SubmitController($timeout, ThemesService, LocationService) {
 
         var vm = this;
 
         (function initController() {
 
-            vm.position = 'here goes the current position';
+          $timeout( function(){
+          vm.position = LocationService.GetCurrentAddress();
+          }, 500 );
+
 
             ThemesService.GetAll().then(function successCallback(response) {
 
             vm.themes = response;
             vm.selectedTheme = vm.themes[0];
-        
+
             vm.form = {
 
                 theme : vm.themes[0]

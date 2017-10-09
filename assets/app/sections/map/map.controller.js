@@ -6,18 +6,20 @@
             '$http',
             '$compile',
             '$q',
+            '$timeout',
             'leafletData',
             'ngDialog',
             'PointsService',
             'ObjectService',
+            'MarkerService',
+            'LocationService',
             MapController
         ]);
 
-    function MapController($scope, $http, $compile, $q, leafletData, ngDialog, PointsService, ObjectService) {
+    function MapController($scope, $http, $compile, $q,$timeout, leafletData, ngDialog, PointsService, ObjectService, MarkerService, LocationService) {
 
         var vm = this;
-        var geocodeService = L.esri.Geocoding.geocodeService();
-        var existingMarkerObjects = [];
+
 
         vm.markers = {};
         vm.showMap = false;
@@ -26,125 +28,36 @@
         // init map controller
         (function initController() {
 
-            angular.extend($scope, {
-                center: {
-                    lat: 50.941357,
-                    lng: 6.958307,
-                    zoom: 10
-                },
-                tiles: {
-                    url: "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
-                    options: {
-                        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-                        maxZoom: 18
-                    }
-                },
-                events: {}
-            });
 
+        LocationService.GetMap(function(map) {
 
-            leafletData.getMap().then(function(map) {
+          vm.showMap = true;
 
-              loadExistingMarkers();
+          MarkerService.GetExistingMarkers(function(existingMarkers){
 
-                map.locate({
-                     watch: true,
-                    setView: true,
-                    maxZoom: 18
-                }).on('locationfound', function(e) {
-                    var accurancy = e.accurancy;
-                    var radius = accurancy / 2;
+            for(var i=0;i<existingMarkers.length;i++) {
 
-                    // aktuelle Position auf die gefundene Position setzen
-                    currentPosition = e.latlng;
+                vm.markers["marker"+i] = existingMarkers[i];
 
-                    // initiale Position auf die gefundene Position setzen
-                    initialPosition = e.latlng;
+            }
 
-                    geocodeService.reverse().latlng(initialPosition).run(function(error, result) {
-                        // initiale Adresse durch Geocoding
-                        initialAddress = result.address.Match_addr;
-                        currentAddress = initialAddress;
-                        vm.myposition = initialAddress;
+            })
 
-                        if(initialAddress != null) {
-                          setInitialMarker(initialAddress, initialPosition);
-                          map.panTo(currentPosition);
-                        }
+      vm.position = LocationService.GetCurrentAddress();
 
-                          });
+      vm.markers["initialMarker"] = LocationService.initialMarker;
 
-                }).once('moveend', function() {
-                    // map has finished loading, show now
-                    vm.showMap = true;
-                });
-            });
+      map.setView(LocationService.GetCurrentGeoPosition());
+
+        $timeout( function(){
+          vm.markers["initialMarker"].focus = true;
+        }, 500 );
+
+    });
 
 
 
         })();
-
-        function setInitialMarker(initialAddress, initialPosition) {
-
-          var initialMarker = {
-              lat: initialPosition.lat,
-              lng: initialPosition.lng,
-              message: initialAddress,
-              focus: true,
-              draggable: true,
-              icon: {
-                  iconUrl: '/static/css/images/marker-icon-2x.png',
-                  shadowUrl: '/static/css/images/marker-shadow.png',
-                  iconSize: [25, 41],
-                  iconAnchor: [12, 41],
-                  popupAnchor: [1, -34],
-                  shadowSize: [41, 41]
-              }
-        };
-
-
-        vm.markers["initialMarker"] = initialMarker;
-
-}
-
-      function loadExistingMarkers() {
-
-          ObjectService.GetAll().then(function successCallback(response) {
-
-              angular.forEach(response, function(val, key) {
-
-                  existingMarkerObjects.push(val);
-
-                  var location = JSON.parse(val.location);
-
-                  geocodeService.reverse().latlng(location).run(function(error, result) {
-
-                      var markerAddress = result.address.Match_addr;
-
-                      var marker = {
-                          lat: location.lat,
-                          lng: location.lng,
-                          id: val._id,
-                          icon: {
-                              iconUrl: '/static/css/images/marker-icon-2x-green.png',
-                              shadowUrl: '/static/css/images/marker-shadow.png',
-                              iconSize: [25, 41],
-                              iconAnchor: [12, 41],
-                              popupAnchor: [1, -34],
-                              shadowSize: [41, 41]
-                          }
-                      }
-
-                    vm.markers["marker"+key] = marker;
-                    
-                  });
-
-              });
-
-          }).catch(function(err) {
-              console.log(err);
-          });
-      }
 
         vm.showRating = function() {
             console.log('rating');

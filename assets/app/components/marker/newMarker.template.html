@@ -1,4 +1,5 @@
   <form id="beitragForm" ng-submit="vm.addObject()" ng-controller="SubmitController as vm">
+    <div class="form-group">
     <label>Deine aktuelle Position:</label>
     <div ng-bind="vm.position"></div>
 </div>
@@ -11,7 +12,7 @@
 
 <div class="form-group">
     <label for="category_input">Kategorisiere deinen Fund:</label>
-    <tags-input placeholder="" ng-model="vm.form.categories" add-on-space="true" id="category_input">
+    <tags-input placeholder=" " ng-model="vm.form.categories" add-on-space="true" id="category_input">
         <!--<auto-complete source="loadTags($query)"></auto-complete>-->
     </tags-input>
 </div>
