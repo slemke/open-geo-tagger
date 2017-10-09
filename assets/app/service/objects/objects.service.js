@@ -18,7 +18,7 @@
 
         return service;
 
-        function getAll() {
+        function GetAll() {
             return $http.get('/objects')
                 .then(handleSuccess, handleError('Error getting objects'));
         }
@@ -54,4 +54,4 @@
         }
     }
 
-});
+})();

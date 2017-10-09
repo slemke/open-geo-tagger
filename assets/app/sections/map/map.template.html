@@ -3,6 +3,7 @@
 
     <div id="over_map" class="map-overlay">
         <button type="button" href="#modal_object" id="plusbutton" data-toggle="modal" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
+
     </div>
 
     <div id="over_map_points" class="map-overlay">
@@ -33,7 +34,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
-            <form id="beitragForm" ng-submit="vm.addNewObject()" ng-controller="SubmitController as vm">
+
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -43,43 +44,13 @@
                 </div>
 
                 <div class="modal-body">
-                        <div class="form-group">
-                            <label>Deine aktuelle Position:</label>
-                            <div>{{ vm.position }}</div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="btn btn-default btn-file" for="fileupload_edit">
-                                Bild hochladen <input type="file" class="form-control file" file="vm.form.file" style="display: none;" id="fileupload_edit">
-                            </label>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="category_input">Kategorisiere deinen Fund:</label>
-                            <tags-input placeholder="" ng-model="vm.form.categories" add-on-space="true" id="category_input">
-                                <!--<auto-complete source="loadTags($query)"></auto-complete>-->
-                            </tags-input>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="theme_input">Thema:</label>
-                            <select ng-options="theme as theme.name for theme in vm.themes track by theme._id" id="theme_input" ng-model="vm.form.theme" class="form-control">
-
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="description_input">Hast du weitere Informationen?</label>
-                            <textarea class="form-control" ng-model="vm.form.description" rows="3" id="description_input"></textarea>
-                        </div>
+                  <ng-include src="'/static/app/components/marker/newMarker.template.html'"></ng-include>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
                     <button type="submit" id="beitrag_submit" class="btn btn-primary pull-right">Absenden</button>
                 </div>
-
-            </form>
         </div>
     </div>
 </div>

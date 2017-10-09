@@ -19,7 +19,7 @@
 
         return service;
 
-        function getAll() {
+        function GetAll() {
             return $http.get('/theme')
                 .then(handleSuccess, handleError('Error getting objects'));
         }

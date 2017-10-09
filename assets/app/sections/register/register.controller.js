@@ -53,7 +53,6 @@ function RegisterController($scope, $http, $location, AuthenticationService) {
         .then(function successCallback(response) {
             // this callback will be called asynchronously
             // when the response is available
-            AuthenticationService.SetCredentials(vm.username, vm.password);
             $location.path('/map');
 
         }, function errorCallback(err) {

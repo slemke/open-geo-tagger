@@ -1,34 +1,36 @@
 (function() {
 
-    app.controller('SubmitController', ['$http', SubmitController]);
+    app.controller('SubmitController', ['ThemesService' , SubmitController]);
 
 
-    function SubmitController() {
+    function SubmitController(ThemesService) {
 
         var vm = this;
 
         (function initController() {
 
             vm.position = 'here goes the current position';
-            vm.themes = [
-                {
-                    _id: 1,
-                    name : 'Street Art'
-                },
-                {
-                    _id: 2,
-                    name : 'Random Stuff'
-                }
-            ];
+
+            ThemesService.GetAll().then(function successCallback(response) {
+
+            vm.themes = response;
             vm.selectedTheme = vm.themes[0];
             vm.form = {
-                theme : vm.themes[0]
+
+                theme : vm.themes[0]._id
             };
+
+            }).catch(function(err) {
+                console.log(err);
+            });
+
+
+
         })();
 
-
-
         vm.addNewObject = function() {
+
+          ObjectService.Create(vm.form);
             // do http magic
             console.log('logging object');
         };

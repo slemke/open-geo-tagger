@@ -9,20 +9,23 @@
             'leafletData',
             'ngDialog',
             'PointsService',
+            'ObjectService',
             MapController
         ]);
 
-    function MapController($scope, $http, $compile, $q, leafletData, ngDialog, PointsService) {
+    function MapController($scope, $http, $compile, $q, leafletData, ngDialog, PointsService, ObjectService) {
 
         var vm = this;
         var geocodeService = L.esri.Geocoding.geocodeService();
+        var existingMarkerObjects = [];
 
-        vm.markers = [];
+        vm.markers = {};
         vm.showMap = false;
         vm.points = 0;
 
         // init map controller
         (function initController() {
+
             angular.extend($scope, {
                 center: {
                     lat: 50.941357,
@@ -42,11 +45,13 @@
 
             leafletData.getMap().then(function(map) {
 
+              loadExistingMarkers();
+
                 map.locate({
-                    // watch: true,
+                     watch: true,
                     setView: true,
                     maxZoom: 18
-                }).once('locationfound', function(e) {
+                }).on('locationfound', function(e) {
                     var accurancy = e.accurancy;
                     var radius = accurancy / 2;
 
@@ -57,40 +62,89 @@
                     initialPosition = e.latlng;
 
                     geocodeService.reverse().latlng(initialPosition).run(function(error, result) {
-
                         // initiale Adresse durch Geocoding
                         initialAddress = result.address.Match_addr;
                         currentAddress = initialAddress;
                         vm.myposition = initialAddress;
 
-                        vm.markers.push({
-                            lat: initialPosition.lat,
-                            lng: initialPosition.lng,
-                            message: initialAddress,
-                            focus: true,
-                            draggable: true,
-                            icon: {
-                                iconUrl: '/static/css/images/marker-icon-2x.png',
-                                shadowUrl: '/static/css/images/marker-shadow.png',
-                                iconSize: [25, 41],
-                                iconAnchor: [12, 41],
-                                popupAnchor: [1, -34],
-                                shadowSize: [41, 41]
-                            }
-                        });
-                        map.setView(currentPosition);
-                    });
+                        if(initialAddress != null) {
+                          setInitialMarker(initialAddress, initialPosition);
+                          map.panTo(currentPosition);
+                        }
+
+                          });
+
                 }).once('moveend', function() {
                     // map has finished loading, show now
                     vm.showMap = true;
                 });
             });
+
+
+
         })();
 
+        function setInitialMarker(initialAddress, initialPosition) {
 
-        vm.addObject = function() {
-            console.log('added');
+          var initialMarker = {
+              lat: initialPosition.lat,
+              lng: initialPosition.lng,
+              message: initialAddress,
+              focus: true,
+              draggable: true,
+              icon: {
+                  iconUrl: '/static/css/images/marker-icon-2x.png',
+                  shadowUrl: '/static/css/images/marker-shadow.png',
+                  iconSize: [25, 41],
+                  iconAnchor: [12, 41],
+                  popupAnchor: [1, -34],
+                  shadowSize: [41, 41]
+              }
         };
+
+
+        vm.markers["initialMarker"] = initialMarker;
+
+}
+
+      function loadExistingMarkers() {
+
+          ObjectService.GetAll().then(function successCallback(response) {
+
+              angular.forEach(response, function(val, key) {
+
+                  existingMarkerObjects.push(val);
+
+                  var location = JSON.parse(val.location);
+
+                  geocodeService.reverse().latlng(location).run(function(error, result) {
+
+                      var markerAddress = result.address.Match_addr;
+
+                      var marker = {
+                          lat: location.lat,
+                          lng: location.lng,
+                          id: val._id,
+                          icon: {
+                              iconUrl: '/static/css/images/marker-icon-2x-green.png',
+                              shadowUrl: '/static/css/images/marker-shadow.png',
+                              iconSize: [25, 41],
+                              iconAnchor: [12, 41],
+                              popupAnchor: [1, -34],
+                              shadowSize: [41, 41]
+                          }
+                      }
+
+                    vm.markers["marker"+key] = marker;
+                    
+                  });
+
+              });
+
+          }).catch(function(err) {
+              console.log(err);
+          });
+      }
 
         vm.showRating = function() {
             console.log('rating');
