@@ -48,7 +48,7 @@
                     maxZoom: 18
                 }).once('locationfound', function(e) {
                     var accurancy = e.accurancy;
-                    var radius = e.accuracy / 2;
+                    var radius = accurancy / 2;
 
                     // aktuelle Position auf die gefundene Position setzen
                     currentPosition = e.latlng;
