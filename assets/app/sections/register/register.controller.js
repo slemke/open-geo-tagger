@@ -1,5 +1,13 @@
-app.controller('RegisterController', function($scope, $http, $location) {
+app.controller('RegisterController', RegisterController);
+
+RegisterController.$inject = ['$scope','$http','$location', 'AuthenticationService'];
+
+function RegisterController($scope, $http, $location, AuthenticationService) {
     var self = this;
+
+    var vm = this;
+
+    self.register = register;
 
     $scope.usernameValid = true;
 
@@ -32,7 +40,7 @@ app.controller('RegisterController', function($scope, $http, $location) {
         });
     };
 
-    self.submitForm = function() {
+  function register() {
 
         $http({
             method: 'POST',
@@ -45,6 +53,7 @@ app.controller('RegisterController', function($scope, $http, $location) {
         .then(function successCallback(response) {
             // this callback will be called asynchronously
             // when the response is available
+            AuthenticationService.SetCredentials(vm.username, vm.password);
             $location.path('/map');
 
         }, function errorCallback(err) {
@@ -82,9 +91,10 @@ app.controller('RegisterController', function($scope, $http, $location) {
 
     self.getGlyphiconValidationClassUsername = function() {
         if ($scope.registerForm.username.$error.required || !$scope.usernameValid) {
-
+            $scope.registerForm.$invalid = true;
             return "glyphicon glyphicon-remove";
         } else {
+          $scope.registerForm.$invalid = false;
             return "glyphicon glyphicon-ok";
         }
 
@@ -116,4 +126,4 @@ app.controller('RegisterController', function($scope, $http, $location) {
             }
         }
     }
-});
+};

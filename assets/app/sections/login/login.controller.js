@@ -1,8 +1,8 @@
 app.controller('LoginController', LoginController);
 
-LoginController.$inject = ['$location', 'AuthenticationService'];
+LoginController.$inject = ['$scope','$location', 'AuthenticationService'];
 
-function LoginController($location, AuthenticationService) {
+function LoginController($scope, $location, AuthenticationService) {
     var self = this;
 
     var vm = this;

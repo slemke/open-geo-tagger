@@ -8,7 +8,8 @@ function config($routeProvider) {
     })
     .when("/register", {
         templateUrl: "/static/app/sections/register/register.template.html",
-        controller: "RegisterController"
+        controller: "RegisterController",
+        controllerAs: 'vm'
     })
     .when("/map", {
         templateUrl: "/static/app/sections/map/map.template.html",

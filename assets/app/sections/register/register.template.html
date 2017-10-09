@@ -2,17 +2,15 @@
 <div class="container signup">
 
         <h1>Registrieren</h1>
-        <form novalidate name="registerForm" id="registerForm" ng-controller="RegisterController as ctrl" ng-submit="ctrl.submitForm()">
-
-            {{ctrl.message}}
+        <form novalidate name="registerForm" id="registerForm" ng-submit="vm.register()">
 
             <div class="form-group">
                 <label for="emailaddresslabel">E-Mail Adresse</label>
 
                 <div class="input-group">
-                    <input type="email" ng-pattern="emailFormat" class="form-control" id="email" name="email" ng-model="ctrl.user.email" placeholder="E-Mail Adresse eingeben" required>
-                    <span ng-class="ctrl.getInputGroupValidationClassMail()">
-                        <span ng-class="ctrl.getGlyphiconValidationClassMail()"></span>
+                    <input type="email" ng-pattern="emailFormat" class="form-control" id="email" name="email" ng-model="vm.user.email" placeholder="E-Mail Adresse eingeben" required>
+                    <span ng-class="vm.getInputGroupValidationClassMail()">
+                        <span ng-class="vm.getGlyphiconValidationClassMail()"></span>
                     </span>
                 </div>
             </div>
@@ -21,25 +19,25 @@
                 <label for="usernamelabel">Benutzername</label>
 
                 <div class="input-group">
-                    <input type="text" class="form-control" id="usernameone" name="username" ng-model="ctrl.user.username" ng-keyup="ctrl.checkUsername(ctrl.user.username)" placeholder="Username eingeben" required>
-                    <span ng-class="ctrl.getInputGroupValidationClassUsername()">
-                        <span ng-class="ctrl.getGlyphiconValidationClassUsername()"></span>
+                    <input type="text" class="form-control" id="usernameone" name="username" ng-model="vm.user.username" ng-keyup="vm.checkUsername(vm.user.username)" placeholder="Username eingeben" required>
+                    <span ng-class="vm.getInputGroupValidationClassUsername()">
+                        <span ng-class="vm.getGlyphiconValidationClassUsername()"></span>
                     </span>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="passwordlabel">Passwort</label>
-                <input type="password" class="form-control" name="password" id="passwordone" ng-model="ctrl.user.password" placeholder="Passwort eingeben" autocomplete="off" required>
+                <input type="password" class="form-control" name="password" id="passwordone" ng-model="vm.user.password" placeholder="Passwort eingeben" autocomplete="off" required>
             </div>
 
             <div class="form-group">
                 <label for="passwordconfirmlabel">Passwort bestätigen</label>
 
                 <div class="input-group">
-                    <input type="password" class="form-control" repeat-password="password" id="passwordconfirm" ng-model="ctrl.user.passwordconfirm" name="passwordconfirm" placeholder="Passwort bestätigen" autocomplete="off" required>
-                    <span ng-class="ctrl.getInputGroupValidationClassPassword()">
-                        <span ng-class="ctrl.getGlyphiconValidationClassPassword()"></span>
+                    <input type="password" class="form-control" repeat-password="password" id="passwordconfirm" ng-model="vm.user.passwordconfirm" name="passwordconfirm" placeholder="Passwort bestätigen" autocomplete="off" required>
+                    <span ng-class="vm.getInputGroupValidationClassPassword()">
+                        <span ng-class="vm.getGlyphiconValidationClassPassword()"></span>
                     </span>
                 </div>
             </div>
