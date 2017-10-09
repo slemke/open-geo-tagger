@@ -15,9 +15,10 @@
 
             vm.themes = response;
             vm.selectedTheme = vm.themes[0];
+        
             vm.form = {
 
-                theme : vm.themes[0]._id
+                theme : vm.themes[0]
             };
 
             }).catch(function(err) {
