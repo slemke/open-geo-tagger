@@ -1,105 +1,3 @@
-(function() {
-
-    app.controller('MapController',
-        [
-            '$scope',
-            '$http',
-            '$compile',
-            '$q',
-            'leafletData',
-            'ngDialog',
-            'PointsService',
-            MapController
-        ]);
-
-    function MapController($scope, $http, $compile, $q, leafletData, ngDialog, PointsService) {
-
-        var vm = this;
-        var geocodeService = L.esri.Geocoding.geocodeService();
-
-        vm.markers = [];
-        vm.showMap = false;
-        vm.points = 0;
-
-        // init map controller
-        (function initController() {
-            angular.extend($scope, {
-                center: {
-                    lat: 50.941357,
-                    lng: 6.958307,
-                    zoom: 10
-                },
-                tiles: {
-                    url: "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
-                    options: {
-                        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-                        maxZoom: 18
-                    }
-                },
-                events: {}
-            });
-
-
-            leafletData.getMap().then(function(map) {
-
-                map.locate({
-                    // watch: true,
-                    setView: true,
-                    maxZoom: 18
-                }).once('locationfound', function(e) {
-                    var accurancy = e.accurancy;
-                    var radius = e.accuracy / 2;
-
-                    // aktuelle Position auf die gefundene Position setzen
-                    currentPosition = e.latlng;
-
-                    // initiale Position auf die gefundene Position setzen
-                    initialPosition = e.latlng;
-
-                    geocodeService.reverse().latlng(initialPosition).run(function(error, result) {
-
-                        // initiale Adresse durch Geocoding
-                        initialAddress = result.address.Match_addr;
-                        currentAddress = initialAddress;
-                        vm.myposition = initialAddress;
-
-                        vm.markers.push({
-                            lat: initialPosition.lat,
-                            lng: initialPosition.lng,
-                            message: initialAddress,
-                            focus: true,
-                            draggable: true,
-                            icon: {
-                                iconUrl: '/static/css/images/marker-icon-2x.png',
-                                shadowUrl: '/static/css/images/marker-shadow.png',
-                                iconSize: [25, 41],
-                                iconAnchor: [12, 41],
-                                popupAnchor: [1, -34],
-                                shadowSize: [41, 41]
-                            }
-                        });
-                        map.setView(currentPosition);
-                    });
-                }).once('moveend', function() {
-                    // map has finished loading, show now
-                    vm.showMap = true;
-                });
-            });
-        })();
-
-
-        vm.addObject = function() {
-            console.log('added');
-        };
-
-        vm.showRating = function() {
-            console.log('rating');
-        };
-    }
-})();
-
-
-/*
 app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletData', 'ngDialog', function($scope, $http, $compile, $q, leafletData, ngDialog) {
 
     $scope.form = {};
@@ -137,7 +35,7 @@ app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletDa
         },
         events: {}
     });
-/*
+
     getExistingMarkers = function() {
         $http({
             method: 'GET',
@@ -322,6 +220,65 @@ app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletDa
         });
     }
 
+    $scope.voteUp = function() {
+        var data = {
+            vote: 1,
+            userID: "59b7ff671d8436d6cf9be301",
+            objectID: objectID
+        };
+
+        $http({
+            method: 'POST',
+            url: 'https://localhost:3000/votes',
+            data:data,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(function successCallback(response) {
+            $scope.voteUpDisabled = true;
+            $scope.voteDownDisabled = true;
+        }, function errorCallback(err) {
+            $scope.message = err;
+            console.log(err);
+        });
+    };
+
+    $scope.voteDown = function() {
+
+        var data = {
+            vote: 0,
+            userID: "59b7ff671d8436d6cf9be301",
+            objectID: objectID
+        };
+
+        $http({
+            method: 'POST',
+            url: 'https://localhost:3000/votes',
+            data:data,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function successCallback(response) {
+
+            $scope.voteUpDisabled = true;
+            $scope.voteDownDisabled = true;
+
+        }, function errorCallback(err) {
+            $scope.message = err;
+            console.log(err);
+        });
+    };
+
+    $scope.loadTags = function(query) {
+
+        return $http({
+            method: 'GET',
+            url: 'https://localhost:3000/objects?category='+query,
+        }).then(function successCallback(response) {
+            return response.data[0].categories;
+        });
+    }
 
     $scope.openEditPopup = function() {
 
@@ -358,6 +315,57 @@ app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletDa
             currentPosition = position;
         });
     });
+
+    $scope.themes = [];
+    $http({
+        method: 'GET',
+        url: 'https://localhost:3000/theme',
+    }).then(function successCallback(response) {
+
+        angular.forEach(response.data, function(theme) {
+            $scope.themes.push(theme);
+        });
+
+        $scope.objectTheme = $scope.themes[0];
+    }, function errorCallback(err) {
+        $scope.message = err;
+        console.log(err);
+    });
+
+    $scope.editObject = function() {
+
+        var editObject = {};
+
+        editObject.location = JSON.stringify(editObjectPosition);
+        editObject.categories = $scope.objectCategories;
+        editObject.themeID = $scope.objectTheme;
+        editObject.description = $scope.objectDescription;
+        editObject.userID = "59b7ff671d8436d6cf9be301";
+
+        $http({
+            method: 'PUT',
+            url: 'https://localhost:3000/objects/' + objectID,
+            data: editObject,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function successCallback(response) {
+
+            $scope.objectCategories = editObject.categories;
+            $scope.objectDescription = editObject.description;
+
+
+            $scope.form.editForm.$setPristine();
+            $scope.form.editForm.$setUntouched();
+
+            ngDialog.closeAll();
+
+            $scope.openMarkerInfo();
+
+        }, function errorCallback(err) {
+            $scope.message = err;
+        });
+    }
 
     $scope.addNewObject = function() {
         console.log('called');
@@ -437,4 +445,4 @@ app.controller('MapController', ['$scope', '$http', '$compile', '$q', 'leafletDa
             console.log(err);
         });
     }
-}]);*/
+}]);

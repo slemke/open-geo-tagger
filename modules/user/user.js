@@ -3,6 +3,9 @@ const router = express.Router();
 const model = require('./user.model.js');
 const auth = require('http-auth');
 const basic = require('../../auth.js');
+const questsSchema = require('../quests/quests.schema.js');
+const mongoose = require('mongoose');
+let questsModel = mongoose.model('Quests', questsSchema);
 
 router.get('/', function(request, response) {
 
@@ -109,6 +112,25 @@ router.put('/:id', function(request, response) {
             response.status(500);
 
         response.end();
+    });
+});
+
+// returns current quests for user
+router.get('/user/:id/quests', function(request, response) {
+
+    // user id
+    const id = request.params.id;
+
+    questsModel.today(id, function(err, result) {
+        if(!err)
+            response.status(200);
+        else
+            response.status(500);
+
+        if(!result)
+            response.status(404).end();
+        else
+            return response.json(result);
     });
 });
 

@@ -11,11 +11,14 @@ function config($routeProvider) {
         controller: "RegisterController"
     })
     .when("/map", {
-        templateUrl: "/static/app/sections/map/map.template.html"
-        //controller: "MapController"
+        templateUrl: "/static/app/sections/map/map.template.html",
+        controller: "MapController",
+        controllerAs: 'vm'
     })
     .when("/logout", {
         templateUrl: "/static/app/sections/login/login.template.html",
         controller: "LoginController"
+    }).otherwise({
+        redirectTo: "/"
     });
 }
