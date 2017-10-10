@@ -99,13 +99,12 @@
                   service.SetCurrentGeoPositionAccurancy(e.accurancy);
                   service.SetCurrentGeoPositionRadius(e.accurancy / 2);
 
-                  service.SetCurrentGeoPosition(e.latlng);
+                $rootScope.geoPosition = service.SetCurrentGeoPosition(e.latlng);
 
                   geocodeService.reverse().latlng(service.currentGeoPosition).run(function(error, result) {
 
                       if(result) {
-                        service.SetCurrentAddress(result.address.Match_addr);
-
+                        $rootScope.position = service.SetCurrentAddress(result.address.Match_addr);
                       }
 
                         });
