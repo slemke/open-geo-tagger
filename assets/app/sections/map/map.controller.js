@@ -45,7 +45,7 @@
 
       vm.position = LocationService.GetCurrentAddress();
 
-      vm.markers["initialMarker"] = LocationService.initialMarker;
+    vm.markers["initialMarker"] = MarkerService.SetInitialMarker(LocationService.GetCurrentAddress(),LocationService.GetCurrentGeoPosition());
 
       map.setView(LocationService.GetCurrentGeoPosition());
 
@@ -56,6 +56,11 @@
     });
 
 
+    $scope.$on('leafletDirectiveMarker.click', function(event, marker) {
+
+      MarkerService.GetMarkerInfo(event, marker);
+
+    });
 
         })();
 
