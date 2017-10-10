@@ -1,7 +1,6 @@
 var app = angular.module("opendata",
             [
                 'ngRoute',
-                'ngDialog',
                 'ngCookies',
                 'ui-leaflet',
                 'ngTagsInput'
