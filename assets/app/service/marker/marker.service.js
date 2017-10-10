@@ -27,8 +27,6 @@
 
           leafletData.getMarkers().then(function(markers) {
 
-            console.log(markers);
-
               angular.forEach(markers, function(currentMarker) {
 
                   if (currentMarker.options.id == id) {
@@ -39,9 +37,10 @@
                       var linkFn = $compile(angular.element(popupContent));
 
                       // Return a jQuery DOM tree fully controlled by AngularJS so that ng directives will work
-                      var popup = linkFn($rootScope);
+                      var popup = linkFn($rootScope)[0];
 
-                      currentMarker.bindPopup(popup[0]).openPopup();
+
+                      currentMarker.bindPopup(popup).openPopup();
 
                   }
               });
@@ -50,9 +49,11 @@
 
         function GetMarkerInfo(event, marker) {
 
-          leafletData.getMarkers().then(function(markers) {
+          angular.forEach(service.existingMarkerObjects, function(val) {
 
-            console.log(markers);
+          if(val._id == marker.leafletEvent.target.options.id) {
+
+          leafletData.getMarkers().then(function(markers) {
 
               angular.forEach(markers, function(currentMarker) {
 
@@ -68,10 +69,20 @@
 
 
                   });
-              };
+              }
             });
 
         });
+
+      } else {
+
+        console.log("BindPopupToMarker compilet in den rootScope, deshalb übernimmt der initialMarker auch das geänderte Popup. Der initialMarker muss aber weiterhin nur die Adresse anzeigen, ohne Bild oder Zusatzinformationen throwError=random variable die angular nicht findet, verhindert das compiling");
+        throwError = yes
+
+      }
+
+      });
+
       }
 
         function GetCurrentMarkerObjectID() {

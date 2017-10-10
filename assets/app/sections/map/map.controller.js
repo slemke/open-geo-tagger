@@ -35,6 +35,8 @@
 
           MarkerService.GetExistingMarkers();
 
+          MarkerService.SetInitialMarker(LocationService.GetCurrentAddress(), LocationService.GetCurrentGeoPosition());
+
       vm.position = LocationService.GetCurrentAddress();
 
       map.setView(LocationService.GetCurrentGeoPosition());
