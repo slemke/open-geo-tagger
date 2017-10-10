@@ -19,7 +19,7 @@
 
 <div class="form-group">
     <label for="theme_input">Thema:</label>
-    <select ng-options="theme as theme.name for theme in vm.themes track by theme._id" id="theme_input" ng-model="vm.form.theme" class="form-control">
+    <select ng-options="theme._id as theme.name for theme in vm.themes" id="theme_input" ng-model="vm.form.themeID" class="form-control">
 
     </select>
 </div>

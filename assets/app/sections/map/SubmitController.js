@@ -1,9 +1,9 @@
 (function() {
 
-    app.controller('SubmitController', ['$timeout','ThemesService','LocationService' , SubmitController]);
+    app.controller('SubmitController', ['$timeout','ThemesService','LocationService', 'ObjectService', 'MarkerService' , SubmitController]);
 
 
-    function SubmitController($timeout, ThemesService, LocationService) {
+    function SubmitController($timeout, ThemesService, LocationService, ObjectService, MarkerService) {
 
         var vm = this;
 
@@ -11,7 +11,7 @@
 
           $timeout( function(){
           vm.position = LocationService.GetCurrentAddress();
-          }, 500 );
+        }, 1000 );
 
           ThemesService.GetAll().then(function successCallback(response) {
 
@@ -21,11 +21,12 @@
           vm.geoPosition = LocationService.GetCurrentGeoPosition();
         }, 2000 ).then(function() {
 
-          vm.beitragForm = {
+          vm.form = {
               location : vm.geoPosition,
               userID : "59b7ff671d8436d6cf9be301",
               themeID : vm.selectedTheme
           };
+
 
         })
 
@@ -36,13 +37,12 @@
 
           vm.addObject = function() {
 
-            ObjectService.Create(vm.beitragForm).then(function successCallback(response) {
+            ObjectService.Create(vm.form).then(function successCallback(response) {
 
+            MarkerService.SetUserMarker(LocationService.GetCurrentGeoPosition(),response._id);
 
-              vm.beitragForm.description = "";
-              vm.beitragForm.categories = "";
-
-              vm.markers["userMarker"+MarkerService.existingMarkerObjects.length] = MarkerService.SetUserMarker(LocationService.GetCurrentGeoPosition(),response._id);
+            vm.form.description = "";
+            vm.form.categories = "";
 
             }).catch(function(err) {
                 console.log(err);
