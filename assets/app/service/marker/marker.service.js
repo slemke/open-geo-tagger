@@ -25,10 +25,8 @@
 
           leafletData.getMarkers().then(function(markers) {
 
-            console.log(markers);
-
               angular.forEach(markers, function(currentMarker) {
-                console.log(currentMarker);
+
                   if (currentMarker.options.id == id) {
 
 
@@ -155,6 +153,7 @@
         return marker;
 
         }
+
       }
 
 })();
