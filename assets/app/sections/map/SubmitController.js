@@ -39,7 +39,7 @@
 
             ObjectService.Create(vm.form).then(function successCallback(response) {
 
-            MarkerService.SetUserMarker(LocationService.GetCurrentGeoPosition(),response._id);
+            MarkerService.SetUserMarker(LocationService.GetCurrentGeoPosition(),LocationService.GetCurrentAddress(),response._id);
 
             vm.form.description = "";
             vm.form.categories = "";

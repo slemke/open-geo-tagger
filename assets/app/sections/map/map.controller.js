@@ -21,7 +21,7 @@
         var vm = this;
 
 
-        vm.markers = {};
+        vm.markers = MarkerService.markers;
         vm.showMap = false;
         vm.points = 0;
 
@@ -33,24 +33,14 @@
 
           vm.showMap = true;
 
-          MarkerService.GetExistingMarkers(function(existingMarkers){
-
-            for(var i=0;i<existingMarkers.length;i++) {
-
-                vm.markers["marker"+i] = existingMarkers[i];
-
-            }
-
-            })
+          MarkerService.GetExistingMarkers();
 
       vm.position = LocationService.GetCurrentAddress();
-
-    vm.markers["initialMarker"] = MarkerService.SetInitialMarker(LocationService.GetCurrentAddress(),LocationService.GetCurrentGeoPosition());
 
       map.setView(LocationService.GetCurrentGeoPosition());
 
         $timeout( function(){
-          vm.markers["initialMarker"].focus = true;
+          MarkerService.markers["initialMarker"].focus = true;
         }, 500 );
 
     });

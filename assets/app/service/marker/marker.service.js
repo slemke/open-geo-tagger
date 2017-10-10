@@ -14,8 +14,10 @@
         service.SetInitialMarker = SetInitialMarker;
         service.SetUserMarker = SetUserMarker;
         service.GetMarkerInfo = GetMarkerInfo;
+        service.GetCurrentMarkerObjectID = GetCurrentMarkerObjectID;
         service.BindPopupToMarker = BindPopupToMarker;
-        service.markers = [];
+        service.currentMarkerObjectID = null;
+        service.markers = {};
         service.existingMarkerObjects = [];
 
         return service;
@@ -25,10 +27,11 @@
 
           leafletData.getMarkers().then(function(markers) {
 
+            console.log(markers);
+
               angular.forEach(markers, function(currentMarker) {
 
                   if (currentMarker.options.id == id) {
-
 
                       var popupContent = "<div>" + markerAddress + "<br><img id='markerImage' src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'/><br><a href='' id='popup_link' ng-click='getMarkerObject();openMarkerInfo()' target='self'>Weitere Informationen</a></div>";
 
@@ -47,9 +50,13 @@
 
         function GetMarkerInfo(event, marker) {
 
-          angular.forEach(service.existingMarkerObjects, function(val, key) {
+          leafletData.getMarkers().then(function(markers) {
 
-              if(val._id == marker.leafletEvent.target.options.id) {
+            console.log(markers);
+
+              angular.forEach(markers, function(currentMarker) {
+
+                  if (currentMarker.options.id == marker.leafletEvent.target.options.id) {
 
                 var geocodeService = L.esri.Geocoding.geocodeService();
 
@@ -59,20 +66,21 @@
 
                     service.BindPopupToMarker(marker.leafletEvent.target.options.id, markerAddress);
 
-                  });
-                  //objectID = args.leafletEvent.target.options.id;
-              };
-          });
 
+                  });
+              };
+            });
+
+        });
+      }
+
+        function GetCurrentMarkerObjectID() {
+          return service.currentMarkerObjectID;
         }
 
     function GetExistingMarkers(callback) {
 
           ObjectService.GetAll().then(function successCallback(response) {
-
-            var sequence = $q.defer();
-            sequence.resolve();
-            sequence = sequence.promise;
 
             angular.forEach(response, function(val, key) {
 
@@ -92,14 +100,7 @@
                   }
               }
 
-          service.markers.push(marker);
-
-        });
-
-        sequence = sequence.then(function() {
-
-
-          callback(service.markers);
+          service.markers["marker"+key] = marker;
 
         });
 
@@ -127,16 +128,18 @@
                 }
           };
 
-          return initialMarker;
+          service.markers["initialMarker"] = initialMarker;
 
         }
 
-        function SetUserMarker(newPosition, id) {
+        function SetUserMarker(newPosition, newAddress, id) {
 
           var marker = {
               lat: newPosition.lat,
               lng: newPosition.lng,
               draggable: false,
+              message: '<div>' + newAddress + '<br><img id="markerImage" src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg"/><br><a href="" id="popup_link" ng-click="getMarkerObject();openMarkerInfo()" target="self">Weitere Informationen</a></div>',
+              focus: true,
               id: id,
               icon: {
                   iconUrl: '/static/css/images/marker-icon-2x-red.png',
@@ -150,7 +153,7 @@
 
         service.existingMarkerObjects.push(marker);
 
-        return marker;
+        service.markers["userMarker"+service.existingMarkerObjects.length] = marker;
 
         }
 
