@@ -22,7 +22,6 @@
 
         return service;
 
-
         function BindPopupToMarker(id, markerAddress) {
 
           leafletData.getMarkers().then(function(markers) {
@@ -31,7 +30,9 @@
 
                   if (currentMarker.options.id == id) {
 
-                      var popupContent = "<div>" + markerAddress + "<br><img id='markerImage' src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'/><br><a href='' id='popup_link' ng-click='getMarkerObject();openMarkerInfo()' target='self'>Weitere Informationen</a></div>";
+                    service.currentMarkerObjectID = id;
+
+                      var popupContent = "<div>" + markerAddress + "<br><img id='markerImage' src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'/><br> <button type='button' id='popup_link' class='btn btn-default' data-toggle='modal' href='#modal_objectDetail'>Weitere Informationen</button></div>";
 
                       // Compile title DOM into a link function
                       var linkFn = $compile(angular.element(popupContent));
@@ -49,41 +50,41 @@
 
         function GetMarkerInfo(event, marker) {
 
-          angular.forEach(service.existingMarkerObjects, function(val) {
+         angular.forEach(service.existingMarkerObjects, function(val) {
 
-          if(val._id == marker.leafletEvent.target.options.id) {
+         if(val._id == marker.leafletEvent.target.options.id) {
 
-          leafletData.getMarkers().then(function(markers) {
+         leafletData.getMarkers().then(function(markers) {
 
-              angular.forEach(markers, function(currentMarker) {
+             angular.forEach(markers, function(currentMarker) {
 
-                  if (currentMarker.options.id == marker.leafletEvent.target.options.id) {
+                 if (currentMarker.options.id == marker.leafletEvent.target.options.id) {
 
-                var geocodeService = L.esri.Geocoding.geocodeService();
+               var geocodeService = L.esri.Geocoding.geocodeService();
 
-                  geocodeService.reverse().latlng(marker.leafletEvent.target._latlng).run(function(error, result) {
+                 geocodeService.reverse().latlng(marker.leafletEvent.target._latlng).run(function(error, result) {
 
-                      var markerAddress = result.address.Match_addr;
+                     var markerAddress = result.address.Match_addr;
 
-                    service.BindPopupToMarker(marker.leafletEvent.target.options.id, markerAddress);
+                   service.BindPopupToMarker(marker.leafletEvent.target.options.id, markerAddress);
 
 
-                  });
-              }
-            });
+                 });
+             }
+           });
 
-        });
+       });
 
-      } else {
+     } else {
 
-        console.log("BindPopupToMarker compilet in den rootScope, deshalb übernimmt der initialMarker auch das geänderte Popup. Der initialMarker muss aber weiterhin nur die Adresse anzeigen, ohne Bild oder Zusatzinformationen throwError=random variable die angular nicht findet, verhindert das compiling");
-        throwError = yes
+       console.log("BindPopupToMarker compilet in den rootScope, deshalb übernimmt der initialMarker auch das geänderte Popup. Der initialMarker muss aber weiterhin nur die Adresse anzeigen, ohne Bild oder Zusatzinformationen throwError=random variable die angular nicht findet, verhindert das compiling");
+      // throwError = yes
 
-      }
+     }
 
-      });
+     });
 
-      }
+     }
 
         function GetCurrentMarkerObjectID() {
           return service.currentMarkerObjectID;
@@ -97,9 +98,19 @@
 
               service.existingMarkerObjects.push(val);
 
+              var location = val.location[0];
+
+              var geocodeService = L.esri.Geocoding.geocodeService();
+
+            geocodeService.reverse().latlng(location).run(function(error, result) {
+
+              var markerAddress = result.address.Match_addr;
+
               var marker = {
                   lat: val.location[0].lat,
                   lng: val.location[0].lng,
+                  message: "<div>" + markerAddress + "<br><img id='markerImage' src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'/><br> <button type='button' id='popup_link' class='btn btn-default' data-toggle='modal' href='#modal_objectDetail'>Weitere Informationen</button></div>",
+                  focus: false,
                   id: val._id,
                   icon: {
                       iconUrl: '/static/css/images/marker-icon-2x-green.png',
@@ -112,6 +123,8 @@
               }
 
           service.markers["marker"+key] = marker;
+
+        });
 
         });
 

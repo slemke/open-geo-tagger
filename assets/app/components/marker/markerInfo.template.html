@@ -1,32 +1,52 @@
-                <div id="beitrag_image">
-                    <img src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg">
-                </div>
-                <button id="btns_vote_up" ng-click="voteUp()" ng-disabled="voteUpDisabled" class="btn btn-success btn-lg text-center">
-                    <span class="glyphicon glyphicon-chevron-up"></span>
-                </button>
+<div class="modal fade" tabindex="-1" role="dialog" id="modal_objectDetail">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+        <h4 class="modal-title">Objekt Details</h4>
+      </div>
 
-                <div ng-bind="voteText" class="valign"></div>
+      <div class="modal-body">
+        <form id="objectForm">
+          <div id="beitrag_image">
+            <img src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg">
+          </div>
+          <button id="btns_vote_up" ng-click="voteUp()" ng-disabled="voteUpDisabled" class="btn btn-success btn-lg text-center">
+                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                </button>
 
-                <button id="btns_vote_down" ng-click="voteDown()" ng-disabled="voteDownDisabled" class="btn btn-danger btn-lg text-center">
-                    <span class="glyphicon glyphicon-chevron-down"></span>
-                </button>
+          <div ng-bind="voteText" class="valign"></div>
 
-                <span><strong>Standort:</strong> <div ng-bind="objectPosition"></div></span>
-                <br />
-                <span><strong>Erstellungsdatum:</strong> <div ng-bind="objectCreated"></div></span>
-                <br />
-                <span><strong>Aktualisierungsdatum:</strong> <div ng-bind="objectUpdated"></div></span>
-                <br />
-                <span><strong>Kategorien:</strong> <div><span ng-repeat="object in objectCategories"><span ng-repeat="text in object">
-        {{text}}</span></span></div></span>
-                <br />
-                <span><strong>Thema:</strong> <div ng-bind="currentObjectTheme"></div></span>
-                <br />
-                <span><strong>Beschreibung:</strong> <div  ng-bind="objectDescription"></div></span>
-                      <br />
-                      <div class="row">
-                        <div class="col-md-12">
-                      <button type="button" ng-click="closeThisDialog()" class="btn btn-default pull-left" data-dismiss="modal" aria-label="Close">Fenster schließen </button>
-                      <button type="button" ng-click="openEditPopup()" id="editbutton" class="btn btn-primary pull-right">Tag bearbeiten <span class="glyphicon glyphicon-edit"></span></button>
+          <button id="btns_vote_down" ng-click="voteDown()" ng-disabled="voteDownDisabled" class="btn btn-danger btn-lg text-center">
+                                    <span class="glyphicon glyphicon-chevron-down"></span>
+                                </button>
 
-</div></div>
+          <span><strong>Standort:</strong> <div ng-bind="vm.form.position"></div></span>
+          <br />
+          <span><strong>Erstellungsdatum:</strong> <div ng-bind="vm.form.objectCreated"></div></span>
+          <br />
+          <span><strong>Aktualisierungsdatum:</strong> <div ng-bind="vm.form.objectUpdated"></div></span>
+          <br />
+          <span><strong>Kategorien:</strong> <div><span ng-repeat="object in vm.form.categories"><span ng-repeat="text in object">
+                        {{text}}</span></span>
+      </div>
+      </span>
+      <br />
+      <span><strong>Thema:</strong> <div ng-bind="vm.form.theme"></div></span>
+      <br />
+      <span><strong>Beschreibung:</strong> <div  ng-bind="vm.form.description"></div></span>
+      <br />
+      <div class="row">
+        <div class="col-md-12">
+          <button type="button" ng-click="closeThisDialog()" class="btn btn-default pull-left" data-dismiss="modal" aria-label="Close">Fenster schließen </button>
+          <button type="button" ng-click="openEditPopup()" id="editbutton" class="btn btn-primary pull-right">Tag bearbeiten <span class="glyphicon glyphicon-edit"></span></button>
+
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>

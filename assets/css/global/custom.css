@@ -105,6 +105,7 @@ right: 15px;
     display: block;
     text-align: center;
     outline: none;
+    margin: 0px auto;
 }
 
   #over_map_points { position: absolute;
