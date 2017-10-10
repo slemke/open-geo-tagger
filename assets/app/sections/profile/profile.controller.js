@@ -1,4 +1,4 @@
-app.controller('ProfileController', function($scope, ngDialog) {
+app.controller('ProfileController', function($scope) {
 
     var vm = this;
     vm.mark = '!';

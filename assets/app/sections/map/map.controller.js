@@ -8,7 +8,6 @@
             '$q',
             '$timeout',
             'leafletData',
-            'ngDialog',
             'PointsService',
             'ObjectService',
             'MarkerService',
@@ -16,7 +15,7 @@
             MapController
         ]);
 
-    function MapController($scope, $http, $compile, $q,$timeout, leafletData, ngDialog, PointsService, ObjectService, MarkerService, LocationService) {
+    function MapController($scope, $http, $compile, $q,$timeout, leafletData, PointsService, ObjectService, MarkerService, LocationService) {
 
         var vm = this;
 
