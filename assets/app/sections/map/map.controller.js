@@ -28,12 +28,15 @@
         (function initController() {
 
             LocationService.getPosition(function(position) {
-                console.log(position);
+
                 vm.showMap = true;
 
                 $timeout( function(){
                   MarkerService.markers["initialMarker"].focus = true;
               }, 1500 );
+
+              vm.position = LocationService.GetCurrentAddress();
+
             });
 
 
@@ -42,11 +45,6 @@
           MarkerService.GetExistingMarkers();
 
           //MarkerService.SetInitialMarker(LocationService.GetCurrentAddress(), LocationService.GetCurrentGeoPosition());
-
-      vm.position = LocationService.GetCurrentAddress();
-
-      map.setView(LocationService.GetCurrentGeoPosition());
-
 
    });
 

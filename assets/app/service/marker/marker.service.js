@@ -109,7 +109,6 @@
               var marker = {
                   lat: val.location[0].lat,
                   lng: val.location[0].lng,
-                  message: "<div>" + markerAddress + "<br><img id='markerImage' src='https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg'/><br> <button type='button' id='popup_link' class='btn btn-default' data-toggle='modal' href='#modal_objectDetail'>Weitere Informationen</button></div>",
                   focus: false,
                   id: val._id,
                   icon: {
