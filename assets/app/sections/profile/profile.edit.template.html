@@ -1,0 +1,43 @@
+<form id="editProfileForm" name="form.editProfileForm" ng-submit="vm.editProfile()">
+
+
+  <div class="form-group">
+      <label for="usernameeditlabel">Benutzername ändern:</label>
+
+      <div class="input-group">
+          <input type="text" class="form-control" autocomplete="off" name="username" ng-model="vm.form.username" ng-keyup="vm.checkUsername(vm.form.username)" placeholder="Username eingeben">
+          <span ng-class="vm.getInputGroupValidationClassUsername()">
+              <span ng-class="vm.getGlyphiconValidationClassUsername()"></span>
+          </span>
+      </div>
+  </div>
+
+    <div class="form-group">
+        <label for="emailaddresseditlabel">E-Mail Adresse ändern:</label>
+
+        <div class="input-group">
+          <input type="email" name="email" placeholder="E-Mail Adresse eingeben" ng-pattern="vm.emailFormat" class="form-control" ng-model="vm.form.email" />
+            <span ng-class="vm.getInputGroupValidationClassMail()">
+                <span ng-class="vm.getGlyphiconValidationClassMail()"></span>
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="passwordeditlabel">Passwort ändern:</label>
+
+        <div class="input-group">
+            <input type="text" class="form-control" ng-model="vm.form.password" name="password" placeholder="Passwort eingeben" autocomplete="off">
+            <span ng-class="vm.getInputGroupValidationClassPassword()">
+                <span ng-class="vm.getGlyphiconValidationClassPassword()"></span>
+            </span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+          <button type="submit" ng-disabled="vm.disableSubmit()" id="beitrag_submit_edit" class="btn btn-primary pull-right">Absenden</button>
+        </div>
+    </div>
+</form>

@@ -19,8 +19,14 @@
         return service;
 
 
-        function GetAll() {
+        function GetAll(params) {
+          if(params) {
+
+            return $http.get('/user/',{params: {username: params}}).then(handleSuccess, handleError('Error getting all users'));
+
+          } else {
             return $http.get('/user/').then(handleSuccess, handleError('Error getting all users'));
+          }
         }
 
         function GetById(id) {
