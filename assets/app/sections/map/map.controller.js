@@ -27,31 +27,34 @@
         // init map controller
         (function initController() {
 
+            LocationService.getPosition(function(position) {
+                console.log(position);
+                vm.showMap = true;
+            });
 
+/*
         LocationService.GetMap(function(map) {
-
-          vm.showMap = true;
 
           MarkerService.GetExistingMarkers();
 
-          MarkerService.SetInitialMarker(LocationService.GetCurrentAddress(), LocationService.GetCurrentGeoPosition());
+          //MarkerService.SetInitialMarker(LocationService.GetCurrentAddress(), LocationService.GetCurrentGeoPosition());
 
       vm.position = LocationService.GetCurrentAddress();
 
-      map.setView(LocationService.GetCurrentGeoPosition());
+      //map.setView(LocationService.GetCurrentGeoPosition());
 
-        $timeout( function(){
+        /*$timeout( function(){
           MarkerService.markers["initialMarker"].focus = true;
-        }, 500 );
+      }, 500 );*/
 
-    });
+//    });
 
-
+/*
     $scope.$on('leafletDirectiveMarker.click', function(event, marker) {
 
       MarkerService.GetMarkerInfo(event, marker);
 
-    });
+  });*/
 
         })();
 

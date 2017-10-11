@@ -16,6 +16,7 @@
           var geocodeService = L.esri.Geocoding.geocodeService();
           //console.log(MarkerService.GetCurrentMarkerObjectID());
           ObjectService.GetById(MarkerService.GetCurrentMarkerObjectID()).then(function successCallback(object) {
+              console.log(object);
 
             vm.form = {
               description: object[0].description,
