@@ -8,6 +8,8 @@ assets/app/app.min.js
 assets/css/index.css
 assets/css/index.min.css
 
+package-lock.json
+
 # General
 *.DS_Store
 .AppleDouble
