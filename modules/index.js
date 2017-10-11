@@ -11,5 +11,6 @@ router.use('/theme', require('./theme/theme.js'));
 router.use('/votes', require('./votes/votes.js'));
 router.use('/ranking', require('./ranking/ranking.js'));
 router.use('/api', require('./api/api.js'));
+router.use('/', require('./authenticate/authenticate.js'));
 
 module.exports = router;

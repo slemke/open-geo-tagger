@@ -16,8 +16,12 @@
         return service;
 
         function Login(username, password, callback) {
-            //$http.post('')
-            callback({ success: true });
+            $http.post('/authenticate', {username : username, password : password})
+                .then(function(response) {
+                    callback(response);
+                }).catch(function(err) {
+                    callback(err);
+                });
         }
 
         function SetCredentials(username, password) {

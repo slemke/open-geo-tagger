@@ -8,16 +8,16 @@
     UserService.$inject = ['$http'];
 
     function UserService($http) {
-        var service = {};
 
-        service.GetAll = GetAll;
-        service.GetById = GetById;
-        service.Create = Create;
-        service.Update = Update;
-        service.Delete = Delete;
+        var user = {};
 
-        return service;
-
+        return {
+            GetAll : GetAll,
+            GetById : GetById,
+            Create : Create,
+            Update : Update,
+            Delete : Delete
+        };
 
         function GetAll() {
             return $http.get('/user/').then(handleSuccess, handleError('Error getting all users'));
