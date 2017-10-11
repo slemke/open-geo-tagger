@@ -36,13 +36,13 @@
           });
 
           vm.addObject = function() {
-
+            console.log(vm.form);
             ObjectService.Create(vm.form).then(function successCallback(response) {
 
             MarkerService.SetUserMarker(LocationService.GetCurrentGeoPosition(),LocationService.GetCurrentAddress(),response._id);
 
-            vm.form.description = "";
-            vm.form.categories = "";
+            // vm.form.description = "";
+            // vm.form.categories = "";
 
             }).catch(function(err) {
                 console.log(err);

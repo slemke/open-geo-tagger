@@ -46,25 +46,26 @@
 
         return service;
 
-        function getPosition(test) {
+        function getPosition(callback) {
 
             leafletData.getMap().then(function(map) {
 
                 // get initial location
                 map.locate({
+                    watch: true,
                     setView: true,
                     maxZoom: 18
-                }).on('locationfound', function(e) {
+                }).once('locationfound', function(e) {
                     // update location
                     geocodeService.reverse()
                         .latlng(e.latlng)
                     .run(function(error, result) {
 
-                            test(result);
                             service.SetCurrentGeoPosition(e.latlng);
                             service.SetCurrentAddress(result.address.Match_addr);
 
                             service.initialMarker = MarkerService.SetInitialMarker(service.GetCurrentAddress(), service.GetCurrentGeoPosition());
+                            callback(e.latlng);
                     });
                 });
             });

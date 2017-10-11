@@ -30,9 +30,13 @@
             LocationService.getPosition(function(position) {
                 console.log(position);
                 vm.showMap = true;
+
+                $timeout( function(){
+                  MarkerService.markers["initialMarker"].focus = true;
+              }, 1500 );
             });
 
-/*
+
         LocationService.GetMap(function(map) {
 
           MarkerService.GetExistingMarkers();
@@ -41,20 +45,17 @@
 
       vm.position = LocationService.GetCurrentAddress();
 
-      //map.setView(LocationService.GetCurrentGeoPosition());
+      map.setView(LocationService.GetCurrentGeoPosition());
 
-        /*$timeout( function(){
-          MarkerService.markers["initialMarker"].focus = true;
-      }, 500 );*/
 
-//    });
+   });
 
-/*
+
     $scope.$on('leafletDirectiveMarker.click', function(event, marker) {
 
       MarkerService.GetMarkerInfo(event, marker);
 
-  });*/
+  });
 
         })();
 
