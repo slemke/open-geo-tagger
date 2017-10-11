@@ -9,20 +9,66 @@
             </div>
 
             <div class="modal-body">
-                <table class="table table-striped table-bordered ranking-table">
-                    <thead>
-                        <tr>
-                            <th>Spieler</th>
-                            <th>Punkte</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-if="user" ng-repeat="user in $ctrl.user">
-                            <th scope="row">{{ user.username }}</th>
-                            <td>{{ user.points }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#points" target="_self">Punkte</a></li>
+    <li><a data-toggle="tab" href="#tagsToday" target="_self">Tags von Heute</a></li>
+    <li><a data-toggle="tab" href="#votesToday" target="_self">Votes von Heute</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="points" class="tab-pane fade in active">
+      <br />
+      <table class="table table-striped table-bordered ranking-table">
+          <thead>
+              <tr>
+                  <th>Spieler</th>
+                  <th>Punkte</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-if="user" ng-repeat="user in $ctrl.user">
+                  <th scope="row">{{ user.username }}</th>
+                  <td>{{ user.points }}</td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+    <div id="tagsToday" class="tab-pane fade">
+      <br />
+      <table class="table table-striped table-bordered ranking-table">
+          <thead>
+              <tr>
+                  <th>Spieler</th>
+                  <th>Punkte</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-if="user" ng-repeat="user in $ctrl.user">
+                  <th scope="row">{{ user.username }}</th>
+                  <td>{{ user.points }}</td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+    <div id="votesToday" class="tab-pane fade">
+      <br />
+      <table class="table table-striped table-bordered ranking-table">
+          <thead>
+              <tr>
+                  <th>Spieler</th>
+                  <th>Punkte</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-if="user" ng-repeat="user in $ctrl.user">
+                  <th scope="row">{{ user.username }}</th>
+                  <td>{{ user.points }}</td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+  </div>
             </div>
 
             <div class="modal-footer">
