@@ -10,49 +10,43 @@
 
     function CategoryService($http) {
 
-        var service = {};
+        return {
+            get : function(categoryID, name) {
+                var parameter = '';
+                if(categoryID !== undefined && categoryID !== null)
+                    parameter += '/' + categoryID;
 
-        service.GetAll = GetAll;
-        service.GetById = GetById;
-        service.Create = Create;
-        service.Update = Update;
-        service.Delete = Delete;
+                if(name !== undefined && name !== null && parameter === '')
+                    parameter += '/?name=' + name;
 
-        return service;
 
-        function getAll() {
-            return $http.get('/categories')
-                .then(handleSuccess, handleError('Error getting objects'));
-        }
+                return $http.get('/categories' + parameter)
+                    .then(handleSuccess, handleError('Error getting category / categories'));
 
-        function GetById(id) {
-            return $http.get('/categories/' + id)
-                .then(handleSuccess, handleError('Error getting object by id'));
-        }
+            },
+            post : function(category) {
+                return $http.post('/categories', category)
+                    .then(handleSuccess, handleError('Error creating category'));
 
-        function Create(category) {
-            return $http.post('/categories', category)
-                .then(handleSuccess, handleError('Error creating object'));
-        }
+            },
+            put : function(category) {
+                return $http.put('/categories/' + category._id, category)
+                    .then(handleSuccess, handleError('Error updating category'));
 
-        function Update(category) {
-            return $http.put('/categories/' + category._id, category)
-                .then(handleSuccess, handleError('Error updating object'));
-        }
+            },
+            delete : function(id) {
+                return $http.delete('/categories/' + id)
+                    .then(handleSuccess, handleError('Error deleting category'));
 
-        function Delete(id) {
-            return $http.delete('/categories/' + id)
-                .then(handleSuccess, handleError('Error deleting object'));
-        }
+            }
+        };
 
         function handleSuccess(res) {
             return res.data;
         }
 
         function handleError(error) {
-            return function () {
-                return { success: false, message: error };
-            };
+            return { success: false, message: error };
         }
     }
 })();
