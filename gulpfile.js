@@ -8,7 +8,7 @@ var paths = {
 		'assets/app/*/**/*.js',
 	],
 	css: [
-		'assets/css/global/*.css'
+		'assets/app/**/*.less'
 	]
 };
 
@@ -18,6 +18,7 @@ const concat = require('gulp-concat');
 const cssmin = require('gulp-cssmin');
 const uglify = require('gulp-uglify');
 const babel = require('gulp-babel');
+const less = require('gulp-less');
 
 gulp.task('default', ['css', 'js'], function() {
 	// remove unneeded files
@@ -36,6 +37,7 @@ gulp.task('js', function() {
 gulp.task('css', function() {
 	return gulp.src(paths.css)
 		.pipe(concat('index.min.css'))
+		.pipe(less())
 		.pipe(cssmin())
 		.pipe(gulp.dest('assets/css'));
 });
