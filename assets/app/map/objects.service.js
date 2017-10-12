@@ -19,7 +19,7 @@
                 if(themeID !== undefined && themeID !== null && parameter === '')
                     parameter += '/?themeID=' + themeID;
 
-                return $http.get('/objects')
+                return $http.get('/objects' + parameter)
                     .then(handleSuccess, handleError('Error getting objects'));
             },
             post : function(object) {
