@@ -4,8 +4,14 @@
     angular.module('opendata.marker')
         .component('objectmarkerdetail', {
             templateUrl: '/static/app/marker/markerInfo.template.html',
-            controller: ['ThemesService','ObjectService','MarkerService', ObjectDetailController]
+            controller: ObjectDetailController
         });
+
+    ObjectDetailController.$inject = [
+        'ThemesService',
+        'ObjectService',
+        'MarkerService'
+    ];
 
     function ObjectDetailController(ThemesService, ObjectService, MarkerService) {
 

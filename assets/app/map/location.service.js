@@ -4,7 +4,11 @@
     angular.module('opendata.map')
         .factory('LocationService', LocationService);
 
-    LocationService.$inject = ['$rootScope','MarkerService','leafletData'];
+    LocationService.$inject = [
+        '$rootScope',
+        'MarkerService',
+        'leafletData'
+    ];
 
     function LocationService($rootScope, MarkerService, leafletData) {
 

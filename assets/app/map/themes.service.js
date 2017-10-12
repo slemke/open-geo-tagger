@@ -1,11 +1,12 @@
 (function() {
-
     'use strict'
 
     angular.module('opendata.map')
         .factory('ThemesService', ThemesService);
 
-    ThemesService.$inject = ['$http'];
+    ThemesService.$inject = [
+        '$http'
+    ];
 
     function ThemesService($http) {
 

@@ -18,7 +18,8 @@ function config($routeProvider) {
     })
     .when("/logout", {
         templateUrl: "/static/app/login/login.template.html",
-        controller: "LoginController"
+        controller: "LoginController",
+        controllerAs: 'vm'
     }).otherwise({
         redirectTo: "/"
     });

@@ -4,7 +4,9 @@
     angular.module('opendata.map')
         .factory('ObjectService', ObjectService);
 
-    ObjectService.$inject = ['$http'];
+    ObjectService.$inject = [
+        '$http'
+    ];
 
     function ObjectService($http) {
 

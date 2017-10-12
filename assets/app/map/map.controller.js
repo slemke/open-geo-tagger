@@ -1,19 +1,21 @@
 (function() {
+    'use strict'
 
-    mapModule.controller('MapController',
-        [
-            '$scope',
-            '$http',
-            '$compile',
-            '$q',
-            '$timeout',
-            'leafletData',
-            'PointsService',
-            'ObjectService',
-            'MarkerService',
-            'LocationService',
-            MapController
-        ]);
+    angular.module('opendata.map')
+        .controller('MapController', MapController);
+
+    MapController.$inject = [
+        '$scope',
+        '$http',
+        '$compile',
+        '$q',
+        '$timeout',
+        'leafletData',
+        'PointsService',
+        'ObjectService',
+        'MarkerService',
+        'LocationService'
+    ];
 
     function MapController($scope, $http, $compile, $q,$timeout, leafletData, PointsService, ObjectService, MarkerService, LocationService) {
 

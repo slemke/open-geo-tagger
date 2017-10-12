@@ -4,7 +4,9 @@
     angular.module('opendata.map')
         .factory('VotesService', VotesService);
 
-    VotesService.$inject = ['$http'];
+    VotesService.$inject = [
+        '$http'
+    ];
 
     function VotesService($http) {
 

@@ -1,21 +1,28 @@
-registerModule.directive("repeatPassword", function() {
-    return {
-        require: "ngModel",
-        link: function(scope, elem, attrs, ctrl) {
-            var otherInput = elem.inheritedData("$formController")[attrs.repeatPassword];
+(function() {
+    'use strict'
 
-            ctrl.$parsers.push(function(value) {
-                if (value === otherInput.$viewValue) {
-                    ctrl.$setValidity("repeat", true);
+    angular.module('opendata.register')
+        .directive('repeatPassword', repeatPasswordDirective);
+
+    function repeatPasswordDirective() {
+        return {
+            require: "ngModel",
+            link: function(scope, elem, attrs, ctrl) {
+                var otherInput = elem.inheritedData("$formController")[attrs.repeatPassword];
+
+                ctrl.$parsers.push(function(value) {
+                    if (value === otherInput.$viewValue) {
+                        ctrl.$setValidity("repeat", true);
+                        return value;
+                    }
+                    ctrl.$setValidity("repeat", false);
+                });
+
+                otherInput.$parsers.push(function(value) {
+                    ctrl.$setValidity("repeat", value === ctrl.$viewValue);
                     return value;
-                }
-                ctrl.$setValidity("repeat", false);
-            });
-
-            otherInput.$parsers.push(function(value) {
-                ctrl.$setValidity("repeat", value === ctrl.$viewValue);
-                return value;
-            });
-        }
+                });
+            }
+        };
     };
-});
+})();

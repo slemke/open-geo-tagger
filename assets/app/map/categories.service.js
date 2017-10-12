@@ -4,7 +4,9 @@
     angular.module('opendata.map')
         .factory('CategoryService', CategoryService);
 
-    CategoryService.$inject = ['$http'];
+    CategoryService.$inject = [
+        '$http'
+    ];
 
     function CategoryService($http) {
 

@@ -4,8 +4,12 @@
     angular.module('opendata.ranking')
         .component('ranking', {
             templateUrl: '/static/app/ranking/ranking.template.html',
-            controller: ['$http', RankingController]
+            controller: RankingController
         });
+
+    RankingController.$inject = [
+        '$http'
+    ];
 
     function RankingController($http) {
 

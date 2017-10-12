@@ -4,8 +4,9 @@
     angular.module('opendata.map')
         .factory('UserService', UserService);
 
-
-    UserService.$inject = ['$http'];
+    UserService.$inject = [
+        '$http'
+    ];
 
     function UserService($http) {
 

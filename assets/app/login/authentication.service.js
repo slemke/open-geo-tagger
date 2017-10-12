@@ -4,7 +4,12 @@
     angular.module('opendata.login')
         .factory('AuthenticationService', AuthenticationService);
 
-    AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', 'UserService']
+    AuthenticationService.$inject = [
+        '$http',
+        '$cookies',
+        '$rootScope',
+        'UserService'
+    ];
 
     function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService) {
         var service = {};

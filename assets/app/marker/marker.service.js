@@ -4,7 +4,14 @@
     angular.module('opendata.marker')
         .factory('MarkerService', MarkerService);
 
-    MarkerService.$inject = ['$http','$q', '$compile', '$rootScope', 'leafletData', 'ObjectService'];
+    MarkerService.$inject = [
+        '$http',
+        '$q',
+        '$compile',
+        '$rootScope',
+        'leafletData',
+        'ObjectService'
+    ];
 
     function MarkerService($http, $q, $compile, $rootScope, leafletData, ObjectService) {
 

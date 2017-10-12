@@ -4,7 +4,9 @@
     angular.module('opendata.map')
         .factory('PointsService', PointsService);
 
-    PointsService.$inject = ['$http'];
+    PointsService.$inject = [
+        '$http'
+    ];
 
     function PointsService($http) {
 

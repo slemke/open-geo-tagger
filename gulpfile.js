@@ -17,6 +17,7 @@ const rename = require('gulp-rename');
 const concat = require('gulp-concat');
 const cssmin = require('gulp-cssmin');
 const uglify = require('gulp-uglify');
+const babel = require('gulp-babel');
 
 gulp.task('default', ['css', 'js'], function() {
 	// remove unneeded files
@@ -25,6 +26,10 @@ gulp.task('default', ['css', 'js'], function() {
 gulp.task('js', function() {
 	return gulp.src(paths.scripts)
 	.pipe(concat('app.min.js'))
+	.pipe(babel({
+		presets: ['env']
+	}))
+	.pipe(uglify({ mangle: false }))
 	.pipe(gulp.dest('assets/app/'));
 });
 

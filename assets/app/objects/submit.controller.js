@@ -1,7 +1,16 @@
 (function() {
+    'use strict'
 
-    objectsModule.controller('SubmitController', ['$timeout','ThemesService','LocationService', 'ObjectService', 'MarkerService' , SubmitController]);
+    angular.module('opendata.objects')
+        .controller('SubmitController', SubmitController);
 
+    SubmitController.$inject = [
+        '$timeout',
+        'ThemesService',
+        'LocationService',
+        'ObjectService',
+        'MarkerService'
+    ];
 
     function SubmitController($timeout, ThemesService, LocationService, ObjectService, MarkerService) {
 

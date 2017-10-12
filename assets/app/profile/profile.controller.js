@@ -1,5 +1,14 @@
-profileModule.controller('ProfileController', function($scope) {
+(function() {
+    'use strict'
 
-    var vm = this;
-    vm.mark = '!';
-});
+    angular.module('opendata.profile')
+        .controller('ProfileController', ProfileController);
+
+    ProfileController.$inject = ['$scope'];
+
+    function ProfileController($scope) {
+
+        var vm = this;
+        vm.mark = '!';
+    }
+})();

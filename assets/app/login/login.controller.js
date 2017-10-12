@@ -1,27 +1,35 @@
-loginModule.controller('LoginController', LoginController);
+(function() {
+    'use strict'
 
-LoginController.$inject = ['$scope','$location', 'AuthenticationService'];
+    loginModule.controller('LoginController', LoginController);
 
-function LoginController($scope, $location, AuthenticationService) {
+    LoginController.$inject = [
+        '$scope',
+        '$location',
+        'AuthenticationService'
+    ];
 
-    var vm = this;
+    function LoginController($scope, $location, AuthenticationService) {
 
-    vm.error = null;
+        var vm = this;
 
-    (function initController() {
-        AuthenticationService.ClearCredentials();
-    })();
+        vm.error = null;
 
-    vm.login = function login() {
-        vm.dataLoading = true;
-        AuthenticationService.Login(vm.username, vm.password, function (response) {
-           if (response.data.success) {
-               AuthenticationService.SetCredentials(vm.username, vm.password);
-               $location.path('/map');
-           } else {
-               vm.dataLoading = false;
-               vm.error = "Error: Bad Username or Password.";
-           }
-        });
+        (function initController() {
+            AuthenticationService.ClearCredentials();
+        })();
+
+        vm.login = function login() {
+            vm.dataLoading = true;
+            AuthenticationService.Login(vm.username, vm.password, function (response) {
+               if (response.data.success) {
+                   AuthenticationService.SetCredentials(vm.username, vm.password);
+                   $location.path('/map');
+               } else {
+                   vm.dataLoading = false;
+                   vm.error = "Error: Bad Username or Password.";
+               }
+            });
+        }
     }
-}
+});
