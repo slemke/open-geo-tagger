@@ -22,27 +22,27 @@
 
         function GetAll() {
             return $http.get('/theme')
-                .then(handleSuccess, handleError('Error getting objects'));
+                .then(handleSuccess, handleError('Error getting theme'));
         }
 
         function GetById(id) {
             return $http.get('/theme/' + id)
-                .then(handleSuccess, handleError('Error getting object by id'));
+                .then(handleSuccess, handleError('Error getting theme by id'));
         }
 
         function Create(theme) {
             return $http.post('/theme', theme)
-                .then(handleSuccess, handleError('Error creating object'));
+                .then(handleSuccess, handleError('Error creating theme'));
         }
 
         function Update(theme) {
             return $http.put('/theme/' + theme._id, theme)
-                .then(handleSuccess, handleError('Error updating object'));
+                .then(handleSuccess, handleError('Error updating theme'));
         }
 
         function Delete(id) {
             return $http.delete('/theme/' + id)
-                .then(handleSuccess, handleError('Error deleting object'));
+                .then(handleSuccess, handleError('Error deleting theme'));
         }
 
         function handleSuccess(res) {
