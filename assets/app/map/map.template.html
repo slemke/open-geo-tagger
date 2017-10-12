@@ -1,0 +1,104 @@
+<div id="wrapper" ng-show="vm.showMap">
+    <leaflet class="map" center="center" tiles="tiles" markers="vm.markers" event-broadcast="events"></leaflet>
+
+    <div id="over_map" class="map-overlay">
+        <button type="button" href="#modal_object" id="plusbutton" data-toggle="modal" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
+
+    </div>
+
+    <div id="over_map_points" class="map-overlay">
+        <button type="button" href="#modal_ranking" id="pointsbutton" data-toggle="modal" class="btn btn-default">{{ vm.points }} Punkte</button>
+    </div>
+
+    <div class="dropdown over_map_user map-overlay">
+        <button type="button" id="userinfobutton" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
+        </button>
+
+        <ul class="dropdown-menu pull-right">
+            <li>
+                <button type="button" data-toggle="modal" href="#modal_profile">Mein Profil</button>
+            </li>
+            <li><a href="/">Logout</a></li>
+        </ul>
+    </div>
+
+    <div id="current-quest">
+        <button type="button" class="btn btn-default" data-toggle="modal" href="#modal_quests">Quests</button>
+    </div>
+</div>
+
+<objectmarkerdetail></objectmarkerdetail>
+
+<ranking></ranking>
+
+
+<div class="modal fade" id="modal_object">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Objekt hinzufügen</h4>
+            </div>
+
+            <div class="modal-body">
+                <ng-include src="'/static/app/marker/newMarker.template.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_profile" ng-controller="ProfileController as vm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Profil</h4>
+            </div>
+
+            <div class="modal-body">
+                <ng-include src="'/static/app/profile/profile.template.html'"></ng-include>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal_quests">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Quests</h4>
+            </div>
+
+            <div class="modal-body">
+                <ng-include src="'/static/app/map/quests.template.html'"></ng-include>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-show="!vm.showMap" class="loading-container">
+    <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+    </div>
+</div>

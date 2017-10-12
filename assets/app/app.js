@@ -1,5 +1,8 @@
 var app = angular.module("opendata",
             [
+                'opendata.login',
+                'opendata.register',
+                'opendata.map',
                 'ngRoute',
                 'ngCookies',
                 'ui-leaflet',

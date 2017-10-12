@@ -4,12 +4,8 @@ var paths = {
 	scripts: [
 		'assets/app/app.js',
 		'assets/app/app.config.js',
-		'assets/app.module.js',
-		'assets/app/service/**/*.js',
-		'assets/app/sections/**/*.js',
-		'assets/app/directives/**/*.js',
-		'assets/app/sections/**/*.js',
-		'assets/app/components/**/*.js'
+		'assets/app/**/*.module.js',
+		'assets/app/*/**/*.js',
 	],
 	css: [
 		'assets/css/global/*.css'
