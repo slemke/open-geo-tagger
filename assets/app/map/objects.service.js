@@ -10,49 +10,38 @@
 
     function ObjectService($http) {
 
-        var service = {};
+        return {
+            get : function(objectID, themeID) {
+                var parameter = '';
+                if(objectID !== undefined && objectID !== null)
+                    parameter += '/' + objectID;
 
-        service.GetAll = GetAll;
-        service.GetById = GetById;
-        service.Create = Create;
-        service.Update = Update;
-        service.Delete = Delete;
+                if(themeID !== undefined && themeID !== null && parameter === '')
+                    parameter += '/?themeID=' + themeID;
 
-        return service;
-
-        function GetAll() {
-            return $http.get('/objects')
-                .then(handleSuccess, handleError('Error getting objects'));
-        }
-
-        function GetById(id) {
-            return $http.get('/objects/' + id)
-                .then(handleSuccess, handleError('Error getting object by id'));
-        }
-
-        function Create(object) {
-            return $http.post('/objects', object)
-                .then(handleSuccess, handleError('Error creating object'));
-        }
-
-        function Update(object) {
-            return $http.put('/objects/' + object._id, object)
-                .then(handleSuccess, handleError('Error updating object'));
-        }
-
-        function Delete(id) {
-            return $http.delete('/objects/' + id)
-                .then(handleSuccess, handleError('Error deleting object'));
-        }
+                return $http.get('/objects')
+                    .then(handleSuccess, handleError('Error getting objects'));
+            },
+            post : function(object) {
+                return $http.post('/objects', object)
+                    .then(handleSuccess, handleError('Error creating object'));
+            },
+            put : function(object) {
+                return $http.put('/objects/' + object._id, object)
+                    .then(handleSuccess, handleError('Error updating object'));
+            },
+            delete : function(id) {
+                return $http.delete('/objects/' + id)
+                    .then(handleSuccess, handleError('Error deleting object'));
+            }
+        };
 
         function handleSuccess(res) {
             return res.data;
         }
 
         function handleError(error) {
-            return function () {
-                return { success: false, message: error };
-            };
+            return { success: false, message: error };
         }
     }
 
