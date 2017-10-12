@@ -10,49 +10,36 @@
 
     function ThemesService($http) {
 
-        var service = {};
+        return {
+            get : function(themeID) {
+                var parameter = '';
 
-        service.GetAll = GetAll;
-        service.GetById = GetById;
-        service.Create = Create;
-        service.Update = Update;
-        service.Delete = Delete;
+                if(themeID !== undefined && themeID !== null)
+                    parameter = '/' + themeID;
 
-        return service;
-
-        function GetAll() {
-            return $http.get('/theme')
-                .then(handleSuccess, handleError('Error getting theme'));
-        }
-
-        function GetById(id) {
-            return $http.get('/theme/' + id)
-                .then(handleSuccess, handleError('Error getting theme by id'));
-        }
-
-        function Create(theme) {
-            return $http.post('/theme', theme)
-                .then(handleSuccess, handleError('Error creating theme'));
-        }
-
-        function Update(theme) {
-            return $http.put('/theme/' + theme._id, theme)
-                .then(handleSuccess, handleError('Error updating theme'));
-        }
-
-        function Delete(id) {
-            return $http.delete('/theme/' + id)
-                .then(handleSuccess, handleError('Error deleting theme'));
-        }
+                return $http.get('/theme' + parameter)
+                    .then(handleSuccess, handleError('Error getting theme'));
+            },
+            post : function(theme) {
+                return $http.post('/theme', theme)
+                    .then(handleSuccess, handleError('Error creating theme'));
+            },
+            put : function(theme) {
+                return $http.put('/theme/' + theme._id, theme)
+                    .then(handleSuccess, handleError('Error updating theme'));
+            },
+            delete : function(id) {
+                return $http.delete('/theme/' + id)
+                    .then(handleSuccess, handleError('Error deleting theme'));
+            }
+        };
 
         function handleSuccess(res) {
             return res.data;
         }
 
         function handleError(error) {
-            return function () {
-                return { success: false, message: error };
-            };
+            return { success: false, message: error };
         }
     }
 
