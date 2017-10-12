@@ -1,7 +1,8 @@
 (function() {
     'use strict'
 
-    loginModule.controller('LoginController', LoginController);
+    angular.module('opendata.login')
+        .controller('LoginController', LoginController);
 
     LoginController.$inject = [
         '$scope',
@@ -32,4 +33,4 @@
             });
         }
     }
-});
+})();
