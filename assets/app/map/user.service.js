@@ -13,12 +13,12 @@
         var currentUser;
 
         return {
-            get : function(userID) {
-                var parameter = '';
+            get : function(userID, username) {
+                /*var parameter = '';
                 if(userID !== undefined && userID !== null)
-                    parameter += '/' + userID;
+                    parameter += '/' + userID;*/
 
-                return $http.get('/user/' + parameter)
+                return $http.get('/user/', {params: { username: username, userID : userID}})
                     .then(handleSuccess, handleError('Error getting all users'));
             },
             post : function(user) {
