@@ -36,7 +36,12 @@
                     iconAnchor: [12, 41],
                     popupAnchor: [1, -34],
                     shadowSize: [41, 41]
-                }
+                },
+                getMessageScope: function () {
+                    var scope = $rootScope.$new(true);
+                    return scope;
+                },
+                compileMessage: true
             }
         };
         var markerCollection = {};
@@ -61,8 +66,8 @@
             });
 
             ObjectService.get().then(function(data) {
-                var image = '<img id="markerImage" src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg" />';
-                var button = '<button type="button" ng-click="vm.getTagData()" id="popup_link" class="btn btn-default" data-toggle="modal" href="#modal_objectDetail">Weitere Informationen</button>';
+                var image = '<img ng-show="false" id="markerImage" src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg" />';
+                var button = '<button type="button" id="popup_link" class="btn btn-default" data-toggle="modal" href="#modal_objectDetail">Weitere Informationen</button>';
 
                 for(var i = 0; i < data.length; i++) {
                     markers.tag.lat = data[i].location[0].lat;
@@ -85,7 +90,7 @@
             setInitalLocation : function(once) {
                 leafletData.getMap().then(function(map) {
                     map.locate({
-                        //watch: true,
+                        watch: true,
                         setView: true,
                         maxZoom: 18
                     }).on('locationfound', function(event) {
@@ -166,8 +171,6 @@
                 markers.tag.message = '<div>'+ object.address + '<br>' + image + button + "<br></div>";
 
                 markerCollection[object._id] = angular.copy(markers.tag);
-
-                console.log(markerCollection);
 
                 angular.extend($rootScope, {
                     markers: markerCollection
