@@ -20,7 +20,7 @@
         (function initController() {
 
             // get userID
-            vm.form.userID = UserService.getCurrrentUser()._id;
+            vm.form.userID = UserService.getCurrentUser()._id;
 
             // get themes for list
             ThemesService.get()

@@ -33,7 +33,7 @@
                 return $http.delete('/user/' + id)
                     .then(handleSuccess, handleError('Error deleting user'));
             },
-            getCurrrentUser : function() {
+            getCurrentUser : function() {
                 return $cookies.getObject('globals').currentUser;
             }
         };

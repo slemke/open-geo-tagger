@@ -8,24 +8,29 @@
         'PointsService',
         'ObjectService',
         'MarkerService',
-        'MapService'
+        'MapService',
+        'UserService'
     ];
 
-    function MapController(PointsService, ObjectService, MarkerService, MapService) {
+    function MapController(PointsService, ObjectService, MarkerService, MapService, UserService) {
 
         var vm = this;
 
         vm.showMap = false;
         vm.points = 0;
 
+        var user = UserService.getCurrentUser();
+
         // init map controller
         (function initController() {
 
             // TODO Error view
             MapService.setInitalLocation(function(position) {
-                vm.showMap = true;
+                UserService.get(user._id).then(function(data) {
+                    vm.points = data[0].points;
+                    vm.showMap = true;
+                });
             });
-
         })();
 
 
