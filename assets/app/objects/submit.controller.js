@@ -45,13 +45,26 @@
             vm.disabled = true;
 
             ObjectService.post(vm.form)
-                .then(function successCallback(response) {
-                    console.log(response);
-                //MarkerService.SetUserMarker(MapService.GetCurrentGeoPosition(),MapService.GetCurrentAddress(),response._id);
+                .then(function successCallback(object) {
 
+                    // clear form data
+                    vm.clear();
+
+                    // add marker to map
+                    MapService.addMarker(object);
+                    
             }).catch(function(err) {
                 console.log(err);
             });
+        };
+
+        vm.clear = function() {
+            vm.form.position = undefined;
+            vm.form.location = undefined;
+            vm.form.address = undefined;
+            vm.form.description = undefined;
+            vm.form.categories = undefined;
+            vm.selectedTheme = vm.themes[0]._id;
         };
     }
 })();

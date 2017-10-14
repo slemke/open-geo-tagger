@@ -156,11 +156,22 @@
                     return err;
                 });
             },
-            addMarker : function(position, address) {
+            addMarker : function(object) {
+                var image = '<img id="markerImage" src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg" />';
+                var button = '<button type="button" ng-click="vm.getTagData()" id="popup_link" class="btn btn-default" data-toggle="modal" href="#modal_objectDetail">Weitere Informationen</button>';
 
-            },
-            displayPopup : function() {
+                markers.tag.lat = object.location[0].lat;
+                markers.tag.lng = object.location[0].lng;
 
+                markers.tag.message = '<div>'+ object.address + '<br>' + image + button + "<br></div>";
+
+                markerCollection[object._id] = angular.copy(markers.tag);
+
+                console.log(markerCollection);
+
+                angular.extend($rootScope, {
+                    markers: markerCollection
+                });
             }
         };
   }
