@@ -1,1 +1,1 @@
-var loginModule = angular.module('opendata.login', []);
+var loginModule = angular.module('opendata.login', ['opendata.map']);

@@ -6,6 +6,10 @@ const schema = new mongoose.Schema(
             type: Array,
             required: true
         },
+        address: {
+            type: String,
+            required: true
+        },
         categories: {
             type: Array,
             required: true

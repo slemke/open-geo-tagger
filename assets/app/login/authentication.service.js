@@ -11,9 +11,8 @@
         'UserService'
     ];
 
-    function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService) {
+    function AuthenticationService($http, $cookies, $rootScope, UserService) {
         var service = {};
-
         service.Login = Login;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
@@ -29,13 +28,15 @@
                 });
         }
 
-        function SetCredentials(username, password) {
+        function SetCredentials(username, password, user) {
             var authdata = btoa(username + ':' + password);
 
             $rootScope.globals = {
                 currentUser: {
+                    _id: user._id,
                     username: username,
-                    authdata: authdata
+                    authdata: authdata,
+                    email: user.email
                 }
             };
 

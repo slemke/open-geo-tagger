@@ -1,14 +1,16 @@
 (function() {
     'use strict'
 
-    angular.module('opendata.map')
+    angular.module('opendata')
         .factory('UserService', UserService);
 
     UserService.$inject = [
-        '$http'
+        '$http',
+        '$cookies'
     ];
 
-    function UserService($http) {
+    function UserService($http, $cookies) {
+        var currentUser;
 
         return {
             get : function(userID) {
@@ -30,6 +32,9 @@
             delete : function(id) {
                 return $http.delete('/user/' + id)
                     .then(handleSuccess, handleError('Error deleting user'));
+            },
+            getCurrrentUser : function() {
+                return $cookies.getObject('globals').currentUser;
             }
         };
 

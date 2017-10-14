@@ -14,7 +14,7 @@ router.post('/authenticate', function(request, response) {
             return response.status(err.status).json({success : false});
 
         if(result)
-            return response.status(200).json({success : true});
+            return response.status(200).json({success : true, user: result});
 
         return response.status(200).json({success : false});
 

@@ -99,7 +99,7 @@
 
     function GetExistingMarkers(callback) {
 
-          ObjectService.GetAll().then(function successCallback(response) {
+          ObjectService.get().then(function successCallback(response) {
 
             angular.forEach(response, function(val, key) {
 

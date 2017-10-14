@@ -53,6 +53,7 @@ router.post('/', model.upload(), function(request, response, next) {
 
     const object = {
         location: request.body.location,
+        address: request.body.address,
         categories: request.body.categories,
         description: request.body.description,
         userID : request.body.userID,
@@ -117,6 +118,9 @@ router.put('/:id', function(request, response) {
 
     if(request.body.location !== undefined)
         object.location = request.body.location;
+
+    if(request.body.address !== undefined)
+        object.address = request.body.address;
 
     if(request.body.created !== undefined)
         object.created = request.body.created;

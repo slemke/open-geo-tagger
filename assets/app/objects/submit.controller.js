@@ -5,59 +5,53 @@
         .controller('SubmitController', SubmitController);
 
     SubmitController.$inject = [
-        '$timeout',
+        'UserService',
         'ThemesService',
-        'LocationService',
+        'MapService',
         'ObjectService',
         'MarkerService'
     ];
 
-    function SubmitController($timeout, ThemesService, LocationService, ObjectService, MarkerService) {
-
+    function SubmitController(UserService, ThemesService, MapService, ObjectService, MarkerService) {
         var vm = this;
+        vm.form = {};
+        vm.disabled = false;
 
         (function initController() {
 
-          $timeout( function(){
-          vm.position = LocationService.GetCurrentAddress();
-        }, 1000 );
+            // get userID
+            vm.form.userID = UserService.getCurrrentUser()._id;
 
-          ThemesService.GetAll().then(function successCallback(response) {
+            // get themes for list
+            ThemesService.get()
+                .then(function successCallback(response) {
 
-          vm.themes = response;
-          vm.selectedTheme = vm.themes[0]._id;
-          $timeout( function(){
-          vm.geoPosition = LocationService.GetCurrentGeoPosition();
-        }, 2000 ).then(function() {
-
-          vm.form = {
-              location : vm.geoPosition,
-              userID : "59b7ff671d8436d6cf9be301",
-              themeID : vm.selectedTheme
-          };
-
-
-        })
-
-
-          }).catch(function(err) {
-              console.log(err);
-          });
-
-          vm.addObject = function() {
-            console.log(vm.form);
-            ObjectService.Create(vm.form).then(function successCallback(response) {
-
-            MarkerService.SetUserMarker(LocationService.GetCurrentGeoPosition(),LocationService.GetCurrentAddress(),response._id);
-
-            // vm.form.description = "";
-            // vm.form.categories = "";
+                vm.themes = response;
+                vm.selectedTheme = vm.themes[0]._id;
 
             }).catch(function(err) {
                 console.log(err);
             });
 
-          };
-    })();
-  }
+            // get current position
+            MapService.getCurrentPosition(function(position) {
+                vm.position = position;
+                vm.form.location = position.latlng;
+                vm.form.address = position.address.Match_addr;
+            });
+        })();
+
+        vm.addObject = function() {
+            vm.disabled = true;
+
+            ObjectService.post(vm.form)
+                .then(function successCallback(response) {
+                    console.log(response);
+                //MarkerService.SetUserMarker(MapService.GetCurrentGeoPosition(),MapService.GetCurrentAddress(),response._id);
+
+            }).catch(function(err) {
+                console.log(err);
+            });
+        };
+    }
 })();

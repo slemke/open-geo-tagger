@@ -24,7 +24,7 @@
             vm.dataLoading = true;
             AuthenticationService.Login(vm.username, vm.password, function (response) {
                if (response.data.success) {
-                   AuthenticationService.SetCredentials(vm.username, vm.password);
+                   AuthenticationService.SetCredentials(vm.username, vm.password, response.data.user);
                    $location.path('/map');
                } else {
                    vm.dataLoading = false;

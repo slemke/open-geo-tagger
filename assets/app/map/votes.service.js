@@ -9,7 +9,13 @@
     ];
 
     function VotesService($http) {
+        return {
+            upvote : function(objectID, userID) {
 
+            },
+            downvote : function(objectID, userID) {
+
+            }
+        };
     }
-
 })();

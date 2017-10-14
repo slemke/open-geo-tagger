@@ -5,31 +5,22 @@
         .factory('PointsService', PointsService);
 
     PointsService.$inject = [
-        '$http'
+        '$http',
+        'UserService'
     ];
 
-    function PointsService($http) {
+    function PointsService($http, UserService) {
 
-        var service = {};
-        service.points = 0;
-        service.increase = increase;
-        service.decrease = decrease;
-
-        return service;
-
-
-        function increase(points) {
-            /*$http.get('/user/').then(function(response) {
-
-            }).catch(function(err) {
-
-            });*/
-            return service.points += points;
-        }
-
-        function decrease(points) {
-            return service.points -= points;
-        }
+        return {
+            increase : function(userID, points) {
+                // TODO increase points
+            },
+            decrease : function(userID, points) {
+                // TODO decrease points
+            },
+            getCurrentPoints : function(userID) {
+                return UserService.get(userID);
+            }
+        };
     }
-
 })();
