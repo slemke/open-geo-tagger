@@ -1,11 +1,11 @@
-<form id="editProfileForm" name="form.editProfileForm" ng-submit="vm.editProfile()">
+<form id="editProfileForm" name="vm.editProfileForm" ng-submit="vm.editProfile()">
 
 
   <div class="form-group">
       <label for="usernameeditlabel">Benutzername ändern:</label>
 
       <div class="input-group">
-          <input type="text" class="form-control" autocomplete="off" name="username" ng-model="vm.form.username" ng-keyup="vm.checkUsername(vm.form.username)" placeholder="Username eingeben">
+          <input type="text" class="form-control" autocomplete="off" name="username" ng-model="vm.username" ng-keyup="vm.checkUsername(vm.username)" placeholder="Username eingeben">
           <span ng-class="vm.getInputGroupValidationClassUsername()">
               <span ng-class="vm.getGlyphiconValidationClassUsername()"></span>
           </span>
@@ -16,7 +16,7 @@
         <label for="emailaddresseditlabel">E-Mail Adresse ändern:</label>
 
         <div class="input-group">
-          <input type="email" name="email" placeholder="E-Mail Adresse eingeben" ng-pattern="vm.emailFormat" class="form-control" ng-model="vm.form.email" />
+          <input type="email" name="email" placeholder="E-Mail Adresse eingeben" ng-pattern="vm.emailFormat" class="form-control" ng-model="vm.email" />
             <span ng-class="vm.getInputGroupValidationClassMail()">
                 <span ng-class="vm.getGlyphiconValidationClassMail()"></span>
             </span>
@@ -27,7 +27,7 @@
         <label for="passwordeditlabel">Passwort ändern:</label>
 
         <div class="input-group">
-            <input type="text" class="form-control" ng-model="vm.form.password" name="password" placeholder="Passwort eingeben" autocomplete="off">
+            <input type="text" class="form-control" ng-model="vm.password" name="password" placeholder="Passwort eingeben" autocomplete="off">
             <span ng-class="vm.getInputGroupValidationClassPassword()">
                 <span ng-class="vm.getGlyphiconValidationClassPassword()"></span>
             </span>

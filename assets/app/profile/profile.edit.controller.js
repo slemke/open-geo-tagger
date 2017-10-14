@@ -5,15 +5,12 @@
         .controller('ProfileEditController', ProfileEditController);
 
 
-    ProfileEditController.$inject = ['$scope', 'UserService'];
+    ProfileEditController.$inject = ['UserService'];
 
-    function ProfileEditController($scope, UserService) {
+    function ProfileEditController(UserService) {
 
       var vm = this;
       vm.mark = '!';
-
-      $scope.form = {};
-      vm.form = {};
 
       vm.emailFormat = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       vm.usernameValid = true;
@@ -25,22 +22,22 @@
 
       vm.disableSubmit = function() {
 
-        if (vm.form.password && vm.usernameValid && !$scope.form.editProfileForm.email.$error.pattern) {
+        if (vm.password && vm.usernameValid && !vm.editProfileForm.email.$error.pattern) {
 
           return false;
-        } else if (vm.form.email && vm.usernameValid) {
+        } else if (vm.email && vm.usernameValid) {
 
           return false;
-        } else if ($scope.form.editProfileForm.email.$error.pattern) {
+        } else if (vm.editProfileForm.email.$error.pattern) {
 
           return true;
         } else if (!vm.usernameValid) {
 
           return true;
-        } else if (vm.usernameValid && !vm.form.username && vm.form.password) {
+        } else if (vm.usernameValid && !vm.username && vm.password) {
 
           return false;
-        } else if (vm.usernameValid && vm.form.username && !vm.form.password) {
+        } else if (vm.usernameValid && vm.username && !vm.password) {
 
           return false;
         } else {
@@ -51,7 +48,7 @@
 
       vm.getInputGroupValidationClassMail = function() {
 
-        if (!vm.form.email || $scope.form.editProfileForm.email.$error.pattern) {
+        if (!vm.email || vm.editProfileForm.email.$error.pattern) {
           return "input-group-addon danger";
         } else {
           return "input-group-addon success";
@@ -60,7 +57,7 @@
 
       vm.getGlyphiconValidationClassMail = function() {
 
-        if (!vm.form.email || $scope.form.editProfileForm.email.$error.pattern) {
+        if (!vm.email || vm.editProfileForm.email.$error.pattern) {
           return "glyphicon glyphicon-remove";
         } else {
           return "glyphicon glyphicon-ok";
@@ -70,7 +67,7 @@
 
       vm.getInputGroupValidationClassUsername = function() {
 
-        if (!vm.form.username || vm.form.username && !vm.usernameValid) {
+        if (!vm.username || vm.username && !vm.usernameValid) {
           return "input-group-addon danger";
         } else {
           return "input-group-addon success";
@@ -79,7 +76,7 @@
 
       vm.getGlyphiconValidationClassUsername = function() {
 
-        if (!vm.form.username || vm.form.username && !vm.usernameValid) {
+        if (!vm.username || vm.username && !vm.usernameValid) {
 
           return "glyphicon glyphicon-remove";
         } else {
@@ -91,7 +88,7 @@
 
       vm.getInputGroupValidationClassPassword = function() {
 
-        if (!vm.form.password) {
+        if (!vm.password) {
           return "input-group-addon danger";
         } else {
           return "input-group-addon success";
@@ -100,7 +97,7 @@
 
       vm.getGlyphiconValidationClassPassword = function() {
 
-        if (!vm.form.password) {
+        if (!vm.password) {
           return "glyphicon glyphicon-remove";
         } else {
           return "glyphicon glyphicon-ok";
@@ -109,7 +106,7 @@
 
       vm.checkUsername = function(username) {
 
-        UserService.GetAll(username).then(function(user) {
+        UserService.get(null,username).then(function(user) {
 
           if (user.length > 0) {
 
@@ -132,12 +129,12 @@
 
       vm.editProfile = function() {
 
-        vm.form = {
+        vm.updatedUser = {
           _id: "59b7ff671d8436d6cf9be301",
-          username: vm.form.username,
-          email: vm.form.email,
-          password: vm.form.password,
-          passwordconfirm: vm.form.password,
+          username: vm.username,
+          email: vm.email,
+          password: vm.password,
+          passwordconfirm: vm.password,
           points: 5
 
         }
@@ -145,7 +142,7 @@
         // *TODO* Update User erfolgt zwar aber Password wird nicht gehasht und man muss Punkte (points) angeben
 
 
-          UserService.Update(vm.form).then(function successCallback(response) {
+          UserService.put(vm.updatedUser).then(function successCallback(response) {
 
             console.log(response);
           // vm.form.description = "";
