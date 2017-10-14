@@ -2,13 +2,17 @@
 <div class="container signup">
 
         <h1>Registrieren</h1>
-        <form novalidate name="registerForm" id="registerForm" ng-submit="vm.register()">
+        <form novalidate name="vm.registerForm" id="registerForm" ng-submit="vm.register()">
+
+          <p class="bg-danger text-danger" ng-show="vm.error">
+              {{ vm.error }}
+          </p>
 
             <div class="form-group">
                 <label for="emailaddresslabel">E-Mail Adresse</label>
 
                 <div class="input-group">
-                    <input type="email" ng-pattern="emailFormat" class="form-control" id="email" name="email" ng-model="vm.user.email" placeholder="E-Mail Adresse eingeben" required>
+                    <input type="email" ng-pattern="vm.emailFormat" class="form-control" id="email" name="email" ng-model="vm.user.email" placeholder="E-Mail Adresse eingeben" required>
                     <span ng-class="vm.getInputGroupValidationClassMail()">
                         <span ng-class="vm.getGlyphiconValidationClassMail()"></span>
                     </span>
@@ -19,7 +23,7 @@
                 <label for="usernamelabel">Benutzername</label>
 
                 <div class="input-group">
-                    <input type="text" class="form-control" id="usernameone" name="username" ng-model="vm.user.username" ng-keyup="vm.checkUsername(vm.user.username)" placeholder="Username eingeben" required>
+                    <input type="text" class="form-control" id="usernameone" name="username" ng-model="vm.user.username" ng-keyup="vm.checkUsername(vm.user.username)" placeholder="Username eingeben" autocomplete="off" required>
                     <span ng-class="vm.getInputGroupValidationClassUsername()">
                         <span ng-class="vm.getGlyphiconValidationClassUsername()"></span>
                     </span>
@@ -42,9 +46,15 @@
                 </div>
             </div>
 
+
+            <p class="bg-success text-success" ng-show="vm.success">
+              Die Registrierung war erfolgreich. <a href='https://localhost:3000/#!/login'>Hier einloggen</a>.
+            </p>
+<br />
+
             <div class="form-group">
                 <a href="#" type="button" id="backButton" class="btn btn-default">Zurück zum Login</a>
-                <button type="submit" id="submit" ng-disabled="registerForm.$invalid" form="registerForm" class="btn btn-primary pull-right">Registrieren</button>
+                <button type="submit" id="submit" ng-disabled="vm.registerForm.$invalid || vm.dataLoading || !vm.usernameValid" form="registerForm" class="btn btn-primary pull-right">Registrieren</button>
             </div>
         </form>
 </div>

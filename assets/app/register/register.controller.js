@@ -5,82 +5,68 @@
         .controller('RegisterController', RegisterController);
 
     RegisterController.$inject = [
-        '$scope',
         '$http',
         '$location',
-        'AuthenticationService'
+        'AuthenticationService',
+        'UserService'
+
     ];
 
-    function RegisterController($scope, $http, $location, AuthenticationService) {
-        var self = this;
+    function RegisterController($http, $location, AuthenticationService, UserService) {
 
         var vm = this;
 
-        self.register = register;
+        vm.usernameValid = true;
 
-        $scope.usernameValid = true;
+        vm.emailFormat = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
-        $scope.emailFormat = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+          vm.checkUsername = function(username) {
 
-        self.checkUsername = function(username) {
+          UserService.get(null,username).then(function(user) {
 
-            $http({
-                method: 'GET',
-                url: 'https://localhost:3000/user/',
-                params: {
-                    username: username
-                }
-            })
-            .then(function successCallback(response) {
+            if (user.length > 0) {
 
-                if (response.data.length > 0) {
+              if (user[0].username == username) {
 
-                    if (response.data[0].username == username) {
+                vm.usernameValid = false;
 
-                        $scope.usernameValid = false;
-                    }
-                } else {
-                    $scope.usernameValid = true;
-                }
+              } else {
+                vm.usernameValid = true;
+              }
+            } else {
+              vm.usernameValid = true;
+            }
 
+          }).catch(function(err) {
+            console.log(err);
+          });
 
-            }, function errorCallback(err) {
-                $scope.message = err;
-            });
+        }
+
+        vm.register = function register() {
+
+          UserService.post(vm.user).then(function(response) {
+
+              vm.success = true;
+
+          }).catch(function(err) {
+              console.log(err);
+          });
+
         };
 
-      function register() {
+        vm.getInputGroupValidationClassMail = function() {
 
-            $http({
-                method: 'POST',
-                url: 'https://localhost:3000/user/',
-                data: self.user, // pass in data as strings
-                headers: {
-                    'Content-Type': 'application/json'
-                } // set the headers so angular passing info as form data (not request payload)
-            })
-            .then(function successCallback(response) {
-                // this callback will be called asynchronously
-                // when the response is available
-                $location.path('/map');
-
-            }, function errorCallback(err) {
-                $scope.message = err;
-            });
-        };
-
-        self.getInputGroupValidationClassMail = function() {
-
-            if ($scope.registerForm.email.$error.required && $scope.registerForm.email.$error.pattern || $scope.registerForm.email.$error.required || $scope.registerForm.email.$error.pattern) {
+            if (vm.registerForm.email.$error.required && vm.registerForm.email.$error.pattern || vm.registerForm.email.$error.required || vm.registerForm.email.$error.pattern) {
                 return "input-group-addon danger";
             } else {
                 return "input-group-addon success";
             }
         }
 
-        self.getGlyphiconValidationClassMail = function() {
+        vm.getGlyphiconValidationClassMail = function() {
 
-            if ($scope.registerForm.email.$error.required && $scope.registerForm.email.$error.pattern || $scope.registerForm.email.$error.required || $scope.registerForm.email.$error.pattern) {
+            if (vm.registerForm.email.$error.required && vm.registerForm.email.$error.pattern || vm.registerForm.email.$error.required || vm.registerForm.email.$error.pattern) {
                 return "glyphicon glyphicon-remove";
             } else {
                 return "glyphicon glyphicon-ok";
@@ -88,50 +74,42 @@
         }
 
 
-        self.getInputGroupValidationClassUsername = function() {
+        vm.getInputGroupValidationClassUsername = function() {
 
-            if ($scope.registerForm.username.$error.required || !$scope.usernameValid) {
+            if (vm.registerForm.username.$error.required || !vm.usernameValid) {
                 return "input-group-addon danger";
             } else {
                 return "input-group-addon success";
             }
         }
 
-        self.getGlyphiconValidationClassUsername = function() {
-            if ($scope.registerForm.username.$error.required || !$scope.usernameValid) {
-                $scope.registerForm.$invalid = true;
+        vm.getGlyphiconValidationClassUsername = function() {
+            if (vm.registerForm.username.$error.required || !vm.usernameValid) {
+
                 return "glyphicon glyphicon-remove";
             } else {
-              $scope.registerForm.$invalid = false;
+
                 return "glyphicon glyphicon-ok";
             }
 
         }
 
 
-        self.getInputGroupValidationClassPassword = function() {
+        vm.getInputGroupValidationClassPassword = function() {
 
-            if ($scope.registerForm.password.$error.required && $scope.registerForm.passwordconfirm.$error.required || $scope.registerForm.passwordconfirm.$error.required) {
+            if (vm.registerForm.password.$error.required && vm.registerForm.passwordconfirm.$error.required || vm.registerForm.passwordconfirm.$error.required) {
                 return "input-group-addon danger";
             } else {
-                if ($scope.registerForm.$valid) {
                     return "input-group-addon success";
-                } else {
-                    return "input-group-addon danger";
-                }
             }
         }
 
-        self.getGlyphiconValidationClassPassword = function() {
+        vm.getGlyphiconValidationClassPassword = function() {
 
-            if ($scope.registerForm.password.$error.required && $scope.registerForm.passwordconfirm.$error.required || $scope.registerForm.passwordconfirm.$error.required) {
+            if (vm.registerForm.password.$error.required && vm.registerForm.passwordconfirm.$error.required || vm.registerForm.passwordconfirm.$error.required) {
                 return "glyphicon glyphicon-remove";
             } else {
-                if ($scope.registerForm.$valid) {
                     return "glyphicon glyphicon-ok";
-                } else {
-                    return "glyphicon glyphicon-remove";
-                }
             }
         }
     };
