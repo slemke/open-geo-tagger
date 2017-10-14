@@ -26,8 +26,10 @@
             ThemesService.get()
                 .then(function successCallback(response) {
 
+
+
                 vm.themes = response;
-                vm.selectedTheme = vm.themes[0]._id;
+                vm.form.themeID = vm.themes[0]._id;
 
             }).catch(function(err) {
                 console.log(err);
@@ -67,7 +69,7 @@
             vm.form.address = undefined;
             vm.form.description = undefined;
             vm.form.categories = undefined;
-            vm.selectedTheme = vm.themes[0]._id;
+            vm.form.themeID = vm.themes[0]._id;
         };
     }
 })();
