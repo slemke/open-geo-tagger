@@ -52,7 +52,10 @@
 
                     // add marker to map
                     MapService.addMarker(object);
-                    
+
+                    // close modal
+                    angular.element('#modal_object').modal('hide');
+
             }).catch(function(err) {
                 console.log(err);
             });
