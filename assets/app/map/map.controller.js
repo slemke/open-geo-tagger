@@ -37,14 +37,23 @@
 
         })();
 
+
+
         $rootScope.$on('leafletDirectiveMarker.click', function(event, args){
 
-    $compile(args.leafletEvent.target.options.message)($rootScope);
+    //var compiled = $compile(args.leafletEvent.target.options.message)($rootScope);
+
 
     //  var childscope = angular.element(args.leafletEvent.target.options.message).scope();
     //  console.log(childscope);
     //  childscope.marker = $rootScope.markers[args.markerName];
  });
+
+
+ // vm.voteDown = function voteDown() {
+ //   console.log("called");
+ //     VotesService.downvote(asd,asd);
+ // }
 
         vm.getTagData = function getTagData() {
             console.log('data');

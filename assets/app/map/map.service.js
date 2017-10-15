@@ -9,10 +9,11 @@
         'MarkerService',
         'leafletData',
         'ObjectService',
-        'ThemesService'
+        'ThemesService',
+        'VotesService'
     ];
 
-    function MapService($rootScope, MarkerService, leafletData, ObjectService, ThemesService) {
+    function MapService($rootScope, MarkerService, leafletData, ObjectService, ThemesService, VotesService) {
 
         var geocodeService = L.esri.Geocoding.geocodeService();
         var markers = {
@@ -38,6 +39,7 @@
                     popupAnchor: [1, -34],
                     shadowSize: [41, 41]
                 },
+                getMessageScope: function () { return $rootScope; },
                 compileMessage: true
             }
         };
@@ -89,9 +91,10 @@
 
                     }
 
-                    markers.tag.message = '<div><p><strong>Adresse: </strong>'+ address +'</p><p><strong>Erstellungsdatum: </strong>'+createdAtDate+' Uhr</p><p><strong>Kategorien: </strong>'+categoriesString+'</p><p><strong>Thema: </strong>'+theme+'</p><p><strong>Beschreibung: </strong>'+description+'</p><p><button ng-show="false">Ein Button</button></p></div>';
+                    markers.tag.message = '<div><p><strong>Adresse: </strong>'+ address +'</p><p><strong>Erstellungsdatum: </strong>'+createdAtDate+' Uhr</p><p><strong>Kategorien: </strong>'+categoriesString+'</p><p><strong>Thema: </strong>'+theme+'</p><p><strong>Beschreibung: </strong>'+description+'</p><div id="voteButtons"><p id="voteText" ng-show="false">Downvotes: 0 // Upvotes: 0</p><button id="btns_vote_down" ng-controller="PopupController as vm" ng-click="vm.voteDown()" class="btn btn-danger btn-lg text-center"><span class="glyphicon glyphicon-chevron-down"></span></button><button id="btns_vote_up" ng-click="voteUp()" ng-disabled="voteUpDisabled" class="btn btn-success btn-lg text-center"><span class="glyphicon glyphicon-chevron-up"></span></button></div>';
 
                     markerCollection[data._id] = angular.copy(markers.tag);
+
 
                   })
 

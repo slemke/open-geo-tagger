@@ -14,6 +14,7 @@
 
             },
             downvote : function(objectID, userID) {
+              console.log("voteDown");
 
             }
         };
