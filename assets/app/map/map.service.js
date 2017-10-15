@@ -8,10 +8,11 @@
         '$rootScope',
         'MarkerService',
         'leafletData',
-        'ObjectService'
+        'ObjectService',
+        'ThemesService'
     ];
 
-    function MapService($rootScope, MarkerService, leafletData, ObjectService) {
+    function MapService($rootScope, MarkerService, leafletData, ObjectService, ThemesService) {
 
         var geocodeService = L.esri.Geocoding.geocodeService();
         var markers = {
@@ -36,10 +37,6 @@
                     iconAnchor: [12, 41],
                     popupAnchor: [1, -34],
                     shadowSize: [41, 41]
-                },
-                getMessageScope: function () {
-                    var scope = $rootScope.$new(true);
-                    return scope;
                 },
                 compileMessage: true
             }
@@ -66,17 +63,38 @@
             });
 
             ObjectService.get().then(function(data) {
-                var image = '<img ng-show="false" id="markerImage" src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg" />';
-                var button = '<button type="button" id="popup_link" class="btn btn-default" data-toggle="modal" href="#modal_objectDetail">Weitere Informationen</button>';
 
                 for(var i = 0; i < data.length; i++) {
                     markers.tag.lat = data[i].location[0].lat;
                     markers.tag.lng = data[i].location[0].lng;
 
                     var address = data[i].address;
-                    markers.tag.message = '<div>'+ address + '<br>' + image + button + "<br></div>";
+                    var createdAt = data[i].createdAt;
+                    var createdAtDate = new Date(createdAt).toLocaleString();
+                    var categories = data[i].categories;
+                    var description = data[i].description;
+
+
+                    return ThemesService.get(data[i].themeID).then(function(dataTheme) {
+
+                    var theme = dataTheme[0].name;
+
+                    var categoriesString = "";
+
+                    for(var j=0;j<categories.length;j++) {
+
+                    categoriesString += categories[j].text + " ";
+
+
+                    }
+
+                    markers.tag.message = '<div><p><strong>Adresse: </strong>'+ address +'</p><p><strong>Erstellungsdatum: </strong>'+createdAtDate+' Uhr</p><p><strong>Kategorien: </strong>'+categoriesString+'</p><p><strong>Thema: </strong>'+theme+'</p><p><strong>Beschreibung: </strong>'+description+'</p></div>';
+
 
                     markerCollection[data[i]._id] = angular.copy(markers.tag);
+                    console.log(markerCollection[data[i]._id]);
+                      });
+
                 }
 
                 angular.extend($rootScope, {
@@ -162,19 +180,40 @@
                 });
             },
             addMarker : function(object) {
-                var image = '<img id="markerImage" src="https://images-na.ssl-images-amazon.com/images/I/61vWHzU8L5L._SY355_.jpg" />';
-                var button = '<button type="button" ng-click="vm.getTagData()" id="popup_link" class="btn btn-default" data-toggle="modal" href="#modal_objectDetail">Weitere Informationen</button>';
 
                 markers.tag.lat = object.location[0].lat;
                 markers.tag.lng = object.location[0].lng;
 
-                markers.tag.message = '<div>'+ object.address + '<br>' + image + button + "<br></div>";
+                var address = object.address;
+                var createdAt = object.createdAt;
+                var createdAtDate = new Date(createdAt).toLocaleString();
+                var categories = object.categories;
+                var description = object.description;
+
+                ThemesService.get(object.themeID).then(function(dataTheme) {
+
+                var theme = dataTheme[0].name;
+
+                var categoriesString = "";
+
+                for(var j=0;j<categories.length;j++) {
+
+                categoriesString += categories[j].text + " ";
+
+
+                }
+
+                markers.tag.message = '<div><p><strong>Adresse: </strong>'+ address +'</p><p><strong>Erstellungsdatum: </strong>'+createdAtDate+' Uhr</p><p><strong>Kategorien: </strong>'+categoriesString+'</p><p><strong>Thema: </strong>'+theme+'</p><p><strong>Beschreibung: </strong>'+description+'</p></div>';
+
+
 
                 markerCollection[object._id] = angular.copy(markers.tag);
 
                 angular.extend($rootScope, {
                     markers: markerCollection
                 });
+
+              });
             }
         };
   }
