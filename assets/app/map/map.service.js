@@ -43,6 +43,7 @@
         };
         var markerCollection = {};
         var currentPosition;
+        var currentAddress;
 
         (function InitService(callback) {
             angular.extend($rootScope, {
@@ -62,20 +63,20 @@
                 events: {}
             });
 
-            ObjectService.get().then(function(data) {
+          ObjectService.get().then(function(data) {
 
-                for(var i = 0; i < data.length; i++) {
-                    markers.tag.lat = data[i].location[0].lat;
-                    markers.tag.lng = data[i].location[0].lng;
+              data.forEach(function(data, i){
 
-                    var address = data[i].address;
-                    var createdAt = data[i].createdAt;
+                  ThemesService.get(data.themeID).then(function(dataTheme) {
+
+                    markers.tag.lat = data.location[0].lat;
+                    markers.tag.lng = data.location[0].lng;
+
+                    var address = data.address;
+                    var createdAt = data.createdAt;
                     var createdAtDate = new Date(createdAt).toLocaleString();
-                    var categories = data[i].categories;
-                    var description = data[i].description;
-
-
-                    return ThemesService.get(data[i].themeID).then(function(dataTheme) {
+                    var categories = data.categories;
+                    var description = data.description;
 
                     var theme = dataTheme[0].name;
 
@@ -88,19 +89,23 @@
 
                     }
 
-                    markers.tag.message = '<div><p><strong>Adresse: </strong>'+ address +'</p><p><strong>Erstellungsdatum: </strong>'+createdAtDate+' Uhr</p><p><strong>Kategorien: </strong>'+categoriesString+'</p><p><strong>Thema: </strong>'+theme+'</p><p><strong>Beschreibung: </strong>'+description+'</p></div>';
+                    markers.tag.message = '<div><p><strong>Adresse: </strong>'+ address +'</p><p><strong>Erstellungsdatum: </strong>'+createdAtDate+' Uhr</p><p><strong>Kategorien: </strong>'+categoriesString+'</p><p><strong>Thema: </strong>'+theme+'</p><p><strong>Beschreibung: </strong>'+description+'</p><p><button ng-show="false">Ein Button</button></p></div>';
+
+                    markerCollection[data._id] = angular.copy(markers.tag);
+
+                  })
 
 
-                    markerCollection[data[i]._id] = angular.copy(markers.tag);
-                    console.log(markerCollection[data[i]._id]);
-                      });
 
-                }
+                });
 
                 angular.extend($rootScope, {
                     markers: markerCollection
                 });
-            });
+
+
+                });
+
 
         })();
 
@@ -112,11 +117,14 @@
                         setView: true,
                         maxZoom: 18
                     }).on('locationfound', function(event) {
+
                         currentPosition = event.latlng;
 
                         // update marker
                         markers.position.lat = event.latlng.lat;
                         markers.position.lng = event.latlng.lng;
+
+
 
                         markerCollection.position = markers.position;
 
@@ -205,7 +213,7 @@
 
                 markers.tag.message = '<div><p><strong>Adresse: </strong>'+ address +'</p><p><strong>Erstellungsdatum: </strong>'+createdAtDate+' Uhr</p><p><strong>Kategorien: </strong>'+categoriesString+'</p><p><strong>Thema: </strong>'+theme+'</p><p><strong>Beschreibung: </strong>'+description+'</p></div>';
 
-
+                markers.tag.focus = true;
 
                 markerCollection[object._id] = angular.copy(markers.tag);
 
