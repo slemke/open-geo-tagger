@@ -81,7 +81,7 @@
                 <div class="modal-footer">
                     <div class="col-md-12">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal" ng-click="vm.clear()">Schließen</button>
-                        <button type="submit" id="beitrag_submit_edit" class="btn btn-primary pull-right">Absenden</button>
+                        <button type="submit" id="beitrag_submit_edit" class="btn btn-primary pull-right" ng-disabled="!vm.position.address.Match_addr">Absenden</button>
                     </div>
                 </div>
             </form>
