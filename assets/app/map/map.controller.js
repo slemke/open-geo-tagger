@@ -5,6 +5,8 @@
         .controller('MapController', MapController);
 
     MapController.$inject = [
+      '$rootScope',
+      '$compile',
         'PointsService',
         'ObjectService',
         'MarkerService',
@@ -12,7 +14,7 @@
         'UserService'
     ];
 
-    function MapController(PointsService, ObjectService, MarkerService, MapService, UserService) {
+    function MapController($rootScope, $compile, PointsService, ObjectService, MarkerService, MapService, UserService) {
 
         var vm = this;
 
@@ -31,8 +33,18 @@
                     vm.showMap = true;
                 });
             });
+
+
         })();
 
+        $rootScope.$on('leafletDirectiveMarker.click', function(event, args){
+
+    $compile(args.leafletEvent.target.options.message)($rootScope);
+
+    //  var childscope = angular.element(args.leafletEvent.target.options.message).scope();
+    //  console.log(childscope);
+    //  childscope.marker = $rootScope.markers[args.markerName];
+ });
 
         vm.getTagData = function getTagData() {
             console.log('data');
