@@ -17,9 +17,18 @@
 
         $http({
             method: 'GET',
-            url: 'https://localhost:3000/ranking/'
+            url: '/ranking/points'
         }).then(function successCallback(response) {
-            vm.user = response.data;
+            vm.userPoints = response.data;
+        }).catch(function errorCallback(err) {
+            console.log(err);
+        });
+
+        $http({
+            method: 'GET',
+            url: '/ranking/tags'
+        }).then(function successCallback(response) {
+            vm.userTags = response.data;
         }).catch(function errorCallback(err) {
             console.log(err);
         });
