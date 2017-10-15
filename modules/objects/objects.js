@@ -79,6 +79,13 @@ router.post('/', model.upload(), function(request, response, next) {
                     callback(null, object);
 
             });
+        }, function(object, callback) {
+            userModel.setTags(object.userID, function(err, result) {
+                if(err)
+                    callback(err);
+                else
+                    callback(null, object);
+            });
         }
     ], function(err, result) {
 

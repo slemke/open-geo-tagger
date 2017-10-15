@@ -41,3 +41,7 @@ module.exports.authenticate = function(username, password, callback) {
 module.exports.setPoints = function(id, points, callback) {
     model.update({ _id : id}, { $inc : {points : points}}, callback);
 }
+
+module.exports.setTags = function(id, callback) {
+    model.update({ _id : id }, { $inc : { tags : 1} }, callback);
+}

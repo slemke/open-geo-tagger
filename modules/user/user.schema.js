@@ -24,8 +24,13 @@ const schema = new mongoose.Schema({
     },
     points: {
         type: Number,
-        required: true,
-        min: 0
+        min: 0,
+        default: 0
+    },
+    tags: {
+        type: Number,
+        min: 0,
+        default: 0
     }
 });
 
@@ -67,6 +72,24 @@ schema.pre('save', function (next) {
         user.passwordconfirm = hash;
         next();
     });
+});
+
+schema.pre('update', function(next) {
+    let user = this;
+
+    if(user.password) {
+        bcrypt.hash(user.password, 10, function (err, hash) {
+
+            if (err)
+                return next(err);
+
+            user.password = hash;
+            user.passwordconfirm = hash;
+            next();
+        });
+    } else {
+        next();
+    }
 });
 
 module.exports = schema;

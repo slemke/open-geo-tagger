@@ -97,13 +97,22 @@ router.put('/:id', function(request, response) {
 
     const id = request.params.id;
 
-    const user = {
-        email : request.body.email,
-        password : request.body.password,
-        passwordconfirm : request.body.passwordconfirm,
-        username : request.body.username,
-        points : request.body.points
-    };
+    const user = {};
+
+    if(request.body.email !== undefined)
+        user.email = request.body.email;
+
+    if(request.body.password !== undefined)
+        user.password = request.body.password;
+
+    if(request.body.passwordconfirm !== undefined)
+        user.passwordconfirm = request.body.passwordconfirm;
+
+    if(request.body.username !== undefined)
+        user.username = request.body.username;
+
+    if(request.body.tags !== undefined)
+        user.tags = request.body.tags;
 
     model.update(id, user, function(err, result) {
         if(!err)
