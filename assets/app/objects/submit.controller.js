@@ -5,6 +5,7 @@
         .controller('SubmitController', SubmitController);
 
     SubmitController.$inject = [
+      '$scope',
         'UserService',
         'ThemesService',
         'MapService',
@@ -12,7 +13,7 @@
         'MarkerService'
     ];
 
-    function SubmitController(UserService, ThemesService, MapService, ObjectService, MarkerService) {
+    function SubmitController($scope, UserService, ThemesService, MapService, ObjectService, MarkerService) {
         var vm = this;
         vm.form = {};
         vm.disabled = false;
@@ -43,7 +44,18 @@
             });
         })();
 
+        $scope.$on('leafletDirectiveMap.locationfound', function(event, marker) {
+          MapService.getCurrentPosition(function(position) {
+              vm.position = position;
+              vm.form.location = position.latlng;
+              vm.form.address = position.address.Match_addr;
+          });
+
+  });
+
         vm.addObject = function() {
+
+
             vm.disabled = true;
 
             ObjectService.post(vm.form)
